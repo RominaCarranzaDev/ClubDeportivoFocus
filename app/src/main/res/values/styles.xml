@@ -86,15 +86,14 @@
     </style>
 
     <!-- MOLDE PARA LOS BOTONES DE OPCIÓN (Socio / No Socio) -->
-    <<style name="BotonOpcion">
-    <!-- El fondo y color de letras que armamos (El ropero) -->
+    <style name="BotonOpcion">
+    <!-- El fondo y color de letras que armamos en drawable-->
     <item name="android:background">@drawable/bg_selector_opciones</item>
     <item name="android:textColor">@color/text_selector_opciones</item>
     <item name="android:textSize">16sp</item>
     <item name="android:textStyle">bold</item>
 
-    <!-- 1. APAGAMOS el circulito rebelde de la izquierda -->
-    <!-- (Esta es la línea que falló en la imagen que me pasaste) -->
+    <!-- 1. APAGAMOS forzado del circulito de la izquierda -->
     <item name="android:button">@null</item>
 
     <!-- 2. Dibujamos un ícono de circulito pegado al lado del texto -->
