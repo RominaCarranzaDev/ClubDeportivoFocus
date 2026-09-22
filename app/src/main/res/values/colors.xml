@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores para texto -->
+    <color name="black">#0B0B0B</color>
+    <color name="white">#FEFEFE</color>
+    <!-- Colores paleta -->
+    <color name="primary">#f95f00</color>
+    <color name="secondary">#C85A17</color>
+    <color name="dark">#1A0404</color>
+    <color name="accent">#002969</color>
+    <!-- Colores genericos -->
+    <color name="disabled">#BDBDBD</color>
+    <color name="success">#065F46</color>
+    <color name="warning">#FEF3C7</color>
+    <color name="danger">#B10000</color>
+</resources>
