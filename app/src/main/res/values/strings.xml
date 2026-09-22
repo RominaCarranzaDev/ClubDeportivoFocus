@@ -21,4 +21,6 @@
     <string name="btn_historial_pagos">HISTORIAL DE PAGOS</string>
     <string name="btn_cerrar_sesion">Cerrar sesión</string>
 
+    <string name="btn_volver">← Volver</string>
+
 </resources>

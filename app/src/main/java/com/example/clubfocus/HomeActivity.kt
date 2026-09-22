@@ -2,6 +2,7 @@ package com.example.clubfocus
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -12,6 +13,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         val tvCerrarSesion = findViewById<TextView>(R.id.tvCerrarSesion)
+        val btnRegistrarSocio = findViewById<Button>(R.id.btnRegistrarSocio)
+
 
         tvCerrarSesion.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
@@ -21,6 +24,12 @@ class HomeActivity : AppCompatActivity() {
 
             // 3. Cerramos la pantalla del Menú para que no quede abierta de fondo
             finish()
+        }
+
+        btnRegistrarSocio.setOnClickListener {
+            val intent = Intent(this, RegistrarSocioActivity::class.java)
+
+            startActivity(intent)
         }
     }
 }
