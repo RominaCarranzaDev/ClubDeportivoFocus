@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">ClubFocus</string>
+
+    <!-- Textos para la pantalla Login -->
+    <string name="label_usuario">USUARIO</string>
+    <string name="hint_email">admin@clubfocus.com</string>
+    <string name="label_contrasena">CONTRASEÑA</string>
+    <string name="image_description">Logo club deportivo Focus</string>
+    <string name="hint_contrasena">••••••••</string>
+    <string name="btn_ingresar">INGRESAR</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="copyright">© 2026 Club Deportivo Focus</string>
+
+    <!-- Textos para la pantalla Home -->
+    <string name="home_welcome">Hola, de nuevo</string>
+    <string name="home_user_role">USUARIO • ADMINISTRADOR</string>
+    <string name="btn_registrar_socio">REGISTRAR SOCIO / NO SOCIO</string>
+    <string name="btn_cobro_cuotas">COBRO DE CUOTAS</string>
+    <string name="btn_vencimientos">VENCIMIENTOS</string>
+    <string name="btn_carnets">CARNETS</string>
+    <string name="btn_historial_pagos">HISTORIAL DE PAGOS</string>
+    <string name="btn_cerrar_sesion">Cerrar sesión</string>
+
 </resources>

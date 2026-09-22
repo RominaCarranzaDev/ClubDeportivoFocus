@@ -1,10 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bg_gradient"
+    tools:context=".MainActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Imagen Focus Club -->
+    <ImageView
+        android:src="@drawable/logo"
+        android:layout_height="220dp"
+        android:layout_width="220dp"
+        android:layout_marginTop="80dp"
+        android:contentDescription="@string/image_description"/>
+
+    <!-- Usuario -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="@string/label_usuario"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_rounded_input"
+        android:textColor="@android:color/black"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:autofillHints="emailAddress"
+        android:textColorHint="@color/disabled"
+        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
+    <!-- Contraseña -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:text="@string/label_contrasena"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        android:background="@drawable/bg_rounded_input"
+        android:padding="12dp"
+        android:hint="@string/hint_contrasena"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/disabled"
+        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
+    <!-- Boton ingresar -->
+    <Button
+        android:id="@+id/btnIngresar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/btn_ingresar"
+        android:textSize="16sp"
+        android:backgroundTint="@color/primary"
+        app:cornerRadius="8dp"
+        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+
+    <!-- Pie de página -->
+    <TextView
+        android:id="@+id/tvOlvidasteContrasena"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="@string/forgot_password"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="@string/copyright"
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
+
+
+</LinearLayout>
