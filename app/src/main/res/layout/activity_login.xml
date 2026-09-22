@@ -33,17 +33,11 @@
 
     <EditText
         android:id="@+id/etUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/bg_rounded_input"
-        android:textColor="@android:color/black"
+        style="@style/InputBase"
         android:hint="@string/hint_email"
+        android:layout_marginTop="8dp"
         android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:autofillHints="emailAddress"
-        android:textColorHint="@color/disabled"
-        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+        android:autofillHints="emailAddress" />
 
     <!-- Contraseña -->
     <TextView
@@ -57,28 +51,19 @@
 
     <EditText
         android:id="@+id/etContrasena"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/InputBase"
         android:layout_marginTop="8dp"
         android:inputType="textPassword"
         android:autofillHints="password"
-        android:background="@drawable/bg_rounded_input"
-        android:padding="12dp"
-        android:hint="@string/hint_contrasena"
-        android:textColor="@android:color/black"
-        android:textColorHint="@color/disabled"
-        tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
+        android:hint="@string/hint_contrasena" />
 
     <!-- Boton ingresar -->
     <Button
         android:id="@+id/btnIngresar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/ButtonPrimaryL"
         android:layout_marginTop="30dp"
         android:text="@string/btn_ingresar"
-        android:textSize="16sp"
-        android:backgroundTint="@color/primary"
-        app:cornerRadius="8dp"
+        android:gravity="center"
         tools:ignore="TextContrastCheck,VisualLintTextFieldSize" />
 
     <!-- Pie de página -->
