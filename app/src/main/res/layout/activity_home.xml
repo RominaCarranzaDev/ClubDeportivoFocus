@@ -53,77 +53,42 @@
         <!-- Boton 1 Registrar Socio -->
         <Button
             android:id="@+id/btnRegistrarSocio"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/ButtonPrimaryL"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
             android:text="@string/btn_registrar_socio"
-            android:textColor="@color/white"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_registrar_socio"
-            app:iconGravity="textStart"
-            app:iconPadding="20dp"
-            app:iconTint="@color/white" />
+            app:icon="@drawable/ic_registrar_socio" />
 
         <!-- Boton 2 Cobro de cuotas -->
         <Button
             android:id="@+id/btnCobroCuotas"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/ButtonPrimaryL"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
             android:text="@string/btn_cobro_cuotas"
-            android:textColor="@color/white"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_cobro_cuotas"
-            app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconTint="@color/white" />
+            app:icon="@drawable/ic_cobro_cuotas" />
 
         <!-- Boton 3 Vencimientos -->
         <Button
             android:id="@+id/btnVencimientos"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/ButtonPrimaryL"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
             android:text="@string/btn_vencimientos"
-            android:textColor="@color/white"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_vencimientos"
-            app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconTint="@color/white" />
+            app:icon="@drawable/ic_vencimientos" />
 
         <!-- Boton 4 Carnets -->
         <Button
             android:id="@+id/btnCarnets"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/ButtonPrimaryL"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
             android:text="@string/btn_carnets"
-            android:textColor="@color/white"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_carnets"
-            app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconTint="@color/white" />
+            app:icon="@drawable/ic_carnets" />
 
         <!-- Boton 5 Historial Pagos -->
         <Button
             android:id="@+id/btnHistorialPagos"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            style="@style/ButtonPrimaryL"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/primary"
             android:text="@string/btn_historial_pagos"
-            android:textColor="@color/white"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_historial"
-            app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconTint="@color/white" />
+            app:icon="@drawable/ic_historial" />
 
         <Space
             android:layout_width="match_parent"
@@ -137,13 +102,14 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="80dp"
             android:text="@string/btn_cerrar_sesion"
-            android:textColor="@color/secondary"
+            android:textColor="@color/primary"
             android:textSize="20sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/ic_logout"
-            android:drawablePadding="8dp"
+            android:drawablePadding="12dp"
             app:drawableTint="@color/primary"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"/>
 
     </LinearLayout>
 
