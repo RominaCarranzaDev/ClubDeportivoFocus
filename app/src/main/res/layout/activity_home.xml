@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/home_welcome"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,6 +46,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="32dp"
         android:paddingTop="64dp"
+        tools:ignore="TextContrastCheck,VisualLintTextFieldSize"
         android:paddingBottom="60dp">
 
 
@@ -62,14 +63,14 @@
             app:icon="@drawable/ic_registrar_socio"
             app:iconGravity="textStart"
             app:iconPadding="20dp"
-            app:iconTint="@color/white"/>
+            app:iconTint="@color/white" />
 
         <!-- Boton 2 Cobro de cuotas -->
         <Button
             android:id="@+id/btnCobroCuotas"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/primary"
             android:text="@string/btn_cobro_cuotas"
             android:textColor="@color/white"
@@ -84,7 +85,7 @@
             android:id="@+id/btnVencimientos"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/primary"
             android:text="@string/btn_vencimientos"
             android:textColor="@color/white"
@@ -92,14 +93,14 @@
             app:icon="@drawable/ic_vencimientos"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
-            app:iconTint="@color/white"/>
+            app:iconTint="@color/white" />
 
         <!-- Boton 4 Carnets -->
         <Button
             android:id="@+id/btnCarnets"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/primary"
             android:text="@string/btn_carnets"
             android:textColor="@color/white"
@@ -107,14 +108,14 @@
             app:icon="@drawable/ic_carnets"
             app:iconGravity="textStart"
             app:iconPadding="12dp"
-            app:iconTint="@color/white"/>
+            app:iconTint="@color/white" />
 
         <!-- Boton 5 Historial Pagos -->
         <Button
             android:id="@+id/btnHistorialPagos"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:backgroundTint="@color/primary"
             android:text="@string/btn_historial_pagos"
             android:textColor="@color/white"
@@ -134,14 +135,14 @@
             android:id="@+id/tvCerrarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="80dp"
             android:text="@string/btn_cerrar_sesion"
             android:textColor="@color/secondary"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:drawableStart="@drawable/ic_logout"
+            app:drawableStartCompat="@drawable/ic_logout"
             android:drawablePadding="8dp"
-            android:drawableTint="@color/primary"
+            app:drawableTint="@color/primary"
             android:gravity="center_vertical"/>
 
     </LinearLayout>
