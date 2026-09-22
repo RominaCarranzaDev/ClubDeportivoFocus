@@ -43,31 +43,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:checkedButton="@id/rbSocio">
 
             <!-- Opcion Socio -->
             <RadioButton
                 android:id="@+id/rbSocio"
+                style="@style/BotonOpcion"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_rounded_input"
                 android:checked="true"
-                android:text="Socio"
-                android:textSize="16sp"/>
+                android:paddingStart="32dp"
+                android:text="Socio" />
 
             <!-- Opcion No Socio -->
             <RadioButton
                 android:id="@+id/rbNoSocio"
+                style="@style/BotonOpcion"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/bg_rounded_input"
-                android:checked="true"
-                android:text="No Socio"
-                android:textSize="16sp" />
+                android:layout_marginStart="8dp"
+                android:paddingStart="22dp"
+                android:text="No Socio" />
 
         </RadioGroup>
 
@@ -76,6 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:buttonTint="@color/primary"
             android:text="Presento Apto Físico"
             android:textColor="@color/black"
             android:textSize="14sp"/>

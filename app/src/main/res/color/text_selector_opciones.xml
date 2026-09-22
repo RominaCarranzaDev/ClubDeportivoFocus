@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Este selector decide de qué color se pintan las LETRAS -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Si el botón está seleccionado... -->
+    <item android:state_checked="true"
+        android:color="@color/white" />
+
+    <!-- Si el botón está inactivo (por defecto)... -->
+    <item android:color="@color/black" />
+
+</selector>

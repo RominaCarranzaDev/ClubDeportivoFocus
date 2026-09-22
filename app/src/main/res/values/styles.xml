@@ -85,4 +85,28 @@
     <item name="android:textSize">16sp</item>
     </style>
 
+    <!-- MOLDE PARA LOS BOTONES DE OPCIÓN (Socio / No Socio) -->
+    <<style name="BotonOpcion">
+    <!-- El fondo y color de letras que armamos (El ropero) -->
+    <item name="android:background">@drawable/bg_selector_opciones</item>
+    <item name="android:textColor">@color/text_selector_opciones</item>
+    <item name="android:textSize">16sp</item>
+    <item name="android:textStyle">bold</item>
+
+    <!-- 1. APAGAMOS el circulito rebelde de la izquierda -->
+    <!-- (Esta es la línea que falló en la imagen que me pasaste) -->
+    <item name="android:button">@null</item>
+
+    <!-- 2. Dibujamos un ícono de circulito pegado al lado del texto -->
+    <item name="android:drawableStart">?android:attr/listChoiceIndicatorSingle</item>
+
+    <!-- 3. Le damos un espacio de 8dp entre el circulito nuevo y la palabra -->
+    <item name="android:drawablePadding">8dp</item>
+
+
+    <!-- 5. Pintamos el circulito nuevo para que cambie de color (Blanco/Gris) -->
+    <item name="android:drawableTint">@color/button_tint_selector</item>
+    <item name="drawableTint">@color/button_tint_selector</item>
+</style>
+
 </resources>

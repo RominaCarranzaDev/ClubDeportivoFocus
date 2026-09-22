@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Este archivo es nuestro "ropero inteligente". Evalúa cómo está el botón y decide qué fondo ponerle -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- CASO 1: Cuando el botón ESTÁ SELECCIONADO (state_checked="true") -->
+    <item android:state_checked="true">
+
+        <!-- Le ponemos el traje Naranja -->
+        <shape android:shape="rectangle">
+            <!-- solid = el color de relleno. Usamos tu naranja principal -->
+            <solid android:color="@color/primary" />
+
+            <!-- corners = para que las esquinas queden redonditas como en Figma -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+    <!-- CASO 2: Cuando el botón NO está seleccionado (estado por defecto) -->
+    <item>
+
+        <!-- Le ponemos el traje Blanco -->
+        <shape android:shape="rectangle">
+            <!-- Relleno blanco -->
+            <solid android:color="@color/white" />
+
+            <!-- stroke = dibuja un borde o contorno finito de color gris claro -->
+            <stroke android:width="1dp" android:color="#CCCCCC" />
+
+            <!-- Mantenemos las mismas esquinas redonditas -->
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+
+</selector>

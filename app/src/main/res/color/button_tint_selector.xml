@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Este selector decide el color del circulito (buttonTint) -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- CASO 1: Si el botón está seleccionado (el fondo es naranja) -->
+    <item android:state_checked="true"
+        android:color="@color/white" />
+
+    <!-- CASO 2: Si el botón NO está seleccionado (el fondo es blanco) -->
+    <item android:color="#666666" />
+
+</selector>
