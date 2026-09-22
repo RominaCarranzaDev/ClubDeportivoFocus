@@ -18,8 +18,8 @@
         android:background="@drawable/bg_gradient"
         android:paddingHorizontal="24dp"
         android:orientation="vertical"
-        android:paddingTop="48dp"
-        android:paddingBottom="24dp">
+        android:paddingTop="70dp"
+        android:paddingBottom="40dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,7 +44,10 @@
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingHorizontal="32dp"
+        android:paddingTop="64dp"
+        android:paddingBottom="60dp">
+
 
         <!-- Boton 1 Registrar Socio -->
         <Button
