@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/tvVolver"
+            android:layout_marginTop="32dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btn_volver"
@@ -37,9 +38,137 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
+        <RadioGroup
+            android:id="@+id/rgTipoUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
 
+            <!-- Opcion Socio -->
+            <RadioButton
+                android:id="@+id/rbSocio"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_rounded_input"
+                android:checked="true"
+                android:text="Socio"
+                android:textSize="16sp"/>
+
+            <!-- Opcion No Socio -->
+            <RadioButton
+                android:id="@+id/rbNoSocio"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_rounded_input"
+                android:checked="true"
+                android:text="No Socio"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/cbAptoFisico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Presento Apto Físico"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
+
+        <!-- Campo 1: Nombre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="* NOMBRE"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etNombre"
+            style="@style/InputBase"
+            android:layout_marginTop="6dp"
+            android:hint="Juan"
+            android:inputType="textCapWords" />
+
+        <!-- Campo 2: Apellido -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="* APELLIDO"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etApellido"
+            style="@style/InputBase"
+            android:layout_marginTop="6dp"
+            android:hint="Perez"
+            android:inputType="textCapWords" />
+
+        <!-- Campo 3: DNI -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="* DOCUMENTO NACIONAL DE IDENTIDAD (DNI)"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etDni"
+            style="@style/InputBase"
+            android:layout_marginTop="6dp"
+            android:hint="12345678"
+            android:inputType="number" />
+
+        <!-- Campo 4: Fecha de Nacimiento -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="* FECHA DE NACIMIENTO"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etFechaNacimiento"
+            style="@style/InputBase"
+            android:layout_marginTop="6dp"
+            android:hint="07/11/2003"
+            android:inputType="date" />
+
+        <!-- Campo 5: Correo Electronico -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="* CORREO ELECTRONICO"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+        <EditText
+            android:id="@+id/etCorreo"
+            style="@style/InputBase"
+            android:layout_marginTop="6dp"
+            android:hint="correo@ejemplo.com"
+            android:inputType="textEmailAddress" />
+
+        <!-- Boton Guardar Registro -->
+        <Button
+            android:id="@+id/btnGuardarRegistro"
+            style="@style/ButtonPrimaryL"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="GUARDAR REGISTRO" />
 
     </LinearLayout>
-
 
 </ScrollView>
