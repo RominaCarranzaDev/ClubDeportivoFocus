@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:background="@color/white">
 
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Registrar"
+            android:text="@string/registrar_titulo"
             android:textColor="@color/black"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Completa los datos para registrar el ingreso al club"
+            android:text="@string/registrar_subtitulo"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -56,7 +57,8 @@
                 android:layout_marginEnd="8dp"
                 android:checked="true"
                 android:paddingStart="32dp"
-                android:text="Socio" />
+                android:paddingEnd="0dp"
+                android:text="@string/registrar_opcion_socio" />
 
             <!-- Opcion No Socio -->
             <RadioButton
@@ -67,26 +69,27 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:paddingStart="22dp"
-                android:text="No Socio" />
+                android:paddingEnd="0dp"
+                android:text="@string/registrar_opcion_no_socio" />
 
         </RadioGroup>
 
-        <CheckBox
+        <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cbAptoFisico"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:buttonTint="@color/primary"
-            android:text="Presento Apto Físico"
+            android:text="@string/registrar_cb_apto_fisico"
             android:textColor="@color/black"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            app:buttonTint="@color/primary" />
 
         <!-- Campo 1: Nombre -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="* NOMBRE"
+            android:text="@string/registrar_label_nombre"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -94,15 +97,17 @@
             android:id="@+id/etNombre"
             style="@style/InputBase"
             android:layout_marginTop="6dp"
-            android:hint="Juan"
-            android:inputType="textCapWords" />
+            android:hint="@string/registrar_hint_nombre"
+            android:background="@drawable/bg_borde_texto"
+            android:inputType="textCapWords"
+            android:autofillHints="name"/>
 
         <!-- Campo 2: Apellido -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="* APELLIDO"
+            android:text="@string/registrar_label_apellido"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -110,15 +115,17 @@
             android:id="@+id/etApellido"
             style="@style/InputBase"
             android:layout_marginTop="6dp"
-            android:hint="Perez"
-            android:inputType="textCapWords" />
+            android:hint="@string/registrar_hint_apellido"
+            android:background="@drawable/bg_borde_texto"
+            android:inputType="textCapWords"
+            android:autofillHints="name"/>
 
         <!-- Campo 3: DNI -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="* DOCUMENTO NACIONAL DE IDENTIDAD (DNI)"
+            android:text="@string/registrar_label_dni"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -126,15 +133,17 @@
             android:id="@+id/etDni"
             style="@style/InputBase"
             android:layout_marginTop="6dp"
-            android:hint="12345678"
-            android:inputType="number" />
+            android:hint="@string/registrar_hint_dni"
+            android:background="@drawable/bg_borde_texto"
+            android:inputType="number"
+            tools:ignore="Autofill"/>
 
         <!-- Campo 4: Fecha de Nacimiento -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="* FECHA DE NACIMIENTO"
+            android:text="@string/registrar_label_fecha_nacimiento"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -142,15 +151,17 @@
             android:id="@+id/etFechaNacimiento"
             style="@style/InputBase"
             android:layout_marginTop="6dp"
-            android:hint="07/11/2003"
-            android:inputType="date" />
+            android:hint="@string/registrar_hint_fecha_nacimiento"
+            android:background="@drawable/bg_borde_texto"
+            android:inputType="date"
+            tools:ignore="Autofill" />
 
         <!-- Campo 5: Correo Electronico -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="* CORREO ELECTRONICO"
+            android:text="@string/registrar_label_correo"
             android:textColor="@color/black"
             android:textSize="12sp"
             android:textStyle="bold" />
@@ -158,8 +169,10 @@
             android:id="@+id/etCorreo"
             style="@style/InputBase"
             android:layout_marginTop="6dp"
-            android:hint="correo@ejemplo.com"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/registrar_hint_correo"
+            android:background="@drawable/bg_borde_texto"
+            android:inputType="textEmailAddress"
+            android:autofillHints="emailAddress"/>
 
         <!-- Boton Guardar Registro -->
         <Button
@@ -168,7 +181,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="GUARDAR REGISTRO" />
+            android:text="@string/registrar_btn_guardar" />
 
     </LinearLayout>
 

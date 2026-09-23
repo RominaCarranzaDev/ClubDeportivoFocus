@@ -2,6 +2,7 @@ package com.example.clubfocus
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -18,18 +19,28 @@ class LoginActivity : AppCompatActivity() {
         val etContrasena = findViewById<EditText>(R.id.etContrasena)
 
         btnIngresar.setOnClickListener {
-            val usuarioEscrito = etUsuario.text.toString()
-            val claveEscrita = etContrasena.text.toString()
+            val usuarioEscrito = etUsuario.text.toString().trim()
+            val claveEscrita = etContrasena.text.toString().trim()
 
             if (usuarioEscrito.isEmpty() || claveEscrita.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa usuario y contraseña", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, completa usuario y contraseña", Toast.LENGTH_SHORT)
+                    .show()
             } else {
 
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+                if (usuarioEscrito == "admin" && claveEscrita == "123456") {
 
-                // (Opcional) Destruimos la pantalla de Login para que si toca "Atrás" en el cel no vuelva al formulario
-                finish()
+                    // ¡Los datos son correctos! Hacemos el viaje
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+
+                    // Destruimos la pantalla de Login
+                    finish()
+
+                } else {
+                    // Si los campos tienen texto, pero le pifió a la contraseña o al correo:
+                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }

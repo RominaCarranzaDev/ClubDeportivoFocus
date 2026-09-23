@@ -43,6 +43,10 @@ class RegistrarSocioActivity : AppCompatActivity() {
 
             if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa nombre, apellido y DNI", Toast.LENGTH_SHORT).show()
+            } else if (!presentoApto) {
+
+                Toast.makeText(this, "Debe presentar el Apto Físico para registrarse", Toast.LENGTH_SHORT).show()
+
             } else {
                 val tipoUsuario = if (esSocio) "Socio" else "No Socio"
                 val mensajeConfirmacion = "$tipoUsuario $nombre $apellido registrado correctamente"
