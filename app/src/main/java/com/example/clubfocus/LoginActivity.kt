@@ -22,14 +22,24 @@ class LoginActivity : AppCompatActivity() {
             val claveEscrita = etContrasena.text.toString()
 
             if (usuarioEscrito.isEmpty() || claveEscrita.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa usuario y contraseña", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, completa usuario y contraseña", Toast.LENGTH_SHORT)
+                    .show()
             } else {
 
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
+                if (usuarioEscrito == "admin" && claveEscrita == "123456") {
 
-                // (Opcional) Destruimos la pantalla de Login para que si toca "Atrás" en el cel no vuelva al formulario
-                finish()
+                    // ¡Los datos son correctos! Hacemos el viaje
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+
+                    // Destruimos la pantalla de Login
+                    finish()
+
+                } else {
+                    // Si los campos tienen texto, pero le pifió a la contraseña o al correo:
+                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }
