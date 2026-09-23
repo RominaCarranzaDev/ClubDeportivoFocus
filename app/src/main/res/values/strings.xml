@@ -22,4 +22,32 @@
     <string name="btn_cerrar_sesion">Cerrar sesión</string>
     <string name="btn_volver">← Volver</string>
 
+    <!-- Textos para la pantalla de registro de socio -->
+
+    <!-- Cabecera -->
+    <string name="registrar_titulo">Registrar</string>
+    <string name="registrar_subtitulo">Completa los datos para registrar el ingreso al club</string>
+
+    <!-- Opciones (RadioButtons y CheckBox) -->
+    <string name="registrar_opcion_socio">Socio</string>
+    <string name="registrar_opcion_no_socio">No Socio</string>
+    <string name="registrar_cb_apto_fisico">Presentó Apto Físico</string>
+
+    <!-- Etiquetas de los campos (Labels) -->
+    <string name="registrar_label_nombre">* NOMBRE</string>
+    <string name="registrar_label_apellido">* APELLIDO</string>
+    <string name="registrar_label_dni">* DOCUMENTO NACIONAL DE IDENTIDAD (DNI)</string>
+    <string name="registrar_label_fecha_nacimiento">* FECHA DE NACIMIENTO</string>
+    <string name="registrar_label_correo">* CORREO ELECTRONICO</string>
+
+    <!-- Textos de ejemplo dentro de los campos (Hints) -->
+    <string name="registrar_hint_nombre">Juan</string>
+    <string name="registrar_hint_apellido">Perez</string>
+    <string name="registrar_hint_dni">12345678</string>
+    <string name="registrar_hint_fecha_nacimiento">07/11/2003</string>
+    <string name="registrar_hint_correo">correo@ejemplo.com</string>
+
+    <!-- Botón final -->
+    <string name="registrar_btn_guardar">GUARDAR REGISTRO</string>
+
 </resources>
