@@ -107,5 +107,32 @@
     <item name="android:drawableTint">@color/button_tint_selector</item>
     <item name="drawableTint">@color/button_tint_selector</item>
 </style>
+    <!--Estilo para los buscadores-->
+    <style name="InputSearch">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/bg_search</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:drawableEnd">@android:drawable/ic_menu_search</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
+    <!--Estilo para los radio button-->
+    <style name="RbOpcion">
+        <item name="android:background">@drawable/rb_options</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <!-- Color del ícono -->
+        <item name="android:drawableTint">@color/rb_tint_selector</item>
+        <item name="drawableTint">@color/rb_tint_selector</item>
+        <!-- Color del círculo -->
+        <item name="buttonTint">@color/rb_tint_selector</item>
+        <item name="android:button">@null</item>
+    </style>
 
 </resources>

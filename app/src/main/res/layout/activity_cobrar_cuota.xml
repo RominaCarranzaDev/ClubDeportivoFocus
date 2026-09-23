@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="48dp">
+
+        <TextView
+            android:id="@+id/txtVolver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_volver"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cobro de Cuota"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <EditText
+            android:id="@+id/etBuscador"
+            style="@style/InputSearch"
+            android:hint="Ingrese el DNI"
+            android:inputType="text"
+
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SELECCIONA UN MEDIO DE PAGO"
+            android:textColor="@color/disabled"
+            android:textSize="12sp"
+            android:layout_marginBottom="12dp"
+
+            />
+
+        <RadioGroup
+            android:id="@+id/rgMedioPago"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Opcion Efectivo -->
+            <RadioButton
+                android:id="@+id/rbPagoEfectivo"
+                style="@style/RbOpcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:drawableEnd="@drawable/ic_cash"
+                android:drawablePadding="12dp"
+                android:layoutDirection="rtl"
+                android:text="Efectivo"/>
+
+            <!-- Opcion Tarjeta Crédito -->
+            <RadioButton
+                android:id="@+id/rbPagoTarjetaCred"
+                style="@style/RbOpcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tarjeta Crédito"
+                android:drawableEnd="@drawable/ic_credit_card"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:layoutDirection="rtl"/>
+
+            <!-- Opcion Tarjeta Débito -->
+            <RadioButton
+                android:id="@+id/rbPagoTarjetaDeb"
+                style="@style/RbOpcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tarjeta Débito"
+                android:drawableEnd="@drawable/ic_credit_card"
+                android:drawablePadding="12dp"
+                android:gravity="center_vertical"
+                android:layoutDirection="rtl"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PROMOCIONES"
+            android:textColor="@color/disabled"
+            android:textSize="12sp"
+            android:layout_marginBottom="12dp"
+            />
+
+        <RadioGroup
+            android:id="@+id/rgPromo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/rbPromo3c"
+                style="@style/RbOpcion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:checked="true"
+                android:text="3 Cuotas 15% OFF"
+                android:gravity="center"
+                android:paddingEnd="48dp"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+            <RadioButton
+                android:id="@+id/rbPromo6c"
+                style="@style/RbOpcion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="6 Cuotas 10% OFF"
+                android:gravity="center"
+                android:paddingEnd="48dp"/>
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/ContainerDetallePago"
+            android:layout_marginBottom="32dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DETALLES DE PAGO"
+                android:textColor="@color/disabled"
+                android:textSize="12sp"
+                android:layout_marginBottom="12dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Concepto: " />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cuota Mensual"
+                    android:id="@+id/textConceptoPago"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monto" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 45.000"
+                    android:id="@+id/textMonto"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descuento" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- $ 4.500"
+                    android:id="@+id/textDescuento"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Monto Total"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 41.500"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegistrarPago"
+            style="@style/ButtonPrimaryL"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="confirmar pago"
+            android:textAllCaps="true"/>
+
+    </LinearLayout>
+
+</ScrollView>

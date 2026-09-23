@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_checked="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white" />
+                    <corners android:radius="16dp" />
+                    <stroke
+                        android:color="@color/primary"
+                        android:width="2dp" />
+                </shape>
+            </item>
+
+            <!-- Círculo externo-->
+            <item
+                android:width="16dp"
+                android:height="16dp"
+                android:gravity="right|center_vertical"
+                android:right="24dp">
+
+                <shape android:shape="oval">
+                    <solid android:color="@color/primary" />
+                </shape>
+
+            </item>
+            <!-- Círculo interno-->
+            <item
+                android:width="8dp"
+                android:height="8dp"
+                android:gravity="right|center_vertical"
+                android:right="28dp">
+
+                <shape android:shape="oval">
+                    <solid android:color="@color/white" />
+                </shape>
+
+            </item>
+
+        </layer-list>
+
+    </item>
+
+    <!-- NO seleccionado -->
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@color/white" />
+                    <corners android:radius="16dp" />
+                    <stroke
+                        android:color="@color/disabled"
+                        android:width="2dp" />
+                </shape>
+            </item>
+
+            <item
+                android:width="16dp"
+                android:height="16dp"
+                android:gravity="right|center_vertical"
+                android:right="24dp">
+
+                <shape android:shape="oval">
+                    <solid android:color="@color/white" />
+                    <stroke
+                        android:color="@color/disabled"
+                        android:width="2dp" />
+                </shape>
+            </item>
+
+        </layer-list>
+    </item>
+
+</selector>
