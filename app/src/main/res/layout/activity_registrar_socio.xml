@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true"
     android:background="@color/white">
 
@@ -96,7 +97,8 @@
             android:layout_marginTop="6dp"
             android:hint="@string/registrar_hint_nombre"
             android:background="@drawable/bg_borde_texto"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:autofillHints="name"/>
 
         <!-- Campo 2: Apellido -->
         <TextView
@@ -113,7 +115,8 @@
             android:layout_marginTop="6dp"
             android:hint="@string/registrar_hint_apellido"
             android:background="@drawable/bg_borde_texto"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:autofillHints="name"/>
 
         <!-- Campo 3: DNI -->
         <TextView
@@ -130,7 +133,8 @@
             android:layout_marginTop="6dp"
             android:hint="@string/registrar_hint_dni"
             android:background="@drawable/bg_borde_texto"
-            android:inputType="number" />
+            android:inputType="number"
+            tools:ignore="Autofill"/>
 
         <!-- Campo 4: Fecha de Nacimiento -->
         <TextView
@@ -147,7 +151,8 @@
             android:layout_marginTop="6dp"
             android:hint="@string/registrar_hint_fecha_nacimiento"
             android:background="@drawable/bg_borde_texto"
-            android:inputType="date" />
+            android:inputType="date"
+            tools:ignore="Autofill" />
 
         <!-- Campo 5: Correo Electronico -->
         <TextView
@@ -164,7 +169,8 @@
             android:layout_marginTop="6dp"
             android:hint="@string/registrar_hint_correo"
             android:background="@drawable/bg_borde_texto"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:autofillHints="emailAddress"/>
 
         <!-- Boton Guardar Registro -->
         <Button
