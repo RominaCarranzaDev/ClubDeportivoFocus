@@ -18,8 +18,8 @@ class LoginActivity : AppCompatActivity() {
         val etContrasena = findViewById<EditText>(R.id.etContrasena)
 
         btnIngresar.setOnClickListener {
-            val usuarioEscrito = etUsuario.text.toString()
-            val claveEscrita = etContrasena.text.toString()
+            val usuarioEscrito = etUsuario.text.toString().trim()
+            val claveEscrita = etContrasena.text.toString().trim()
 
             if (usuarioEscrito.isEmpty() || claveEscrita.isEmpty()) {
                 Toast.makeText(this, "Por favor, completa usuario y contraseña", Toast.LENGTH_SHORT)
