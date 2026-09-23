@@ -95,6 +95,7 @@
             style="@style/InputBase"
             android:layout_marginTop="6dp"
             android:hint="Juan"
+            android:background="@drawable/bg_borde_texto"
             android:inputType="textCapWords" />
 
         <!-- Campo 2: Apellido -->
@@ -111,6 +112,7 @@
             style="@style/InputBase"
             android:layout_marginTop="6dp"
             android:hint="Perez"
+            android:background="@drawable/bg_borde_texto"
             android:inputType="textCapWords" />
 
         <!-- Campo 3: DNI -->
@@ -127,6 +129,7 @@
             style="@style/InputBase"
             android:layout_marginTop="6dp"
             android:hint="12345678"
+            android:background="@drawable/bg_borde_texto"
             android:inputType="number" />
 
         <!-- Campo 4: Fecha de Nacimiento -->
@@ -143,6 +146,7 @@
             style="@style/InputBase"
             android:layout_marginTop="6dp"
             android:hint="07/11/2003"
+            android:background="@drawable/bg_borde_texto"
             android:inputType="date" />
 
         <!-- Campo 5: Correo Electronico -->
@@ -159,6 +163,7 @@
             style="@style/InputBase"
             android:layout_marginTop="6dp"
             android:hint="correo@ejemplo.com"
+            android:background="@drawable/bg_borde_texto"
             android:inputType="textEmailAddress" />
 
         <!-- Boton Guardar Registro -->
