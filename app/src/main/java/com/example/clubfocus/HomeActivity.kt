@@ -14,6 +14,7 @@ class HomeActivity : AppCompatActivity() {
 
         val tvCerrarSesion = findViewById<TextView>(R.id.tvCerrarSesion)
         val btnRegistrarSocio = findViewById<Button>(R.id.btnRegistrarSocio)
+        val btnCobrarCuota = findViewById<Button>(R.id.btnCobroCuotas)
 
 
         tvCerrarSesion.setOnClickListener {
@@ -30,6 +31,12 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RegistrarSocioActivity::class.java)
 
             startActivity(intent)
+        }
+
+        btnCobrarCuota.setOnClickListener {
+            val intentCobro = Intent(this, CobrarCuotaActivity::class.java)
+
+            startActivity(intentCobro)
         }
     }
 }
