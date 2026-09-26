@@ -1,6 +1,4 @@
 package com.example.clubfocus
-
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
