@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ClubFocus</string>
 
+    <!-- Texto pantalla de intro" -->
+    <string name="label_intro">INTRO</string>
+
     <!-- Textos para la pantalla Login -->
     <string name="label_usuario">USUARIO</string>
     <string name="hint_email">admin@clubfocus.com</string>
@@ -49,5 +52,30 @@
 
     <!-- Botón final -->
     <string name="registrar_btn_guardar">GUARDAR REGISTRO</string>
+
+    <!-- Textos de la pantalla Cobro de Cuota -->
+    <string name="label_cobro_cuota">Cobro de Cuota</string>
+    <string name="hint_buscar_dni">Ingrese el DNI</string>
+
+    <string name="label_medio_pago">SELECCIONA UN MEDIO DE PAGO</string>
+    <string name="pago_efectivo">Efectivo</string>
+    <string name="pago_tarjeta_credito">Tarjeta Crédito</string>
+    <string name="pago_tarjeta_debito">Tarjeta Débito</string>
+
+    <string name="label_promociones">PROMOCIONES</string>
+    <string name="promo_3_cuotas">3 Cuotas 15% OFF</string>
+    <string name="promo_6_cuotas">6 Cuotas 10% OFF</string>
+
+    <string name="label_detalle_pago">DETALLES DE PAGO</string>
+    <string name="label_concepto">Concepto: </string>
+    <string name="label_concepto_cuota">Cuota </string>
+    <string name="label_monto">Monto</string>
+    <string name="label_descuento">Descuento</string>
+    <string name="label_monto_total">Monto Total</string>
+    <string name="monto_inicial_cero">$ 0</string>
+    <string name="monto_inicial_final">$ 0</string>
+    <string name="descuento_inicial_cero">- $ 0</string>
+
+    <string name="btn_confirmar_pago">confirmar pago</string>
 
 </resources>

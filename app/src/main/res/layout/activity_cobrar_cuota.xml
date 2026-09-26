@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -26,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cobro de Cuota"
+            android:text="@string/label_cobro_cuota"
             android:textColor="@color/black"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -35,15 +34,16 @@
         <EditText
             android:id="@+id/etBuscador"
             style="@style/InputSearch"
-            android:hint="Ingrese el DNI"
+            android:hint="@string/hint_buscar_dni"
             android:inputType="number"
             android:imeOptions="actionSearch"
+            android:autofillHints=""
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SELECCIONA UN MEDIO DE PAGO"
+            android:text="@string/label_medio_pago"
             android:textColor="@color/disabled"
             android:textSize="12sp"
             android:layout_marginBottom="12dp"
@@ -66,7 +66,7 @@
                 android:drawableEnd="@drawable/ic_cash"
                 android:drawablePadding="12dp"
                 android:layoutDirection="rtl"
-                android:text="Efectivo"
+                android:text="@string/pago_efectivo"
                 android:enabled="false"/>
 
             <!-- Opcion Tarjeta Crédito -->
@@ -75,7 +75,7 @@
                 style="@style/RbOpcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tarjeta Crédito"
+                android:text="@string/pago_tarjeta_credito"
                 android:drawableEnd="@drawable/ic_credit_card"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
@@ -88,7 +88,7 @@
                 style="@style/RbOpcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tarjeta Débito"
+                android:text="@string/pago_tarjeta_debito"
                 android:drawableEnd="@drawable/ic_credit_card"
                 android:drawablePadding="12dp"
                 android:gravity="center_vertical"
@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PROMOCIONES"
+            android:text="@string/label_promociones"
             android:textColor="@color/disabled"
             android:textSize="12sp"
             android:layout_marginBottom="12dp"
@@ -120,7 +120,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="3 Cuotas 15% OFF"
+                android:text="@string/promo_3_cuotas"
                 android:gravity="center"
                 android:paddingEnd="48dp"
                 android:enabled="false"/>
@@ -136,7 +136,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="6 Cuotas 10% OFF"
+                android:text="@string/promo_6_cuotas"
                 android:gravity="center"
                 android:paddingEnd="48dp"
                 android:enabled="false"/>
@@ -159,7 +159,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DETALLES DE PAGO"
+                android:text="@string/label_detalle_pago"
                 android:textColor="@color/disabled"
                 android:textSize="12sp"
                 android:layout_marginBottom="12dp"
@@ -174,12 +174,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Concepto: " />
+                    android:text="@string/label_concepto" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cuota "
+                    android:text="@string/label_concepto_cuota"
                     android:id="@+id/textConceptoPago"/>
 
             </LinearLayout>
@@ -193,7 +193,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monto" />
+                    android:text="@string/label_monto" />
 
                 <Space
                     android:layout_width="0dp"
@@ -203,7 +203,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$ 0"
+                    android:text="@string/monto_inicial_cero"
                     android:id="@+id/textMonto"/>
 
             </LinearLayout>
@@ -217,7 +217,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Descuento" />
+                    android:text="@string/label_descuento" />
 
                 <Space
                     android:layout_width="0dp"
@@ -227,7 +227,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="- $ 0"
+                    android:text="@string/descuento_inicial_cero"
                     android:id="@+id/textDescuento"/>
 
             </LinearLayout>
@@ -247,8 +247,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Monto Total"
-                    android:textSize="20dp"
+                    android:text="@string/label_monto_total"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
 
                 <Space
@@ -260,8 +260,8 @@
                     android:id="@+id/textMontoTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$ 0"
-                    android:textSize="20dp"
+                    android:text="@string/monto_inicial_final"
+                    android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@color/primary"/>
 
@@ -274,7 +274,7 @@
             style="@style/ButtonPrimaryL"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="confirmar pago"
+            android:text="@string/btn_confirmar_pago"
             android:textAllCaps="true"/>
 
     </LinearLayout>
