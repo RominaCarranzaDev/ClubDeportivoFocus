@@ -23,14 +23,12 @@ class HomeActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("Cerrar Sesión")
                 .setMessage("Esta seguro que desea cerrar la sesión?")
-                .setPositiveButton("Aceptar") { dialog, _ ->
+                .setPositiveButton("Aceptar") { _, _ ->
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
-                .setNegativeButton("Cancelar") { dialog, _ ->
-                    dialog.dismiss()
-                }
+                .setNegativeButton("Cancelar", null)
                 .show()
         }
 
