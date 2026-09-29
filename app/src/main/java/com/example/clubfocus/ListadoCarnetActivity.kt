@@ -1,6 +1,8 @@
 package com.example.clubfocus
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,6 +13,14 @@ class ListadoCarnetActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_listado_carnet)
+
+        val btnImprimir = findViewById<Button>(R.id.btnImprimirCarnet)
+
+        btnImprimir.setOnClickListener {
+            val intent = Intent(this, CarnetActivity::class.java)
+
+            startActivity(intent)
+        }
 
     }
 }
