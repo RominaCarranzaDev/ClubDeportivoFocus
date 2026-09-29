@@ -10,6 +10,6 @@ class CarnetActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_carnet)
 
-        }
+
     }
 }
