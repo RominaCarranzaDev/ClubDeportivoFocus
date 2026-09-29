@@ -18,6 +18,7 @@ class HomeActivity : AppCompatActivity() {
         val btnRegistrarSocio = findViewById<Button>(R.id.btnRegistrarSocio)
         val btnCobrarCuota = findViewById<Button>(R.id.btnCobroCuotas)
         val btnCarnets = findViewById<Button>(R.id.btnCarnets)
+        val btnVencimientos = findViewById<Button>(R.id.btnVencimientos)
 
         // 2. Ventana emergente
         tvCerrarSesion.setOnClickListener {
@@ -50,6 +51,12 @@ class HomeActivity : AppCompatActivity() {
         btnCarnets.setOnClickListener {
             val intentListadoCarnet = Intent(this, ListadoCarnetActivity::class.java)
             startActivity(intentListadoCarnet)
+        }
+
+        btnVencimientos.setOnClickListener {
+            val intentVencimientos = Intent(this, VencimientosActivity::class.java)
+
+            startActivity(intentVencimientos)
         }
     }
 }

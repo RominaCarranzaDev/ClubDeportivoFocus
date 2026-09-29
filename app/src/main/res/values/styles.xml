@@ -53,7 +53,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/success</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/label_success</item>
+        <item name="android:background">@drawable/label_danger</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -71,7 +71,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/danger</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/label_danger</item>
+        <item name="android:background">@drawable/label_success</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="labelPrimary">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/label_primary</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -142,8 +151,5 @@
         <item name="android:height">50dp</item>
     </style>
 
-    <style name="CardStyle">
-        <item name="android:elevation">6dp</item>
-        <item name="android:padding">16dp</item>
-    </style>
+
 </resources>
