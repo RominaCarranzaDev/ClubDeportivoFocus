@@ -1,5 +1,6 @@
 package com.example.clubfocus
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -54,6 +55,10 @@ class ConfirmarPagoActivity : AppCompatActivity() {
         // IMPRIMIR CARNET
         btnCarnet.setOnClickListener {
 
+//            Cuando se complete el flujo va a poder saber si es socio o no
+            val intent = Intent(this, CarnetActivity::class.java)
+
+            startActivity(intent)
             if (esSocio) {
 
                 Toast.makeText(
@@ -64,6 +69,7 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
                 // Acá después podés abrir la pantalla
                 // de impresión del carnet.
+
             }
         }
 

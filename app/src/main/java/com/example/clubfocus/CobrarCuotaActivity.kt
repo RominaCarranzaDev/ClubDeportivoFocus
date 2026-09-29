@@ -1,5 +1,6 @@
 package com.example.clubfocus
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.RadioButton
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clubfocus.data.repository.ClienteRepository
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 
 class CobrarCuotaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +41,13 @@ class CobrarCuotaActivity : AppCompatActivity() {
         val txtVolver = findViewById<TextView>(R.id.txtVolver)
         txtVolver.setOnClickListener {
             finish()
+        }
+
+        val btnConfirmarPago = findViewById<Button>(R.id.btnRegistrarPago)
+        btnConfirmarPago.setOnClickListener {
+            val intent = Intent(this, ConfirmarPagoActivity::class.java)
+
+            startActivity(intent)
         }
 
         dniCliente.setOnEditorActionListener { _, actionId, _ ->
