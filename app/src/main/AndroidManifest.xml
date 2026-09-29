@@ -38,13 +38,15 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".Carnet"
+            android:name=".RegistroExitosoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ListadoCarnetActivity"
+            android:name=".CarnetActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+
     </application>
 
 </manifest>

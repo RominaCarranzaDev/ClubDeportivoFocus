@@ -1,5 +1,7 @@
+
 package com.example.clubfocus
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -7,10 +9,7 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class RegistrarSocioActivity : AppCompatActivity() {
 
@@ -18,13 +17,14 @@ class RegistrarSocioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registrar_socio)
 
-        // 1. Boton Volver
+        // 1. Botón Volver
         val tvVolver = findViewById<TextView>(R.id.tvVolver)
+
         tvVolver.setOnClickListener {
             finish()
         }
 
-        // 2. Vincular componentes del formulario:
+        // 2. Vincular componentes del formulario
         val rbSocio = findViewById<RadioButton>(R.id.rbSocio)
         val cbAptoFisico = findViewById<CheckBox>(R.id.cbAptoFisico)
         val etNombre = findViewById<EditText>(R.id.etNombre)
@@ -32,8 +32,9 @@ class RegistrarSocioActivity : AppCompatActivity() {
         val etDni = findViewById<EditText>(R.id.etDni)
         val btnGuardarRegistro = findViewById<Button>(R.id.btnGuardarRegistro)
 
-        // 3. Accion Boton Guardar
+        // 3. Acción Botón Guardar
         btnGuardarRegistro.setOnClickListener {
+
             val nombre = etNombre.text.toString().trim()
             val apellido = etApellido.text.toString().trim()
             val dni = etDni.text.toString().trim()
@@ -42,18 +43,45 @@ class RegistrarSocioActivity : AppCompatActivity() {
             val esSocio = rbSocio.isChecked
 
             if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty()) {
-                Toast.makeText(this, "Por favor, completa nombre, apellido y DNI", Toast.LENGTH_SHORT).show()
+
+                Toast.makeText(
+                    this,
+                    "Por favor, completa nombre, apellido y DNI",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else if (!presentoApto) {
 
-                Toast.makeText(this, "Debe presentar el Apto Físico para registrarse", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Debe presentar el Apto Físico para registrarse",
+                    Toast.LENGTH_SHORT
+                ).show()
 
             } else {
-                val tipoUsuario = if (esSocio) "Socio" else "No Socio"
-                val mensajeConfirmacion = "$tipoUsuario $nombre $apellido registrado correctamente"
 
-                Toast.makeText(this, mensajeConfirmacion, Toast.LENGTH_SHORT).show()
+                val tipoUsuario = if (esSocio) "Socio" else "No Socio"
+
+                val mensajeConfirmacion =
+                    "$tipoUsuario $nombre $apellido registrado correctamente"
+
+                Toast.makeText(
+                    this,
+                    mensajeConfirmacion,
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                // Abrir pantalla de Registro Exitoso
+                val intent = Intent(
+                    this,
+                    RegistroExitosoActivity::class.java
+                )
+
+                startActivity(intent)
+
+                // Cerrar la pantalla de registro
+                finish()
             }
         }
     }
-
 }
