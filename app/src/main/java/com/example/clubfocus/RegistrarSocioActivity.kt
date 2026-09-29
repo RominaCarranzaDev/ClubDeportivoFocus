@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.appcompat.app.AppCompatActivity
 
 class RegistrarSocioActivity : AppCompatActivity() {
@@ -31,6 +32,20 @@ class RegistrarSocioActivity : AppCompatActivity() {
         val etApellido = findViewById<EditText>(R.id.etApellido)
         val etDni = findViewById<EditText>(R.id.etDni)
         val btnGuardarRegistro = findViewById<Button>(R.id.btnGuardarRegistro)
+        val etFechaNacimiento = findViewById<EditText>(R.id.etFechaNacimiento)
+
+        // Agregar / al escribir la fecha de nacimiento
+
+        etFechaNacimiento.doAfterTextChanged { texto ->
+            val cadena = texto.toString()
+
+            if ((cadena.length == 2 || cadena.length == 5) && !cadena.endsWith("/")) {
+                etFechaNacimiento.setText("$cadena/")
+
+                etFechaNacimiento.setSelection(etFechaNacimiento.text.length)
+            }
+        }
+
 
         // 3. Acción Botón Guardar
         btnGuardarRegistro.setOnClickListener {

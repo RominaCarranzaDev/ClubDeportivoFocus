@@ -76,6 +76,12 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
         // IR AL MENÚ
         btnMenu.setOnClickListener {
+            val intent = Intent(
+                this,
+                HomeActivity::class.java
+            )
+
+            startActivity(intent)
 
             finish()
         }
