@@ -3,6 +3,7 @@ package com.example.clubfocus.data.repository
 import com.example.clubfocus.data.entity.Cliente
 import java.time.LocalDate
 
+
 class ClienteRepository {
 
     private var siguienteId = 1
@@ -20,7 +21,7 @@ class ClienteRepository {
             aptoFisico = true,
             activo = true,
             esSocio = true,
-            fechaInscripcion = LocalDate.of(2026, 9, 1)
+            fechaInscripcion = LocalDate.now()
         )
         agregarCliente(
             nombre = "No Socio",
@@ -32,7 +33,7 @@ class ClienteRepository {
             aptoFisico = true,
             activo = true,
             esSocio = false,
-            fechaInscripcion = LocalDate.of(2026, 9, 1)
+            fechaInscripcion = LocalDate.now()
         )
     }
 

@@ -8,8 +8,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.clubfocus.data.repository.ClienteRepository
 import android.view.inputmethod.EditorInfo
 
@@ -24,19 +22,19 @@ class CobrarCuotaActivity : AppCompatActivity() {
         val cuotaDiaria = 20000
 
         val dniCliente = findViewById<EditText>(R.id.etBuscador)
-        var concepto = findViewById<TextView>(R.id.textConceptoPago)
-        var monto = findViewById<TextView>(R.id.textMonto)
-        var total = findViewById<TextView>(R.id.textMontoTotal)
-        var descuento = findViewById<TextView>(R.id.textDescuento)
+        val concepto = findViewById<TextView>(R.id.textConceptoPago)
+        val monto = findViewById<TextView>(R.id.textMonto)
+        val total = findViewById<TextView>(R.id.textMontoTotal)
+        val descuento = findViewById<TextView>(R.id.textDescuento)
 
-        var rgMedioPago = findViewById<RadioGroup>(R.id.rgMedioPago)
-        var rbPagoEfectivo = findViewById<RadioButton>(R.id.rbPagoEfectivo)
-        var rbPagoTarjeta = findViewById<RadioButton>(R.id.rbPagoTarjetaCred)
-        var rbPagoDebito = findViewById<RadioButton>(R.id.rbPagoTarjetaDeb)
+        val rgMedioPago = findViewById<RadioGroup>(R.id.rgMedioPago)
+        val rbPagoEfectivo = findViewById<RadioButton>(R.id.rbPagoEfectivo)
+        val rbPagoTarjeta = findViewById<RadioButton>(R.id.rbPagoTarjetaCred)
+        val rbPagoDebito = findViewById<RadioButton>(R.id.rbPagoTarjetaDeb)
 
-        var rgPromo = findViewById<RadioGroup>(R.id.rgPromo)
-        var rbPromo3 = findViewById<RadioButton>(R.id.rbPromo3c)
-        var rbPromo6 = findViewById<RadioButton>(R.id.rbPromo6c)
+        val rgPromo = findViewById<RadioGroup>(R.id.rgPromo)
+        val rbPromo3 = findViewById<RadioButton>(R.id.rbPromo3c)
+        val rbPromo6 = findViewById<RadioButton>(R.id.rbPromo6c)
 
         val txtVolver = findViewById<TextView>(R.id.txtVolver)
         txtVolver.setOnClickListener {
@@ -99,7 +97,7 @@ class CobrarCuotaActivity : AppCompatActivity() {
             }
         }
 
-        rbPagoTarjeta.setOnCheckedChangeListener { _, checked ->
+        rbPagoTarjeta.setOnCheckedChangeListener { _, _->
             // Solo si el medio de pago es con tarjeta de credito se habilitan las promos
             if (rbPagoTarjeta.isChecked) {
                 rbPromo3.isEnabled = true
