@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFFFFF"
+    android:padding="24dp">
+
+    <!-- CÍRCULO VERDE -->
+    <TextView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_circulo_verde"
+        android:gravity="center"
+        android:text="✓"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <!-- PAGO EXITOSO -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="¡Pago Exitoso!"
+        android:textColor="#263F78"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- IMPRIMIR COMPROBANTE -->
+    <TextView
+        android:id="@+id/btnImprimirComprobante"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_boton_naranja"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Imprimir comprobante"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <!-- IMPRIMIR CARNET -->
+    <TextView
+        android:id="@+id/btnImprimirCarnet"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_boton_naranja"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Imprimir carnet (Solo socios)"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+    <!-- IR AL MENÚ -->
+    <TextView
+        android:id="@+id/btnIrMenu"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_boton_naranja"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Ir al menú"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp" />
+
+</LinearLayout>

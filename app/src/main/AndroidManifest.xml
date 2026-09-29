@@ -42,13 +42,16 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".ConfirmarPagoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".CarnetActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ListadoCarnetActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
     </application>
 
 </manifest>
