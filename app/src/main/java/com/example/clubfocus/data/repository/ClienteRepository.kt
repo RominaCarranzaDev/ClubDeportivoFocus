@@ -4,7 +4,7 @@ import com.example.clubfocus.data.entity.Cliente
 import java.time.LocalDate
 
 
-class ClienteRepository {
+object ClienteRepository {
 
     private var siguienteId = 1
 

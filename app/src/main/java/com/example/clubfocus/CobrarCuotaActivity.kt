@@ -2,6 +2,8 @@ package com.example.clubfocus
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -10,8 +12,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.clubfocus.data.repository.ClienteRepository
-import android.view.inputmethod.EditorInfo
-import android.widget.Button
 
 class CobrarCuotaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,9 @@ class CobrarCuotaActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_cobrar_cuota)
 
-        val clienteRepository = ClienteRepository()
+        // Ya NO creamos 'val clienteRepository = ClienteRepository()'
+        // porque al ser 'object' usamos directamente 'ClienteRepository'
+
         val cuotaMensual = 45000
         val cuotaDiaria = 20000
 
@@ -46,31 +48,31 @@ class CobrarCuotaActivity : AppCompatActivity() {
         val btnConfirmarPago = findViewById<Button>(R.id.btnRegistrarPago)
         btnConfirmarPago.setOnClickListener {
             val intent = Intent(this, ConfirmarPagoActivity::class.java)
-
             startActivity(intent)
         }
 
         dniCliente.setOnEditorActionListener { _, actionId, _ ->
-      //  Utiliza el teclado con lupa en lugar de enter
+            // Utiliza la lupa del teclado en lugar del enter tradicional
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                 val dni = dniCliente.text.toString().trim()
 
                 if (dni.length > 6) {
 
-                    val cliente = clienteRepository.buscarPorDni(dni)
+                    // Buscamos directamente en el objeto compartido Singleton
+                    val cliente = ClienteRepository.buscarPorDni(dni)
 
                     if (cliente != null) {
 
                         Toast.makeText(this, "Cliente encontrado: ${cliente.nombre} ${cliente.apellido}", Toast.LENGTH_LONG).show()
-                      //  Si exite el cliente se habilita el medio de pago
-                      //  medio de pago efectivo por default
 
+                        // Habilitamos opciones de pago
                         rbPagoEfectivo.isEnabled = true
                         rbPagoEfectivo.isChecked = true
                         rbPagoTarjeta.isEnabled = true
                         rbPagoDebito.isEnabled = true
-                    //  Si el cliente es socio se carga la cuota mensual, sino la cuota diaria en el detalle de pago
+
+                        // Si el cliente es socio se le cobra cuota mensual, si no, la diaria
                         if (cliente.esSocio) {
                             concepto.text = "Cuota Mensual"
                             monto.text = "$ ${cuotaMensual}"
@@ -82,9 +84,10 @@ class CobrarCuotaActivity : AppCompatActivity() {
                         }
 
                     } else {
-                        // No existe cliente registrado con ese dni
-                        Toast.makeText(this, "No se encontró ningún cliente con ese DNI",Toast.LENGTH_SHORT).show()
-                        // Se deshabilitan medio de pago y promociones
+                        // Si no existe el DNI en la lista
+                        Toast.makeText(this, "No se encontró ningún cliente con ese DNI", Toast.LENGTH_SHORT).show()
+
+                        // Deshabilitamos medios de pago
                         rgMedioPago.clearCheck()
                         rbPagoEfectivo.isEnabled = false
                         rbPagoTarjeta.isEnabled = false
@@ -95,52 +98,42 @@ class CobrarCuotaActivity : AppCompatActivity() {
                         rbPromo6.isEnabled = false
                     }
                 } else {
-                    // Si el DNI ingresado no cumple con el formato de minimo caracteres
-                    Toast.makeText(this,"DNI no válido",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "DNI no válido", Toast.LENGTH_LONG).show()
                 }
-                // Booleano obligatorio por IME SEARCH
                 true
             } else {
-                // Booleano obligatorio por IME SEARCH
                 false
             }
         }
 
-        rbPagoTarjeta.setOnCheckedChangeListener { _, _->
-            // Solo si el medio de pago es con tarjeta de credito se habilitan las promos
+        rbPagoTarjeta.setOnCheckedChangeListener { _, _ ->
             if (rbPagoTarjeta.isChecked) {
                 rbPromo3.isEnabled = true
                 rbPromo6.isEnabled = true
-            }
-            else {
+            } else {
                 rgPromo.clearCheck()
                 rbPromo3.isEnabled = false
                 rbPromo6.isEnabled = false
             }
-
         }
 
         rgPromo.setOnCheckedChangeListener { _, checkedId ->
-            // Limpieza del campo monto
             val montoActual = monto.text.toString()
                 .replace("$", "")
                 .trim()
                 .toDoubleOrNull() ?: 0.0
 
             when (checkedId) {
-
                 R.id.rbPromo3c -> {
                     val importeDescuento = montoActual * 0.15
                     descuento.text = "- $ ${importeDescuento}"
                     total.text = "$ ${(montoActual - importeDescuento)}"
                 }
-
                 R.id.rbPromo6c -> {
                     val importeDescuento = montoActual * 0.10
                     descuento.text = "- $ ${importeDescuento}"
                     total.text = "$ ${(montoActual - importeDescuento)}"
                 }
-
                 else -> {
                     descuento.text = "- $ 0"
                     total.text = montoActual.toString()
