@@ -1,6 +1,8 @@
 package com.example.clubfocus
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,5 +14,10 @@ class VencimientosActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_vencimientos)
 
+        val btnVolver = findViewById<TextView>(R.id.txtVolver)
+
+        btnVolver.setOnClickListener {
+            finish()
+        }
     }
 }

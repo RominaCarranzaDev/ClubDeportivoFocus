@@ -16,6 +16,7 @@ class HomeActivity : AppCompatActivity() {
         val btnRegistrarSocio = findViewById<Button>(R.id.btnRegistrarSocio)
         val btnCobrarCuota = findViewById<Button>(R.id.btnCobroCuotas)
         val btnCarnets = findViewById<Button>(R.id.btnCarnets)
+        val btnVencimientos = findViewById<Button>(R.id.btnVencimientos)
 
         tvCerrarSesion.setOnClickListener {
             AlertDialog.Builder(this)
@@ -46,6 +47,12 @@ class HomeActivity : AppCompatActivity() {
             val intentListadoCarnet = Intent(this, ListadoCarnetActivity::class.java)
 
             startActivity(intentListadoCarnet)
+        }
+
+        btnVencimientos.setOnClickListener {
+            val intentVencimientos = Intent(this, VencimientosActivity::class.java)
+
+            startActivity(intentVencimientos)
         }
     }
 }
