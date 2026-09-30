@@ -19,6 +19,7 @@ class HomeActivity : AppCompatActivity() {
         val btnCobrarCuota = findViewById<Button>(R.id.btnCobroCuotas)
         val btnCarnets = findViewById<Button>(R.id.btnCarnets)
         val btnVencimientos = findViewById<Button>(R.id.btnVencimientos)
+        val btnHistorialPago = findViewById<Button>(R.id.btnHistorialPagos)
 
         // 2. Ventana emergente
         tvCerrarSesion.setOnClickListener {
@@ -53,10 +54,18 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intentListadoCarnet)
         }
 
+        // 5. Navegacion a Vencimientos
         btnVencimientos.setOnClickListener {
             val intentVencimientos = Intent(this, VencimientosActivity::class.java)
 
             startActivity(intentVencimientos)
+        }
+
+        // 5. Navegacion a Historial Pago
+        btnHistorialPago.setOnClickListener {
+            val intentHistorial = Intent(this, ListadoPagoActivity::class.java)
+
+            startActivity(intentHistorial)
         }
     }
 }
