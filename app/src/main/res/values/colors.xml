@@ -10,7 +10,7 @@
     <color name="accent">#002969</color>
     <!-- Colores genericos -->
     <color name="disabled">#BDBDBD</color>
-    <color name="success">#065F46</color>
-    <color name="warning">#FEF3C7</color>
+    <color name="success">#35C557</color>
+    <color name="warning">#F5DFD5</color>
     <color name="danger">#B10000</color>
 </resources>

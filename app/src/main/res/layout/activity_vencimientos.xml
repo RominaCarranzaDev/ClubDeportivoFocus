@@ -46,11 +46,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_height="100dp"
+                android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_borde_card"
-                android:padding="16dp"
-                android:layout_marginBottom="8dp">
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:padding="16dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -61,18 +62,18 @@
                         android:id="@+id/txtNombreyNumSocio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="Socio 1001"
-                        android:textStyle="bold"
                         android:textSize="20sp"
-                        android:layout_marginBottom="8dp"/>
+                        android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/txtFechaVenc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Vence: 10 Oct de 2026"
                         android:textColor="@color/disabled"
-                        android:id="@+id/txtFechaVenc"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
 
                 </LinearLayout>
@@ -83,9 +84,9 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    style="@style/labelPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/labelPrimary"
                     android:text="Vence hoy"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
@@ -94,10 +95,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_borde_card"
-                android:padding="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
                 android:layout_marginBottom="8dp">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -139,10 +141,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:orientation="horizontal"
                 android:background="@drawable/bg_borde_card"
-                android:padding="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
                 android:layout_marginBottom="8dp">
 
                 <LinearLayout
@@ -201,10 +204,11 @@
 
             <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/bg_borde_card"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:layout_marginBottom="8dp">
 
         <LinearLayout
