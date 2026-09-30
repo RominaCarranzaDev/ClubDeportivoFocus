@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -15,7 +16,7 @@
         android:textColor="@color/primary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,7 +25,7 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp" />
 
     <ImageView
         android:layout_width="150dp"
@@ -32,10 +33,10 @@
         android:layout_gravity="center"
         android:layout_marginBottom="24dp"
         android:src="@drawable/logo"
-        android:contentDescription="Logo Club Deportivo Focus"/>
+        android:contentDescription="Logo Club Deportivo Focus" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:gravity="center"
@@ -60,15 +61,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nro de Socio: "
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtNroSocio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CAR1001"
             android:textColor="@color/primary"
-            android:id="@+id/txtNroSocio"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -76,21 +77,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="12dp"
-        android:textSize="16sp">
+        android:layout_marginBottom="12dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Socio: " />
+            android:text="Socio: "
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtNombreSocio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/black"
-            android:id="@+id/txtNombreSocio"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -104,14 +105,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fecha de emisión: "
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtFechaEmision"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:id="@+id/txtFechaEmision"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -125,14 +126,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fecha de vencimiento: "
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/txtFechaVencimiento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:id="@+id/txtFechaVencimiento"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -143,14 +144,14 @@
         android:background="@color/disabled" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
         android:layout_marginBottom="20dp"
         android:textColor="@color/disabled"
         android:text="Este carnet es personal e intransferible. Es obligatorio presentarlo para el ingreso a las instalaciones."
         android:textStyle="italic"
-        android:gravity="center"/>
+        android:gravity="center" />
 
     <ImageView
         android:id="@+id/ImgImprimir"
@@ -159,6 +160,6 @@
         android:src="@drawable/ic_printer"
         android:layout_gravity="end"
         android:padding="20dp"
-        style="@style/BgCircle"/>
+        style="@style/BgCircle" />
 
 </LinearLayout>

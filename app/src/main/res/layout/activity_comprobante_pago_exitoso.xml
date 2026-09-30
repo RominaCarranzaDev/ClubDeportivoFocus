@@ -170,7 +170,7 @@
     </LinearLayout>
 
     <!-- BOTÓN IMPRIMIR -->
-    <!-- IGUAL AL DE CARNET -->
+
 
     <ImageView
         android:id="@+id/btnImprimirComprobante"
@@ -180,5 +180,16 @@
         android:layout_gravity="end"
         android:padding="20dp"
         style="@style/BgCircle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:text="¡Gracias por elegirnos!&#10;Nos ayudas a mejorar el Club."
+        android:textColor="#BDBDBD"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp" />
 
 </LinearLayout>
