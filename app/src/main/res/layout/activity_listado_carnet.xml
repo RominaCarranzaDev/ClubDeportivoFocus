@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    >
+    android:background="@color/white">
 
+    <!-- VOLVER -->
     <TextView
         android:id="@+id/txtVolver"
         android:layout_width="wrap_content"
@@ -16,8 +18,11 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true" />
 
+    <!-- TÍTULO -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,228 +30,264 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/etBuscador"
-        style="@style/InputSearch"
-        android:hint="Buscar por DNI"
-        android:inputType="number"
-        android:imeOptions="actionSearch"
-        android:layout_marginBottom="24dp"
-        />
-
+    <!-- BUSCADOR -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card_carnet"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginBottom="24dp">
 
+        <EditText
+            android:id="@+id/etBuscador"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1"
+            android:hint="Buscar por DNI"
+            android:inputType="number"
+            android:imeOptions="actionSearch"
+            android:background="@android:color/transparent"
+            android:textSize="16sp"
+            android:padding="8dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_card_carnet"
-            android:padding="0dp"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                android:padding="16dp"
-                android:layout_gravity="center"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Juan Perez"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de vencimiento: 01/10/2026"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-            <View
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_card_carnet_borde" />
+        <ImageView
+            android:id="@+id/btnBuscar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:padding="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Buscar" />
 
     </LinearLayout>
 
-    </LinearLayout>
-
+    <!-- CARNET JUAN -->
     <LinearLayout
+        android:id="@+id/carnetJuan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/bg_card_carnet"
         android:padding="0dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:contentDescription="Foto del socio" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                android:padding="16dp"
-                android:layout_gravity="center"/>
+                android:text="Juan Perez"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Martin Rodriguez"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de vencimiento: 07/09/2026"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-            <View
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_card_carnet_borde" />
+                android:text="Fecha de vencimiento: 01/10/2026"
+                android:textSize="14sp"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="12dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_card_carnet_borde" />
+
     </LinearLayout>
 
+
+    <!-- CARNET MARTIN -->
     <LinearLayout
+        android:id="@+id/carnetMartin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/bg_card_carnet"
         android:padding="0dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:contentDescription="Foto del socio" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                android:padding="16dp"
-                android:layout_gravity="center"/>
+                android:text="Martin Rodriguez"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Micaela Lopez"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de vencimiento: 21/10/2026"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-            <View
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_card_carnet_borde" />
+                android:text="Fecha de vencimiento: 07/09/2026"
+                android:textSize="14sp"
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
+        <View
+            android:layout_width="12dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_card_carnet_borde" />
+
     </LinearLayout>
 
+
+    <!-- CARNET MICAELA -->
     <LinearLayout
+        android:id="@+id/carnetMicaela"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/bg_card_carnet"
         android:padding="0dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:contentDescription="Foto del socio" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_camera"
-                android:padding="16dp"
-                android:layout_gravity="center"/>
+                android:text="Micaela Lopez"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="Fecha de vencimiento: 21/10/2026"
+                android:textSize="14sp"
+                android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Camila Andrada"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"/>
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de vencimiento: 11/10/2026"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
-            <View
-                android:layout_width="12dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_card_carnet_borde" />
+        <View
+            android:layout_width="12dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_card_carnet_borde" />
 
     </LinearLayout>
 
-</LinearLayout>
 
+    <!-- CARNET CAMILA -->
+    <LinearLayout
+        android:id="@+id/carnetCamila"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_card_carnet"
+        android:padding="0dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera"
+            android:padding="16dp"
+            android:layout_gravity="center"
+            android:contentDescription="Foto del socio" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camila Andrada"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha de vencimiento: 11/10/2026"
+                android:textSize="14sp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_card_carnet_borde" />
+
+    </LinearLayout>
+
+
+    <!-- BOTÓN IMPRIMIR -->
     <Button
         android:id="@+id/btnImprimirCarnet"
         style="@style/ButtonPrimaryL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginVertical="24dp"
         android:gravity="center"
         android:text="Imprimir"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true" />
 
 </LinearLayout>
