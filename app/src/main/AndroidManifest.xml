@@ -49,7 +49,12 @@
             android:name=".CarnetActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ListadoCarnetActivity"
+        <activity
+            android:name=".ListadoCarnetActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ComprobantePagoExitoso"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

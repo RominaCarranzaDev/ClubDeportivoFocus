@@ -3,13 +3,13 @@ package com.example.clubfocus
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ConfirmarPagoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_confirmar_pago)
 
         val btnComprobante =
@@ -21,61 +21,50 @@ class ConfirmarPagoActivity : AppCompatActivity() {
         val btnMenu =
             findViewById<TextView>(R.id.btnIrMenu)
 
-
-        // Recibir si el cliente es socio
         val esSocio =
             intent.getBooleanExtra("esSocio", false)
 
+        val total =
+            intent.getStringExtra("total") ?: ""
 
-        // El carnet solo se puede usar para socios
-        if (esSocio) {
+        btnCarnet.alpha = 1f
 
-            btnCarnet.alpha = 1f
+        // IR AL COMPROBANTE
 
-        } else {
-
-            btnCarnet.alpha = 0.5f
-        }
-
-
-        // IMPRIMIR COMPROBANTE
         btnComprobante.setOnClickListener {
 
-            Toast.makeText(
+            val intent = Intent(
                 this,
-                "Preparando comprobante...",
-                Toast.LENGTH_SHORT
-            ).show()
+                ComprobantePagoExitoso::class.java
+            )
 
-            // Acá después podés abrir la pantalla
-            // del comprobante.
-        }
-
-
-        // IMPRIMIR CARNET
-        btnCarnet.setOnClickListener {
-
-//            Cuando se complete el flujo va a poder saber si es socio o no
-            val intent = Intent(this, CarnetActivity::class.java)
+            intent.putExtra(
+                "total",
+                total
+            )
 
             startActivity(intent)
+        }
+
+        // IR AL CARNET
+
+        btnCarnet.setOnClickListener {
+
             if (esSocio) {
 
-                Toast.makeText(
+                val intent = Intent(
                     this,
-                    "Preparando carnet...",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    ListadoCarnetActivity::class.java
+                )
 
-                // Acá después podés abrir la pantalla
-                // de impresión del carnet.
-
+                startActivity(intent)
             }
         }
 
+        // VOLVER AL MENÚ
 
-        // IR AL MENÚ
         btnMenu.setOnClickListener {
+
             val intent = Intent(
                 this,
                 HomeActivity::class.java
