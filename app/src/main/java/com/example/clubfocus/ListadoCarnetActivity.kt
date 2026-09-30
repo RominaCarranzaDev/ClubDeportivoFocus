@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 class ListadoCarnetActivity : AppCompatActivity() {
 
     private var carnetSeleccionado: LinearLayout? = null
+    private var nombreSocioSeleccionado: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,41 +45,29 @@ class ListadoCarnetActivity : AppCompatActivity() {
         val carnetCamila =
             findViewById<LinearLayout>(R.id.carnetCamila)
 
-
-        // VOLVER
         txtVolver.setOnClickListener {
             finish()
         }
 
+        seleccionarCarnet(carnetJuan, "Juan Perez")
+        seleccionarCarnet(carnetMartin, "Martin Rodriguez")
+        seleccionarCarnet(carnetMicaela, "Micaela Lopez")
+        seleccionarCarnet(carnetCamila, "Camila Andrada")
 
-        // SELECCIONAR CARNETS TOCÁNDOLOS
-        seleccionarCarnet(carnetJuan)
-        seleccionarCarnet(carnetMartin)
-        seleccionarCarnet(carnetMicaela)
-        seleccionarCarnet(carnetCamila)
-
-
-        // BUSCAR TOCANDO LA LUPA
         btnBuscar.setOnClickListener {
-
             val dni = etBuscador.text.toString().trim()
 
             if (dni.isEmpty()) {
-
                 Toast.makeText(
                     this,
                     "Ingresá un DNI",
                     Toast.LENGTH_SHORT
                 ).show()
-
             } else {
-
                 buscarCarnetPorDni(dni)
             }
         }
 
-
-        // BUSCAR TAMBIÉN CON ENTER DEL TECLADO
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
 
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -86,27 +75,21 @@ class ListadoCarnetActivity : AppCompatActivity() {
                 val dni = etBuscador.text.toString().trim()
 
                 if (dni.isEmpty()) {
-
                     Toast.makeText(
                         this,
                         "Ingresá un DNI",
                         Toast.LENGTH_SHORT
                     ).show()
-
                 } else {
-
                     buscarCarnetPorDni(dni)
                 }
 
                 true
-
             } else {
                 false
             }
         }
 
-
-        // BOTÓN IMPRIMIR
         btnImprimir.setOnClickListener {
 
             if (carnetSeleccionado == null) {
@@ -124,69 +107,69 @@ class ListadoCarnetActivity : AppCompatActivity() {
                     CarnetActivity::class.java
                 )
 
+                intent.putExtra(
+                    "nombreSocio",
+                    nombreSocioSeleccionado
+                )
+
                 startActivity(intent)
             }
         }
     }
 
-
-    // SELECCIONAR UN CARNET AL TOCARLO
-    private fun seleccionarCarnet(carnet: LinearLayout) {
+    private fun seleccionarCarnet(
+        carnet: LinearLayout,
+        nombre: String
+    ) {
 
         carnet.setOnClickListener {
 
-            // Quitar selección anterior
             carnetSeleccionado?.setBackgroundResource(
                 R.drawable.bg_card_carnet
             )
 
-            // Guardar nuevo carnet
             carnetSeleccionado = carnet
+            nombreSocioSeleccionado = nombre
 
-            // Marcar carnet seleccionado
             carnet.setBackgroundResource(
                 R.drawable.bg_card_carnet_seleccionado
             )
         }
     }
 
-
-    // BÚSQUEDA POR DNI
-    // Son DNI de prueba porque los datos están hardcodeados
     private fun buscarCarnetPorDni(dni: String) {
 
         when (dni) {
 
             "12345678" -> {
-
                 seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetJuan)
+                    findViewById(R.id.carnetJuan),
+                    "Juan Perez"
                 )
             }
 
             "23456789" -> {
-
                 seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetMartin)
+                    findViewById(R.id.carnetMartin),
+                    "Martin Rodriguez"
                 )
             }
 
             "34567890" -> {
-
                 seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetMicaela)
+                    findViewById(R.id.carnetMicaela),
+                    "Micaela Lopez"
                 )
             }
 
             "45678901" -> {
-
                 seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetCamila)
+                    findViewById(R.id.carnetCamila),
+                    "Camila Andrada"
                 )
             }
 
             else -> {
-
                 Toast.makeText(
                     this,
                     "No se encontró ningún carnet con ese DNI",
@@ -196,21 +179,18 @@ class ListadoCarnetActivity : AppCompatActivity() {
         }
     }
 
-
-    // SELECCIONAR AUTOMÁTICAMENTE EL RESULTADO
     private fun seleccionarCarnetAutomaticamente(
-        carnet: LinearLayout
+        carnet: LinearLayout,
+        nombre: String
     ) {
 
-        // Quitar selección anterior
         carnetSeleccionado?.setBackgroundResource(
             R.drawable.bg_card_carnet
         )
 
-        // Guardar nuevo seleccionado
         carnetSeleccionado = carnet
+        nombreSocioSeleccionado = nombre
 
-        // Marcarlo visualmente
         carnet.setBackgroundResource(
             R.drawable.bg_card_carnet_seleccionado
         )
