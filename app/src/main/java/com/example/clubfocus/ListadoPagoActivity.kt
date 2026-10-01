@@ -1,9 +1,11 @@
 package com.example.clubfocus
 
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -25,8 +27,83 @@ class ListadoPagoActivity : AppCompatActivity() {
         val btnBuscar =
             findViewById<ImageView>(R.id.btnBuscar)
 
+        val listadoPago =
+            findViewById<LinearLayout>(R.id.listadoPago)
+
+
+        listadoPago.visibility = View.GONE
+
         btnVolver.setOnClickListener {
             finish()
+        }
+
+        // Carga los pagos
+        fun buscarSocio(etBuscador: EditText) {
+
+            val dni = etBuscador.text.toString().trim()
+
+            if (dni.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "Ingresá un DNI",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                return
+            }
+
+            // Avisar que está buscando
+            Toast.makeText(
+                this,
+                "Buscando socio...",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            when (dni) {
+
+                "12345678" -> {
+                    Toast.makeText(
+                        this,
+                        "Mostrando pagos de Juan Perez",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                "23456789" -> {
+                    Toast.makeText(
+                        this,
+                        "Mostrando pagos de Martin Rodriguez",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                "34567890" -> {
+                    Toast.makeText(
+                        this,
+                        "Mostrando pagos de Micaela Lopez",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                "45678901" -> {
+                    Toast.makeText(
+                        this,
+                        "Mostrando pagos de Camila Andrada",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                else -> {
+                    Toast.makeText(
+                        this,
+                        "No se encontró ningún socio con ese DNI",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            // Simular la carga de datos
+            listadoPago.visibility = View.VISIBLE
         }
 
         // Buscar al tocar la lupa
@@ -44,70 +121,6 @@ class ListadoPagoActivity : AppCompatActivity() {
                 false
             }
         }
-    }
 
-    private fun buscarSocio(etBuscador: EditText) {
-
-        val dni = etBuscador.text.toString().trim()
-
-        if (dni.isEmpty()) {
-            Toast.makeText(
-                this,
-                "Ingresá un DNI",
-                Toast.LENGTH_SHORT
-            ).show()
-
-            return
-        }
-
-        // Avisar que está buscando
-        Toast.makeText(
-            this,
-            "Buscando socio...",
-            Toast.LENGTH_SHORT
-        ).show()
-
-        when (dni) {
-
-            "12345678" -> {
-                Toast.makeText(
-                    this,
-                    "Mostrando pagos de Juan Perez",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            "23456789" -> {
-                Toast.makeText(
-                    this,
-                    "Mostrando pagos de Martin Rodriguez",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            "34567890" -> {
-                Toast.makeText(
-                    this,
-                    "Mostrando pagos de Micaela Lopez",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            "45678901" -> {
-                Toast.makeText(
-                    this,
-                    "Mostrando pagos de Camila Andrada",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-            else -> {
-                Toast.makeText(
-                    this,
-                    "No se encontró ningún socio con ese DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
     }
 }
