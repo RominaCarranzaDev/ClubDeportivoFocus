@@ -79,9 +79,34 @@ class RegistrarSocioActivity : AppCompatActivity() {
 
             } else {
 
-                // D. Convertimos la fecha de String a LocalDate de forma segura
+                // D. Validamos que la fecha tenga exactamente el formato dd/MM/yyyy
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                val fechaNacimientoLocalDate = LocalDate.parse(fechaTexto, formatter)
+
+                val fechaNacimientoLocalDate = try {
+
+                    // Debe tener exactamente 10 caracteres
+                    if (fechaTexto.length != 10) {
+                        throw Exception()
+                    }
+
+                    // Las barras deben estar en las posiciones correctas
+                    if (fechaTexto[2] != '/' || fechaTexto[5] != '/') {
+                        throw Exception()
+                    }
+
+                    // También verifica que la fecha exista realmente
+                    LocalDate.parse(fechaTexto, formatter)
+
+                } catch (e: Exception) {
+
+                    Toast.makeText(
+                        this,
+                        "La fecha debe tener el formato dd/MM/yyyy.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    return@setOnClickListener
+                }
 
                 // E. Guardamos en el objeto compartido del Repositorio
                 ClienteRepository.agregarCliente(
