@@ -105,7 +105,7 @@ class RegistrarSocioActivity : AppCompatActivity() {
                 ).show()
 
                 // G. Viajamos a la pantalla de confirmación
-                val intent = Intent(this, CobrarCuotaActivity::class.java)
+                val intent = Intent(this, RegistroExitosoActivity::class.java)
 
                 intent.putExtra("clienteDNI", dni)
 
