@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -7,6 +8,7 @@
     android:paddingHorizontal="24dp"
     android:paddingTop="60dp">
 
+    <!-- VOLVER -->
     <TextView
         android:id="@+id/txtVolver"
         android:layout_width="wrap_content"
@@ -15,8 +17,9 @@
         android:textColor="@color/primary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp" />
 
+    <!-- TITULO -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,16 +27,45 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/etBuscador"
-        style="@style/InputSearch"
-        android:hint="Ingrese el dni"
-        android:inputType="number"
-        android:imeOptions="actionSearch"
+    <!-- BUSCADOR -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
         android:layout_marginBottom="24dp"
-        />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card_carnet"
+        android:paddingStart="14dp"
+        android:paddingEnd="4dp">
+
+        <EditText
+            android:id="@+id/etBuscador"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="Buscar socio por DNI"
+            android:inputType="number"
+            android:imeOptions="actionSearch"
+            android:background="@android:color/transparent"
+            android:paddingStart="4dp"
+            android:paddingEnd="8dp"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/btnBuscar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:padding="11dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Buscar socio" />
+
+    </LinearLayout>
+
+    <!-- LISTADO DE PAGOS -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -44,13 +76,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- CUOTA OCTUBRE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_borde_card"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -67,6 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -76,12 +108,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Vence: "
                                 android:textColor="@color/disabled"
                                 android:textSize="14sp" />
+
                             <TextView
                                 android:id="@+id/txtVenc"
                                 android:layout_width="wrap_content"
@@ -89,19 +123,22 @@
                                 android:text="10 Oct 2026"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tipo cuota: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:id="@+id/txtTipoCuota"
                                 android:layout_width="wrap_content"
@@ -109,27 +146,31 @@
                                 android:text="Socio"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Forma de pago: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:id="@+id/txtMedioPago"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text=" - "
+                                android:text="-"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -144,6 +185,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_gravity="center">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -152,7 +194,8 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:gravity="right"
-                            android:layout_marginBottom="12dp"/>
+                            android:layout_marginBottom="12dp" />
+
                         <TextView
                             style="@style/labelWarning"
                             android:layout_width="wrap_content"
@@ -160,18 +203,19 @@
                             android:text="Pendiente"
                             android:textColor="@color/primary"
                             android:textSize="16sp" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
 
+            <!-- CUOTA SEPTIEMBRE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_borde_card"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -197,57 +241,66 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Vence: "
                                 android:textColor="@color/disabled"
                                 android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="10 Sep 2026"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tipo cuota: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Socio"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Forma de pago: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Efectivo"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -262,6 +315,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_gravity="center">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -270,7 +324,8 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:gravity="right"
-                            android:layout_marginBottom="12dp"/>
+                            android:layout_marginBottom="12dp" />
+
                         <TextView
                             style="@style/labelSuccess"
                             android:layout_width="wrap_content"
@@ -278,19 +333,19 @@
                             android:text="Pagada"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
+
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
+            <!-- CUOTA AGOSTO -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/bg_borde_card"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
                 android:padding="16dp"
                 android:orientation="vertical">
 
@@ -316,57 +371,66 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Vence: "
                                 android:textColor="@color/disabled"
                                 android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="10 Ago 2026"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tipo cuota: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Socio"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Forma de pago: "
                                 android:textColor="@color/disabled"
-                                android:textSize="14sp"
-                                />
+                                android:textSize="14sp" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tarjeta de crédito"
                                 android:textColor="@color/black"
                                 android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textStyle="bold" />
+
                         </LinearLayout>
 
                     </LinearLayout>
@@ -381,6 +445,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_gravity="center">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -389,7 +454,8 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:gravity="right"
-                            android:layout_marginBottom="12dp"/>
+                            android:layout_marginBottom="12dp" />
+
                         <TextView
                             style="@style/labelSuccess"
                             android:layout_width="wrap_content"
@@ -397,19 +463,15 @@
                             android:text="Pagada"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
+
                     </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
         </LinearLayout>
 
     </ScrollView>
-
-
-
-
 
 </LinearLayout>
