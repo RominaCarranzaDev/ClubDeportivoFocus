@@ -60,37 +60,40 @@ class ListadoPagoActivity : AppCompatActivity() {
             ).show()
 
             when (dni) {
-
                 "12345678" -> {
                     Toast.makeText(
                         this,
                         "Mostrando pagos de Juan Perez",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listadoPago.visibility = View.VISIBLE
                 }
 
-                "23456789" -> {
+                "11111111" -> {
                     Toast.makeText(
                         this,
                         "Mostrando pagos de Martin Rodriguez",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listadoPago.visibility = View.VISIBLE
                 }
 
-                "34567890" -> {
+                "22222222" -> {
                     Toast.makeText(
                         this,
                         "Mostrando pagos de Micaela Lopez",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listadoPago.visibility = View.VISIBLE
                 }
 
-                "45678901" -> {
+                "33333333" -> {
                     Toast.makeText(
                         this,
                         "Mostrando pagos de Camila Andrada",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listadoPago.visibility = View.VISIBLE
                 }
 
                 else -> {
@@ -99,11 +102,9 @@ class ListadoPagoActivity : AppCompatActivity() {
                         "No se encontró ningún socio con ese DNI",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listadoPago.visibility = View.GONE
                 }
             }
-
-            // Simular la carga de datos
-            listadoPago.visibility = View.VISIBLE
         }
 
         // Buscar al tocar la lupa
