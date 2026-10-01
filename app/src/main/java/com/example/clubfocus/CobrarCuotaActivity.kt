@@ -20,6 +20,7 @@ import com.example.clubfocus.data.entity.Promocion
 import com.example.clubfocus.data.entity.TipoCuota
 import com.example.clubfocus.data.repository.ClienteRepository
 import com.example.clubfocus.data.repository.CuotaRepository
+import java.time.LocalDate
 
 class CobrarCuotaActivity : AppCompatActivity() {
 
@@ -177,7 +178,7 @@ class CobrarCuotaActivity : AppCompatActivity() {
                     total.text = "$ ${cuotaActual.montoFinal}"
 
                     // Reiniciamos descuento
-                    descuento.text = "$ 0.0"
+                    descuento.text = "$ 0"
 
                 } else {
 
@@ -334,6 +335,27 @@ class CobrarCuotaActivity : AppCompatActivity() {
 
                 return@setOnClickListener
             }
+            // Validación para no duplicar pago diferenciando tipo de cliente
+            val hoy = LocalDate.now()
+
+            val tieneCuotaVigente = clienteActual.cuotas.any { cuota ->
+                cuota.estado == EstadoCuota.PAGADA &&
+                        cuota.fechaVencimiento >= hoy &&
+                        (
+                                (clienteActual.esSocio && cuota.tipo == TipoCuota.MENSUAL) ||
+                                        (!clienteActual.esSocio && cuota.tipo == TipoCuota.DIARIA)
+                                )
+            }
+
+            if (tieneCuotaVigente) {
+                Toast.makeText(
+                    this,
+                    "El cliente ya tiene la cuota vigente paga",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                return@setOnClickListener
+            }
 
             // MEDIO DE PAGO
             val formaPago = when (
@@ -382,7 +404,6 @@ class CobrarCuotaActivity : AppCompatActivity() {
             }
 
             //DETALLE DE PAGO
-
             val detalle = when (
                 rgPromo.checkedRadioButtonId
             ) {

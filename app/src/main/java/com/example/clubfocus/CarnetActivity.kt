@@ -49,7 +49,7 @@ class CarnetActivity : AppCompatActivity() {
 
                 txtNombreSocio.text = "${cliente.nombre} ${cliente.apellido}"
 
-                txtNroSocio.text = "${cliente.nroSocio}"
+                txtNroSocio.text = cliente.nroSocio
 
                 val carnet = CarnetRepository.buscarPorNroSocio(cliente.nroSocio)
 

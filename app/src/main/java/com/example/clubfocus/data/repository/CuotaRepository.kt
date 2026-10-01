@@ -85,26 +85,28 @@ object CuotaRepository {
     }
 
 
-
+    // Monto automático
     private fun obtenerMonto(tipo: TipoCuota): Double {
-
+        // Monto de Cuotas según tipo de cliente
         return when (tipo) {
             TipoCuota.MENSUAL -> 45000.0
             TipoCuota.DIARIA -> 20000.0
         }
     }
 
+    // Cálculo automático del vencimiento
     private fun calcularFechaVencimiento(
         fecha: LocalDate,
         tipo: TipoCuota
     ): LocalDate {
-
+        // Vencimiento según el tipo de cliente
         return when (tipo) {
             TipoCuota.MENSUAL -> fecha.plusMonths(1)
-            TipoCuota.DIARIA -> fecha.plusDays(1)
+            TipoCuota.DIARIA -> fecha
         }
     }
 
+    // Cálculo automático del monto final si corresponde o no promociones
     fun calcularMontoFinal(
         monto: Double,
         promocion: Promocion

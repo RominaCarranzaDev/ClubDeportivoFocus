@@ -6,7 +6,7 @@
 
     <!-- Textos para la pantalla Login -->
     <string name="label_usuario">USUARIO</string>
-    <string name="hint_email">admin@clubfocus.com</string>
+    <string name="hint_email">usuario</string>
     <string name="label_contrasena">CONTRASEÑA</string>
     <string name="image_description">Logo club deportivo Focus</string>
     <string name="hint_contrasena">••••••••</string>

@@ -18,7 +18,7 @@ object ClienteRepository {
         agregarCliente(
             nombre = "Socio",
             apellido = "Prueba",
-            dni = "12345678",
+            dni = "12341234",
             fechaNacimiento = LocalDate.of(1990, 5, 10),
             telefono = "1123456789",
             email = "socio@gmail.com",
@@ -35,6 +35,17 @@ object ClienteRepository {
             email = "nosocio@gmail.com",
             aptoFisico = true,
             esSocio = false,
+            activo = true
+        )
+        agregarCliente(
+            nombre = "Juan",
+            apellido = "Perez",
+            dni = "12345678",
+            fechaNacimiento = LocalDate.of(1990, 5, 10),
+            telefono = "1123456789",
+            email = "juanperez@gmail.com",
+            aptoFisico = true,
+            esSocio = true,
             activo = true
         )
     }
