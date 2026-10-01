@@ -62,7 +62,7 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
                 val intent = Intent(
                     this,
-                    ListadoCarnetActivity::class.java
+                    CarnetActivity::class.java
                 )
 
                 intent.putExtra(

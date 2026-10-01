@@ -52,7 +52,7 @@ object ClienteRepository {
     ) {
         //Si es socio le agrega las propiedades propias del socio
         if (esSocio) {
-            val nroSocio = "CAR$siguienteNroSocio"
+            val nroSocio = "CAR100$siguienteNroSocio"
 
             val socio = Socio(
                 id = siguienteId,

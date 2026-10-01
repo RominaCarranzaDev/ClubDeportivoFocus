@@ -5,6 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.clubfocus.data.entity.Socio
+import com.example.clubfocus.data.repository.CarnetRepository
+import com.example.clubfocus.data.repository.ClienteRepository
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -23,6 +26,9 @@ class CarnetActivity : AppCompatActivity() {
         val btnImprimir =
             findViewById<ImageView>(R.id.ImgImprimir)
 
+        val txtNroSocio =
+            findViewById<TextView>(R.id.txtNroSocio)
+
         val txtNombreSocio =
             findViewById<TextView>(R.id.txtNombreSocio)
 
@@ -32,37 +38,59 @@ class CarnetActivity : AppCompatActivity() {
         val txtFechaVencimiento =
             findViewById<TextView>(R.id.txtFechaVencimiento)
 
-        // Recibir el socio seleccionado
-        val nombreSocio =
-            intent.getStringExtra("nombreSocio") ?: "Juan Perez"
+        val socioDni =
+            intent.getStringExtra("clienteDNI") ?: ""
 
-        txtNombreSocio.text = nombreSocio
+        if (socioDni.isNotEmpty()) {
 
-        // Fecha de emisión: hoy
-        val formatoFecha =
-            SimpleDateFormat(
-                "dd/MM/yyyy",
-                Locale.getDefault()
+            val cliente = ClienteRepository.buscarPorDni(socioDni)
+
+            if (cliente is Socio) {
+
+                txtNombreSocio.text = "${cliente.nombre} ${cliente.apellido}"
+
+                txtNroSocio.text = "${cliente.nroSocio}"
+
+                val carnet = CarnetRepository.buscarPorNroSocio(cliente.nroSocio)
+
+                if (carnet != null) {
+                    txtFechaEmision.text = "${carnet.fechaEmision}"
+                    txtFechaVencimiento.text = "${carnet.fechaVencimiento}"
+                }
+            }
+
+        } else {
+            // Recibir el socio seleccionado
+            val nombreSocio =
+                intent.getStringExtra("nombreSocio") ?: "Juan Perez"
+
+            txtNombreSocio.text = nombreSocio
+
+            // Fecha de emisión: hoy
+            val formatoFecha =
+                SimpleDateFormat(
+                    "dd/MM/yyyy",
+                    Locale.getDefault()
+                )
+
+            val fechaEmision = Date()
+
+            txtFechaEmision.text =
+                formatoFecha.format(fechaEmision)
+
+            // Fecha de vencimiento: 30 días después
+            val calendario = Calendar.getInstance()
+
+            calendario.time = fechaEmision
+
+            calendario.add(
+                Calendar.DAY_OF_YEAR,
+                30
             )
 
-        val fechaEmision = Date()
-
-        txtFechaEmision.text =
-            formatoFecha.format(fechaEmision)
-
-        // Fecha de vencimiento: 30 días después
-        val calendario = Calendar.getInstance()
-
-        calendario.time = fechaEmision
-
-        calendario.add(
-            Calendar.DAY_OF_YEAR,
-            30
-        )
-
-        txtFechaVencimiento.text =
-            formatoFecha.format(calendario.time)
-
+            txtFechaVencimiento.text =
+                formatoFecha.format(calendario.time)
+        }
         // Volver
         btnVolver.setOnClickListener {
             finish()
