@@ -94,7 +94,6 @@ class RegistrarSocioActivity : AppCompatActivity() {
                     aptoFisico = presentoApto,
                     activo = true,
                     esSocio = esSocio,
-                    fechaInscripcion = LocalDate.now()
                 )
 
                 // F. Mensaje de éxito y navegación
@@ -106,7 +105,10 @@ class RegistrarSocioActivity : AppCompatActivity() {
                 ).show()
 
                 // G. Viajamos a la pantalla de confirmación
-                val intent = Intent(this, RegistroExitosoActivity::class.java)
+                val intent = Intent(this, CobrarCuotaActivity::class.java)
+
+                intent.putExtra("clienteDNI", dni)
+
                 startActivity(intent)
 
                 // H. Destruimos esta pantalla para no volver atrás

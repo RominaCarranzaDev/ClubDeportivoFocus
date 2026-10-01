@@ -1,15 +1,19 @@
 package com.example.clubfocus.data.repository
 
 import com.example.clubfocus.data.entity.Cliente
+import com.example.clubfocus.data.entity.Socio
+import com.example.clubfocus.data.repository.CarnetRepository
 import java.time.LocalDate
 
 
 object ClienteRepository {
 
     private var siguienteId = 1
+    private var siguienteNroSocio = 1
 
     private val clientes = mutableListOf<Cliente>()
 
+    // Socio y No socio iniciales de prueba
     init {
         agregarCliente(
             nombre = "Socio",
@@ -19,9 +23,8 @@ object ClienteRepository {
             telefono = "1123456789",
             email = "socio@gmail.com",
             aptoFisico = true,
-            activo = true,
             esSocio = true,
-            fechaInscripcion = LocalDate.now()
+            activo = true
         )
         agregarCliente(
             nombre = "No Socio",
@@ -31,12 +34,11 @@ object ClienteRepository {
             telefono = "1145678901",
             email = "nosocio@gmail.com",
             aptoFisico = true,
-            activo = true,
             esSocio = false,
-            fechaInscripcion = LocalDate.now()
+            activo = true
         )
     }
-
+    // Create Cliente
     fun agregarCliente(
         nombre: String,
         apellido: String,
@@ -45,41 +47,65 @@ object ClienteRepository {
         telefono: String,
         email: String,
         aptoFisico: Boolean,
-        activo: Boolean,
         esSocio: Boolean,
-        fechaInscripcion: LocalDate
+        activo: Boolean
     ) {
-        val cliente = Cliente(
-            id = siguienteId,
-            nombre = nombre,
-            apellido = apellido,
-            dni = dni,
-            fechaNacimiento = fechaNacimiento,
-            telefono = telefono,
-            email = email,
-            aptoFisico = aptoFisico,
-            activo = activo,
-            esSocio = esSocio,
-            fechaInscripcion = fechaInscripcion,
-            cuotas = mutableListOf()
-        )
+        //Si es socio le agrega las propiedades propias del socio
+        if (esSocio) {
+            val nroSocio = "CAR$siguienteNroSocio"
 
-        clientes.add(cliente)
+            val socio = Socio(
+                id = siguienteId,
+                nombre = nombre,
+                apellido = apellido,
+                dni = dni,
+                fechaNacimiento = fechaNacimiento,
+                telefono = telefono,
+                email = email,
+                aptoFisico = aptoFisico,
+                activo = activo,
+                fechaInscripcion = LocalDate.now(),
+                cuotas = mutableListOf(),
+                nroSocio = nroSocio
+            )
+
+
+            clientes.add(socio)
+
+            CarnetRepository.agregarCarnet(nroSocio)
+
+            siguienteNroSocio++
+
+        } else {
+
+            val cliente = Cliente(
+                id = siguienteId,
+                nombre = nombre,
+                apellido = apellido,
+                dni = dni,
+                fechaNacimiento = fechaNacimiento,
+                telefono = telefono,
+                email = email,
+                aptoFisico = aptoFisico,
+                activo = activo,
+                esSocio = false,
+                fechaInscripcion = LocalDate.now(),
+                cuotas = mutableListOf()
+            )
+
+            clientes.add(cliente)
+        }
+
         siguienteId++
     }
+
 
     fun buscarPorId(id: Int): Cliente? {
         return clientes.find { it.id == id }
     }
 
-    fun buscarPorDni(dni: String): Cliente? {
+    fun buscarPorDni(dni: String?): Cliente? {
         return clientes.find { it.dni == dni }
-    }
-
-    fun buscarPorApellido(apellido: String): List<Cliente> {
-        return clientes.filter {
-            it.apellido.equals(apellido, ignoreCase = true)
-        }
     }
 
     fun obtenerTodos(): List<Cliente> {

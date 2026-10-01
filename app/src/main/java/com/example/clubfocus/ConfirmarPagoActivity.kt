@@ -24,8 +24,11 @@ class ConfirmarPagoActivity : AppCompatActivity() {
         val esSocio =
             intent.getBooleanExtra("esSocio", false)
 
-        val total =
-            intent.getStringExtra("total") ?: ""
+        val dni =
+            intent.getStringExtra("clienteDNI") ?: ""
+
+        val detallePago =
+            intent.getStringExtra("detallePago") ?: ""
 
         btnCarnet.alpha = 1f
 
@@ -39,8 +42,13 @@ class ConfirmarPagoActivity : AppCompatActivity() {
             )
 
             intent.putExtra(
-                "total",
-                total
+                "clienteDNI",
+                dni
+            )
+
+            intent.putExtra(
+                "detallePago",
+                detallePago
             )
 
             startActivity(intent)
@@ -55,6 +63,11 @@ class ConfirmarPagoActivity : AppCompatActivity() {
                 val intent = Intent(
                     this,
                     ListadoCarnetActivity::class.java
+                )
+
+                intent.putExtra(
+                    "clienteDNI",
+                    dni
                 )
 
                 startActivity(intent)

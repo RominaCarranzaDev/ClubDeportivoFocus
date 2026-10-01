@@ -2,7 +2,7 @@ package com.example.clubfocus.data.entity
 
 import java.time.LocalDate
 
-data class Cliente(
+open class Cliente(
     val id: Int,
     val nombre: String,
     val apellido: String,
@@ -14,5 +14,5 @@ data class Cliente(
     val activo: Boolean,
     val esSocio: Boolean,
     val fechaInscripcion: LocalDate,
-    val cuotas: MutableList<Cuota>
+    val cuotas: MutableList<Cuota> = mutableListOf()
 )
