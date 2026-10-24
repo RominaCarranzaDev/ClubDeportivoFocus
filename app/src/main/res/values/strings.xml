@@ -75,6 +75,8 @@
     <string name="monto_inicial_cero">$ 0</string>
     <string name="monto_inicial_final">$ 0</string>
     <string name="descuento_inicial_cero">- $ 0</string>
+    <string name="monto_formato">$ %1$s</string>
+    <string name="cliente_encontrado_format">Cliente encontrado: %1$s %2$s</string>
 
     <string name="btn_confirmar_pago">confirmar pago</string>
 

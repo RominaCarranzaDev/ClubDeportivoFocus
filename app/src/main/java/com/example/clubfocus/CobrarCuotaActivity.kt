@@ -1,5 +1,6 @@
 package com.example.clubfocus
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
@@ -18,8 +19,9 @@ import com.example.clubfocus.data.entity.EstadoCuota
 import com.example.clubfocus.data.entity.MedioPago
 import com.example.clubfocus.data.entity.Promocion
 import com.example.clubfocus.data.entity.TipoCuota
-import com.example.clubfocus.data.repository.ClienteRepository
 import com.example.clubfocus.data.repository.CuotaRepository
+import com.example.clubfocus.helperDB.ClientesDBHelper
+import com.example.clubfocus.helperDB.CuotasDBHelper
 import java.time.LocalDate
 
 class CobrarCuotaActivity : AppCompatActivity() {
@@ -33,6 +35,10 @@ class CobrarCuotaActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_cobrar_cuota)
 
+        // Instancias de los Helpers de la base de datos
+        val dbHelper = ClientesDBHelper(this)
+        val cuotasHelper = CuotasDBHelper(this)
+
         // DNI recibido desde la Activity anterior
         val dniParam = intent.getStringExtra("clienteDNI")
 
@@ -43,29 +49,16 @@ class CobrarCuotaActivity : AppCompatActivity() {
         val descuento = findViewById<TextView>(R.id.textDescuento)
         val btnConfirmarPago = findViewById<Button>(R.id.btnRegistrarPago)
 
-        val rgMedioPago =
-            findViewById<RadioGroup>(R.id.rgMedioPago)
+        val rgMedioPago = findViewById<RadioGroup>(R.id.rgMedioPago)
+        val rbPagoEfectivo = findViewById<RadioButton>(R.id.rbPagoEfectivo)
+        val rbPagoTarjeta = findViewById<RadioButton>(R.id.rbPagoTarjetaCred)
+        val rbPagoDebito = findViewById<RadioButton>(R.id.rbPagoTarjetaDeb)
 
-        val rbPagoEfectivo =
-            findViewById<RadioButton>(R.id.rbPagoEfectivo)
+        val rgPromo = findViewById<RadioGroup>(R.id.rgPromo)
+        val rbPromo3 = findViewById<RadioButton>(R.id.rbPromo3c)
+        val rbPromo6 = findViewById<RadioButton>(R.id.rbPromo6c)
 
-        val rbPagoTarjeta =
-            findViewById<RadioButton>(R.id.rbPagoTarjetaCred)
-
-        val rbPagoDebito =
-            findViewById<RadioButton>(R.id.rbPagoTarjetaDeb)
-
-        val rgPromo =
-            findViewById<RadioGroup>(R.id.rgPromo)
-
-        val rbPromo3 =
-            findViewById<RadioButton>(R.id.rbPromo3c)
-
-        val rbPromo6 =
-            findViewById<RadioButton>(R.id.rbPromo6c)
-
-        val txtVolver =
-            findViewById<TextView>(R.id.txtVolver)
+        val txtVolver = findViewById<TextView>(R.id.txtVolver)
 
         // VOLVER
         txtVolver.setOnClickListener {
@@ -74,16 +67,13 @@ class CobrarCuotaActivity : AppCompatActivity() {
 
         // SI LLEGA EL DNI DESDE LA ACTIVITY ANTERIOR
         if (dniParam != null) {
-
             dniCliente.setText(dniParam)
-
-            cliente = ClienteRepository.buscarPorDni(dniParam)
+            cliente = dbHelper.buscarPorDni(dniParam)
 
             if (cliente != null) {
-
                 val clienteActual = cliente!!
 
-                // Creamos la cuota inicial
+                // Creamos la cuota inicial con los valores de negocio
                 cuota = CuotaRepository.crearCuotaInicial(
                     clienteId = clienteActual.id,
                     tipo = if (clienteActual.esSocio) {
@@ -94,30 +84,22 @@ class CobrarCuotaActivity : AppCompatActivity() {
                 )
 
                 // Mostramos concepto
-                concepto.text =
-                    if (clienteActual.esSocio) {
-                        "Cuota Mensual"
-                    } else {
-                        "Cuota Diaria"
-                    }
+                concepto.text = if (clienteActual.esSocio) "Cuota Mensual" else "Cuota Diaria"
 
-                //Cargar cuota
+                // Cargar cuota en los TextViews
                 val cuotaActual = cuota
-
                 if (cuotaActual != null) {
-                    monto.text = "$ ${cuotaActual.monto}"
-                    total.text = "$ ${cuotaActual.montoFinal}"
+                    monto.text = getString(R.string.monto_formato, cuotaActual.monto.toString())
+                    total.text = getString(R.string.monto_formato, cuotaActual.montoFinal.toString())
                 }
 
                 // Habilitamos medios de pago
                 rbPagoEfectivo.isEnabled = true
                 rbPagoEfectivo.isChecked = true
-
                 rbPagoTarjeta.isEnabled = true
                 rbPagoDebito.isEnabled = true
 
             } else {
-
                 Toast.makeText(
                     this,
                     "No se encontró ningún cliente con ese DNI",
@@ -126,34 +108,26 @@ class CobrarCuotaActivity : AppCompatActivity() {
             }
         }
 
-        // FUNCIÓN PARA BUSCAR EL DNI
+        // FUNCIÓN PARA BUSCAR EL DNI MANUALMENTE
         fun buscarDni() {
-
             val dni = dniCliente.text.toString().trim()
 
             if (dni.length > 6) {
-
-                // Guardamos el cliente encontrado en la propiedad de la Activity.
-                cliente = ClienteRepository.buscarPorDni(dni)
-
+                cliente = dbHelper.buscarPorDni(dni)
                 val clienteActual = cliente
 
                 if (clienteActual != null) {
-
                     Toast.makeText(
                         this,
-                        "Cliente encontrado: ${clienteActual.nombre} ${clienteActual.apellido}",
+                        getString(R.string.cliente_encontrado_format, clienteActual.nombre, clienteActual.apellido),
                         Toast.LENGTH_LONG
                     ).show()
 
-                    // Habilitamos medios de pago
                     rbPagoEfectivo.isEnabled = true
                     rbPagoEfectivo.isChecked = true
-
                     rbPagoTarjeta.isEnabled = true
                     rbPagoDebito.isEnabled = true
 
-                    // Creamos la única instancia de cuota
                     cuota = CuotaRepository.crearCuotaInicial(
                         clienteId = clienteActual.id,
                         tipo = if (clienteActual.esSocio) {
@@ -163,94 +137,57 @@ class CobrarCuotaActivity : AppCompatActivity() {
                         }
                     )
 
-                    // Concepto de la cuota
-                    concepto.text =
-                        if (clienteActual.esSocio) {
-                            "Cuota Mensual"
-                        } else {
-                            "Cuota Diaria"
-                        }
+                    concepto.text = if (clienteActual.esSocio) "Cuota Mensual" else "Cuota Diaria"
 
-                    // Obtenemos la cuota de forma segura
                     val cuotaActual = cuota ?: return
-
-                    monto.text = "$ ${cuotaActual.monto}"
-                    total.text = "$ ${cuotaActual.montoFinal}"
-
-                    // Reiniciamos descuento
-                    descuento.text = "$ 0"
+                    monto.text = getString(R.string.monto_formato, cuotaActual.monto.toString())
+                    total.text = getString(R.string.monto_formato, cuotaActual.montoFinal.toString())
+                    descuento.text = getString(R.string.monto_formato, "0")
 
                 } else {
-
                     Toast.makeText(
                         this,
                         "No se encontró ningún cliente con ese DNI",
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    // Eliminamos la cuota anterior
                     cuota = null
-
                     rgMedioPago.clearCheck()
-
                     rbPagoEfectivo.isEnabled = false
                     rbPagoTarjeta.isEnabled = false
                     rbPagoDebito.isEnabled = false
-
                     rgPromo.clearCheck()
-
                     rbPromo3.isEnabled = false
                     rbPromo6.isEnabled = false
                 }
 
             } else {
-
-                Toast.makeText(
-                    this,
-                    "DNI no válido",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "DNI no válido", Toast.LENGTH_LONG).show()
             }
         }
 
         // BUSCAR CON LA LUPA DEL CAMPO DNI
-        dniCliente.setOnTouchListener { _, event ->
-
+        @SuppressLint("ClickableViewAccessibility")
+        dniCliente.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-
-                val drawableEnd =
-                    dniCliente.compoundDrawables[2]
-
+                val drawableEnd = dniCliente.compoundDrawables[2]
                 if (drawableEnd != null) {
-
-                    val drawableWidth =
-                        drawableEnd.bounds.width()
-
-                    if (
-                        event.x >= dniCliente.width -
-                        dniCliente.paddingEnd -
-                        drawableWidth -
-                        40
-                    ) {
-
+                    val drawableWidth = drawableEnd.bounds.width()
+                    if (event.x >= dniCliente.width - dniCliente.paddingEnd - drawableWidth - 40) {
+                        v.performClick()
                         buscarDni()
-
                         return@setOnTouchListener true
                     }
                 }
             }
-
             false
         }
 
         // BUSCAR CON LA LUPA DEL TECLADO
         dniCliente.setOnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
                 buscarDni()
                 true
-
             } else {
                 false
             }
@@ -258,16 +195,11 @@ class CobrarCuotaActivity : AppCompatActivity() {
 
         // TARJETA DE CRÉDITO
         rbPagoTarjeta.setOnCheckedChangeListener { _, _ ->
-
             if (rbPagoTarjeta.isChecked) {
-
                 rbPromo3.isEnabled = true
                 rbPromo6.isEnabled = true
-
             } else {
-
                 rgPromo.clearCheck()
-
                 rbPromo3.isEnabled = false
                 rbPromo6.isEnabled = false
             }
@@ -275,188 +207,102 @@ class CobrarCuotaActivity : AppCompatActivity() {
 
         // PROMOCIONES
         rgPromo.setOnCheckedChangeListener { _, checkedId ->
-
-            val cuotaActual =
-                cuota ?: return@setOnCheckedChangeListener
+            val cuotaActual = cuota ?: return@setOnCheckedChangeListener
 
             when (checkedId) {
-
-                R.id.rbPromo3c -> {
-
-                    CuotaRepository.aplicarPromocion(
-                        cuotaActual,
-                        Promocion.TRES_CUOTAS
-                    )
-                }
-
-                R.id.rbPromo6c -> {
-
-                    CuotaRepository.aplicarPromocion(
-                        cuotaActual,
-                        Promocion.SEIS_CUOTAS
-                    )
-                }
-
-                else -> {
-
-                    CuotaRepository.aplicarPromocion(
-                        cuotaActual,
-                        Promocion.SIN_PROMOCION
-                    )
-                }
+                R.id.rbPromo3c -> CuotaRepository.aplicarPromocion(cuotaActual, Promocion.TRES_CUOTAS)
+                R.id.rbPromo6c -> CuotaRepository.aplicarPromocion(cuotaActual, Promocion.SEIS_CUOTAS)
+                else -> CuotaRepository.aplicarPromocion(cuotaActual, Promocion.SIN_PROMOCION)
             }
 
-            // Calculamos el descuento
-            val importeDescuento =
-                cuotaActual.monto - cuotaActual.montoFinal
-
-            descuento.text =
-                "$ $importeDescuento"
-
-            // Actualizamos el total
-            total.text =
-                "$ ${cuotaActual.montoFinal}"
+            val importeDescuento = cuotaActual.monto - cuotaActual.montoFinal
+            descuento.text = getString(R.string.monto_formato, importeDescuento.toString())
+            total.text = getString(R.string.monto_formato, cuotaActual.montoFinal.toString())
         }
 
         // CONFIRMAR PAGO
         btnConfirmarPago.setOnClickListener {
-
-            // Guardamos las propiedades en variables locales para evitar el error de Smart Cast.
             val clienteActual = cliente
             val cuotaActual = cuota
 
             if (clienteActual == null || cuotaActual == null) {
-
-                Toast.makeText(
-                    this,
-                    "Primero ingresá un DNI válido",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                Toast.makeText(this, "Primero ingresá un DNI válido", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            // Validación para no duplicar pago diferenciando tipo de cliente
-            val hoy = LocalDate.now()
 
-            val tieneCuotaVigente = clienteActual.cuotas.any { cuota ->
-                cuota.estado == EstadoCuota.PAGADA &&
-                        cuota.fechaVencimiento >= hoy &&
-                        (
-                                (clienteActual.esSocio && cuota.tipo == TipoCuota.MENSUAL) ||
-                                        (!clienteActual.esSocio && cuota.tipo == TipoCuota.DIARIA)
-                                )
-            }
-
-            if (tieneCuotaVigente) {
+            // 1. VALIDACIÓN EN SQLITE: Evitar duplicar pago si la cuota sigue vigente
+            if (cuotasHelper.tieneCuotaVigente(clienteActual.dni)) {
                 Toast.makeText(
                     this,
                     "El cliente ya tiene la cuota vigente paga",
                     Toast.LENGTH_LONG
                 ).show()
-
                 return@setOnClickListener
             }
 
             // MEDIO DE PAGO
-            val formaPago = when (
-                rgMedioPago.checkedRadioButtonId
-            ) {
-
-                R.id.rbPagoEfectivo ->
-                    MedioPago.EFECTIVO
-
-                R.id.rbPagoTarjetaCred ->
-                    MedioPago.TARJETA_CREDITO
-
-                R.id.rbPagoTarjetaDeb ->
-                    MedioPago.TARJETA_DEBITO
-
+            val formaPago = when (rgMedioPago.checkedRadioButtonId) {
+                R.id.rbPagoEfectivo -> MedioPago.EFECTIVO
+                R.id.rbPagoTarjetaCred -> MedioPago.TARJETA_CREDITO
+                R.id.rbPagoTarjetaDeb -> MedioPago.TARJETA_DEBITO
                 else -> null
             }
 
             if (formaPago == null) {
-
-                Toast.makeText(
-                    this,
-                    "Seleccioná un medio de pago",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                Toast.makeText(this, "Seleccioná un medio de pago", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Guardamos el medio de pago en la cuota
             cuotaActual.medioPago = formaPago
 
             // PROMOCIÓN
-            val promocion = when (
-                rgPromo.checkedRadioButtonId
-            ) {
-
-                R.id.rbPromo3c ->
-                    Promocion.TRES_CUOTAS
-
-                R.id.rbPromo6c ->
-                    Promocion.SEIS_CUOTAS
-
-                else ->
-                    Promocion.SIN_PROMOCION
+            val promocion = when (rgPromo.checkedRadioButtonId) {
+                R.id.rbPromo3c -> Promocion.TRES_CUOTAS
+                R.id.rbPromo6c -> Promocion.SEIS_CUOTAS
+                else -> Promocion.SIN_PROMOCION
             }
 
-            //DETALLE DE PAGO
-            val detalle = when (
-                rgPromo.checkedRadioButtonId
-            ) {
-
-                R.id.rbPromo3c ->
-                    "3 cuotas. 15% de descuento"
-
-                R.id.rbPromo6c ->
-                    "6 cuotas. 10% de descuento"
-
-                else ->
-                    "Pago único"
+            val detalle = when (rgPromo.checkedRadioButtonId) {
+                R.id.rbPromo3c -> "3 cuotas. 15% de descuento"
+                R.id.rbPromo6c -> "6 cuotas. 10% de descuento"
+                else -> "Pago único"
             }
 
-            // Guardamos la promoción
             cuotaActual.promocion = promocion
-
-            // CALCULAR TOTAL
-            cuotaActual.montoFinal =
-                CuotaRepository.calcularMontoFinal(
-                    cuotaActual.monto,
-                    promocion
-                )
-
-            // AGREGAR LA CUOTA AL CLIENTE
-            clienteActual.cuotas.add(cuotaActual)
-
+            cuotaActual.montoFinal = CuotaRepository.calcularMontoFinal(cuotaActual.monto, promocion)
             cuotaActual.estado = EstadoCuota.PAGADA
 
-            // ABRIR CONFIRMAR PAGO
+            // Mantenemos la lista en memoria para pantallas secundarias
+            clienteActual.cuotas.add(cuotaActual)
 
-            val intent = Intent(
-                this,
-                ConfirmarPagoActivity::class.java
+            // 2. PERSISTENCIA EN SQLITE: Guardado del pago en la tabla cuotas
+            val resultado = cuotasHelper.registrarPago(
+                dniCliente = clienteActual.dni,
+                tipo = cuotaActual.tipo.name,
+                monto = cuotaActual.monto,
+                montoFinal = cuotaActual.montoFinal,
+                fechaPago = LocalDate.now().toString(),
+                fechaVencimiento = cuotaActual.fechaVencimiento.toString(),
+                medioPago = formaPago.name,
+                estado = "PAGADA",
+                promocion = promocion.name
             )
 
-            intent.putExtra(
-                "esSocio",
-                clienteActual.esSocio
-            )
-
-            intent.putExtra(
-                "detallePago",
-                detalle
-            )
-
-            // Pasamos nuevamente el DNI
-            intent.putExtra(
-                "clienteDNI",
-                clienteActual.dni
-            )
-
-            startActivity(intent)
+            // 3. Verificamos que SQLite haya insertado la fila con éxito
+            if (resultado != -1L) {
+                val intent = Intent(this, ConfirmarPagoActivity::class.java).apply {
+                    putExtra("esSocio", clienteActual.esSocio)
+                    putExtra("detallePago", detalle)
+                    putExtra("clienteDNI", clienteActual.dni)
+                }
+                startActivity(intent)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Error al registrar el pago en la base de datos",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

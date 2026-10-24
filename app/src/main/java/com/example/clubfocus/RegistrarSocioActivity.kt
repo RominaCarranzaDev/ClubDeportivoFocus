@@ -10,7 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import com.example.clubfocus.data.repository.ClienteRepository
+import com.example.clubfocus.helperDB.ClientesDBHelper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -77,6 +77,15 @@ class RegistrarSocioActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
+            } else if (!(android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches())) {
+
+                // Validación de email formato válido
+                Toast.makeText(
+                    this,
+                    "Ingrese un mail válido",
+                    Toast.LENGTH_SHORT
+                ).show()
+
             } else {
 
                 // D. Validamos que la fecha tenga exactamente el formato dd/MM/yyyy
@@ -108,36 +117,53 @@ class RegistrarSocioActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                // E. Guardamos en el objeto compartido del Repositorio
-                ClienteRepository.agregarCliente(
+                // E. Instanciamos el Helper de la base de datos
+                val dbHelper = ClientesDBHelper(this)
+
+                // Evitamos duplicar DNI
+                if (dbHelper.existeCliente(dni)) {
+                    Toast.makeText(
+                        this,
+                        "Ya existe un cliente o socio con ese DNI",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                // F. Guardamos en la tabla SQLite
+                val resultado = dbHelper.agregarCliente(
                     nombre = nombre,
                     apellido = apellido,
                     dni = dni,
-                    fechaNacimiento = fechaNacimientoLocalDate,
-                    telefono = "",
+                    fechaNacimiento = fechaTexto,
                     email = correo,
                     aptoFisico = presentoApto,
-                    activo = true,
-                    esSocio = esSocio,
+                    esSocio = esSocio
                 )
 
-                // F. Mensaje de éxito y navegación
-                val tipoUsuario = if (esSocio) "Socio" else "No Socio"
-                Toast.makeText(
-                    this,
-                    "$tipoUsuario $nombre $apellido registrado correctamente",
-                    Toast.LENGTH_SHORT
-                ).show()
+                // G. Verificamos el resultado (-1L es error en inserción)
+                if (resultado != -1L) {
+                    val tipoUsuario = if (esSocio) "Socio" else "No Socio"
+                    Toast.makeText(
+                        this,
+                        "$tipoUsuario $nombre $apellido registrado correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                // G. Viajamos a la pantalla de confirmación
-                val intent = Intent(this, RegistroExitosoActivity::class.java)
+                    // H. Viajamos a la pantalla de confirmación
+                    val intent = Intent(this, RegistroExitosoActivity::class.java)
+                    intent.putExtra("clienteDNI", dni)
+                    startActivity(intent)
 
-                intent.putExtra("clienteDNI", dni)
-
-                startActivity(intent)
-
-                // H. Destruimos esta pantalla para no volver atrás
-                finish()
+                    // I. Destruimos esta pantalla para no volver atrás
+                    finish()
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Error al guardar en la base de datos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }
