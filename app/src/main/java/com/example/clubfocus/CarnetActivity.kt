@@ -5,20 +5,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.clubfocus.data.entity.Socio
-import com.example.clubfocus.data.repository.CarnetRepository
-import com.example.clubfocus.data.repository.ClienteRepository
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
+import com.example.clubfocus.helperDB.CarnetDBHelper
+
 
 class CarnetActivity : AppCompatActivity() {
 
+    private lateinit var carnetDBHelper: CarnetDBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_carnet)
+
+        carnetDBHelper = CarnetDBHelper(this)
 
         val btnVolver =
             findViewById<TextView>(R.id.txtVolver)
@@ -38,71 +36,72 @@ class CarnetActivity : AppCompatActivity() {
         val txtFechaVencimiento =
             findViewById<TextView>(R.id.txtFechaVencimiento)
 
-        val socioDni =
-            intent.getStringExtra("clienteDNI") ?: ""
+        // Dejar los campos vacíos inicialmente.
+        txtNroSocio.text = ""
+        txtNombreSocio.text = ""
+        txtFechaEmision.text = ""
+        txtFechaVencimiento.text = ""
 
-        if (socioDni.isNotEmpty()) {
+        // Deshabilitar impresión hasta encontrar un carnet.
+        btnImprimir.isEnabled = false
 
-            val cliente = ClienteRepository.buscarPorDni(socioDni)
+        // Recibir el ID enviado desde las distintas activitys.
+        val carnetId = intent.getIntExtra("carnet_id", -1)
+        val dniCliente = intent.getStringExtra("clienteDNI")
 
-            if (cliente is Socio) {
-
-                txtNombreSocio.text = "${cliente.nombre} ${cliente.apellido}"
-
-                txtNroSocio.text = cliente.nroSocio
-
-                val carnet = CarnetRepository.buscarPorNroSocio(cliente.nroSocio)
-
-                if (carnet != null) {
-                    txtFechaEmision.text = "${carnet.fechaEmision}"
-                    txtFechaVencimiento.text = "${carnet.fechaVencimiento}"
-                }
+        val carnet = when {
+            carnetId != -1 -> {
+                carnetDBHelper.buscarCarnetConDatosPorId(carnetId)
             }
 
-        } else {
-            // Recibir el socio seleccionado
-            val nombreSocio =
-                intent.getStringExtra("nombreSocio") ?: "Juan Perez"
+            !dniCliente.isNullOrBlank() -> {
+                carnetDBHelper.buscarCarnetPorDni(dniCliente)
+            }
 
-            txtNombreSocio.text = nombreSocio
+            else -> null
+        }
 
-            // Fecha de emisión: hoy
-            val formatoFecha =
-                SimpleDateFormat(
-                    "dd/MM/yyyy",
-                    Locale.getDefault()
-                )
+        if (carnet != null) {
 
-            val fechaEmision = Date()
+            txtNroSocio.text = carnet.nroSocio
+
+            txtNombreSocio.text =
+                "${carnet.nombre} ${carnet.apellido}"
+
+            val formatter =
+                java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
             txtFechaEmision.text =
-                formatoFecha.format(fechaEmision)
-
-            // Fecha de vencimiento: 30 días después
-            val calendario = Calendar.getInstance()
-
-            calendario.time = fechaEmision
-
-            calendario.add(
-                Calendar.DAY_OF_YEAR,
-                30
-            )
+                carnet.fechaEmision.format(formatter)
 
             txtFechaVencimiento.text =
-                formatoFecha.format(calendario.time)
+                carnet.fechaVencimiento.format(formatter)
+
+            btnImprimir.isEnabled = true
+
+        } else {
+            btnImprimir.isEnabled = false
+
+            Toast.makeText(
+                this,
+                "No se encontró el carnet del socio",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        // Volver
+
+
         btnVolver.setOnClickListener {
             finish()
         }
 
-        // Imprimir
         btnImprimir.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Carnet enviado a la impresora",
-                Toast.LENGTH_LONG
-            ).show()
+            if (btnImprimir.isEnabled) {
+                Toast.makeText(
+                    this,
+                    "Carnet enviado a la impresora",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 }

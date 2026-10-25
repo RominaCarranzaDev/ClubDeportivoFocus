@@ -10,195 +10,88 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.clubfocus.adapter.CarnetAdapter
+import com.example.clubfocus.data.entity.CarnetListado
+import com.example.clubfocus.helperDB.CarnetDBHelper
+
 
 class ListadoCarnetActivity : AppCompatActivity() {
 
-    private var carnetSeleccionado: LinearLayout? = null
-    private var nombreSocioSeleccionado: String? = null
+    private lateinit var rvCarnets: RecyclerView
+    private lateinit var carnetAdapter: CarnetAdapter
+    private lateinit var etBuscador: EditText
+    private var todosLosCarnets: List<CarnetListado> = emptyList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_listado_carnet)
 
-        val txtVolver =
-            findViewById<TextView>(R.id.txtVolver)
+        val carnetDBHelper = CarnetDBHelper(this)
 
-        val etBuscador =
-            findViewById<EditText>(R.id.etBuscador)
+        rvCarnets = findViewById(R.id.rvCarnets)
+        etBuscador = findViewById(R.id.etBuscador)
 
-        val btnBuscar =
-            findViewById<ImageView>(R.id.btnBuscar)
-
-        val btnImprimir =
-            findViewById<Button>(R.id.btnImprimirCarnet)
-
-        val carnetJuan =
-            findViewById<LinearLayout>(R.id.carnetJuan)
-
-        val carnetMartin =
-            findViewById<LinearLayout>(R.id.carnetMartin)
-
-        val carnetMicaela =
-            findViewById<LinearLayout>(R.id.carnetMicaela)
-
-        val carnetCamila =
-            findViewById<LinearLayout>(R.id.carnetCamila)
+        val txtVolver = findViewById<TextView>(R.id.txtVolver)
+        val btnBuscar = findViewById<ImageView>(R.id.btnBuscar)
 
         txtVolver.setOnClickListener {
             finish()
         }
 
-        seleccionarCarnet(carnetJuan, "Juan Perez")
-        seleccionarCarnet(carnetMartin, "Martin Rodriguez")
-        seleccionarCarnet(carnetMicaela, "Micaela Lopez")
-        seleccionarCarnet(carnetCamila, "Camila Andrada")
+        // Configurar el RecyclerView.
+        carnetAdapter = CarnetAdapter(emptyList()) { carnet ->
+            val intent = Intent(this, CarnetActivity::class.java)
 
+            intent.putExtra("carnet_id", carnet.id)
+            startActivity(intent)
+        }
+
+        rvCarnets.layoutManager = LinearLayoutManager(this)
+        rvCarnets.adapter = carnetAdapter
+
+        // Cargar todos los carnets.
+        todosLosCarnets = carnetDBHelper.obtenerCarnetsConDatosSocio()
+
+        carnetAdapter.actualizarLista(todosLosCarnets)
+
+        // Buscar por DNI.
         btnBuscar.setOnClickListener {
-            val dni = etBuscador.text.toString().trim()
-
-            if (dni.isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Ingresá un DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                buscarCarnetPorDni(dni)
-            }
+            buscarPorDni()
         }
 
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-                val dni = etBuscador.text.toString().trim()
-
-                if (dni.isEmpty()) {
-                    Toast.makeText(
-                        this,
-                        "Ingresá un DNI",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                } else {
-                    buscarCarnetPorDni(dni)
-                }
-
+                buscarPorDni()
                 true
             } else {
                 false
             }
         }
-
-        btnImprimir.setOnClickListener {
-
-            if (carnetSeleccionado == null) {
-
-                Toast.makeText(
-                    this,
-                    "Seleccioná un carnet primero",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            } else {
-
-                val intent = Intent(
-                    this,
-                    CarnetActivity::class.java
-                )
-
-                intent.putExtra(
-                    "nombreSocio",
-                    nombreSocioSeleccionado
-                )
-
-                startActivity(intent)
-            }
-        }
     }
 
-    private fun seleccionarCarnet(
-        carnet: LinearLayout,
-        nombre: String
-    ) {
+    private fun buscarPorDni() {
+        val dni = etBuscador.text.toString().trim()
 
-        carnet.setOnClickListener {
-
-            carnetSeleccionado?.setBackgroundResource(
-                R.drawable.bg_card_carnet
-            )
-
-            carnetSeleccionado = carnet
-            nombreSocioSeleccionado = nombre
-
-            carnet.setBackgroundResource(
-                R.drawable.bg_card_carnet_seleccionado
-            )
+        if (dni.isEmpty()) {
+            carnetAdapter.actualizarLista(todosLosCarnets)
+            return
         }
-    }
 
-    private fun buscarCarnetPorDni(dni: String) {
-
-        when (dni) {
-
-            "12345678" -> {
-                seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetJuan),
-                    "Juan Perez"
-                )
-            }
-
-            "23456789" -> {
-                seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetMartin),
-                    "Martin Rodriguez"
-                )
-            }
-
-            "34567890" -> {
-                seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetMicaela),
-                    "Micaela Lopez"
-                )
-            }
-
-            "45678901" -> {
-                seleccionarCarnetAutomaticamente(
-                    findViewById(R.id.carnetCamila),
-                    "Camila Andrada"
-                )
-            }
-
-            else -> {
-                Toast.makeText(
-                    this,
-                    "No se encontró ningún carnet con ese DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val resultado = todosLosCarnets.filter {
+            it.dni.contains(dni, ignoreCase = true)
         }
-    }
 
-    private fun seleccionarCarnetAutomaticamente(
-        carnet: LinearLayout,
-        nombre: String
-    ) {
+        carnetAdapter.actualizarLista(resultado)
 
-        carnetSeleccionado?.setBackgroundResource(
-            R.drawable.bg_card_carnet
-        )
-
-        carnetSeleccionado = carnet
-        nombreSocioSeleccionado = nombre
-
-        carnet.setBackgroundResource(
-            R.drawable.bg_card_carnet_seleccionado
-        )
-
-        Toast.makeText(
-            this,
-            "Carnet encontrado",
-            Toast.LENGTH_SHORT
-        ).show()
+        if (resultado.isEmpty()) {
+            Toast.makeText(
+                this,
+                "No se encontraron carnets para ese DNI",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

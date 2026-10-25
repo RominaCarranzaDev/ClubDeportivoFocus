@@ -8,3 +8,14 @@ data class Carnet(
     val fechaEmision: LocalDate,
     val fechaVencimiento: LocalDate
 )
+
+// DTO
+data class CarnetListado(
+    val id: Int,
+    val nroSocio: String,
+    val fechaEmision: LocalDate,
+    val fechaVencimiento: LocalDate,
+    val nombre: String,
+    val apellido: String,
+    val dni: String
+)
