@@ -8,174 +8,86 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.clubfocus.data.entity.SocioCuotaItem
+import com.example.clubfocus.helperDB.ClientesDBHelper
 
 class VencimientosActivity : AppCompatActivity() {
 
-    private var socioSeleccionado: LinearLayout? = null
+    private lateinit var adapter: SociosCuotaAdapter
+    private lateinit var todasLasCuotas: List<SocioCuotaItem>
+
+    private var cuotaSeleccionada: SocioCuotaItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_vencimientos)
 
-        val btnVolver =
-            findViewById<TextView>(R.id.txtVolver)
-
-        val etBuscador =
-            findViewById<EditText>(R.id.etBuscador)
-
-        val btnBuscar =
-            findViewById<ImageView>(R.id.btnBuscar)
-
-        val socio1001 =
-            findViewById<LinearLayout>(R.id.socio1001)
-
-        val socio1002 =
-            findViewById<LinearLayout>(R.id.socio1002)
-
-        val socio1003 =
-            findViewById<LinearLayout>(R.id.socio1003)
-
-        val socio1004 =
-            findViewById<LinearLayout>(R.id.socio1004)
+        val btnVolver = findViewById<TextView>(R.id.txtVolver)
+        val etBuscador = findViewById<EditText>(R.id.etBuscador)
+        val btnBuscar = findViewById<ImageView>(R.id.btnBuscar)
+        val rvSocios = findViewById<RecyclerView>(R.id.rvSocios)
 
         btnVolver.setOnClickListener {
             finish()
         }
 
-        // También se puede seleccionar tocando el socio
-        seleccionarSocio(socio1001)
-        seleccionarSocio(socio1002)
-        seleccionarSocio(socio1003)
-        seleccionarSocio(socio1004)
+        // Configurar RecyclerView
+        rvSocios.layoutManager = LinearLayoutManager(this)
 
-        // Lupa del costado
-        btnBuscar.setOnClickListener {
+        // Obtener las cuotas impagas desde SQLite
+        val dbHelper = ClientesDBHelper(this)
+        todasLasCuotas = dbHelper.obtenerVencimientosSocios()
 
-            val dni = etBuscador.text.toString().trim()
+        adapter = SociosCuotaAdapter(todasLasCuotas) { cuota ->
+            cuotaSeleccionada = cuota
 
-            if (dni.isEmpty()) {
-
-                Toast.makeText(
-                    this,
-                    "Ingresá un DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-            } else {
-
-                buscarSocioPorDni(dni)
-            }
+            Toast.makeText(
+                this,
+                "Cuota seleccionada: ${cuota.nroSocio}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
-        // Lupa del teclado
+        rvSocios.adapter = adapter
+
+        // Buscar desde la lupa
+        btnBuscar.setOnClickListener {
+            buscarCuota(etBuscador.text.toString())
+        }
+
+        // Buscar desde el teclado
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-
-                val dni = etBuscador.text.toString().trim()
-
-                if (dni.isEmpty()) {
-
-                    Toast.makeText(
-                        this,
-                        "Ingresá un DNI",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                } else {
-
-                    buscarSocioPorDni(dni)
-                }
-
+                buscarCuota(etBuscador.text.toString())
                 true
-
             } else {
-
                 false
             }
         }
     }
 
-    private fun seleccionarSocio(
-        socio: LinearLayout
-    ) {
+    private fun buscarCuota(texto: String) {
+        val dni = texto.trim()
 
-        socio.setOnClickListener {
-
-            socioSeleccionado?.setBackgroundResource(
-                R.drawable.bg_borde_card
-            )
-
-            socioSeleccionado = socio
-
-            socio.setBackgroundResource(
-                R.drawable.bg_card_carnet_seleccionado
-            )
+        if (dni.isEmpty()) {
+            adapter.actualizarLista(todasLasCuotas)
+            return
         }
-    }
 
-    private fun buscarSocioPorDni(dni: String) {
-
-        when (dni) {
-
-            "12345678" -> {
-
-                seleccionarSocioAutomaticamente(
-                    findViewById(R.id.socio1001)
-                )
-            }
-
-            "23456789" -> {
-
-                seleccionarSocioAutomaticamente(
-                    findViewById(R.id.socio1002)
-                )
-            }
-
-            "34567890" -> {
-
-                seleccionarSocioAutomaticamente(
-                    findViewById(R.id.socio1003)
-                )
-            }
-
-            "45678901" -> {
-
-                seleccionarSocioAutomaticamente(
-                    findViewById(R.id.socio1004)
-                )
-            }
-
-            else -> {
-
-                Toast.makeText(
-                    this,
-                    "No se encontró ningún socio con ese DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val resultados = todasLasCuotas.filter {
+            it.dni.contains(dni)
         }
-    }
 
-    private fun seleccionarSocioAutomaticamente(
-        socio: LinearLayout
-    ) {
+        adapter.actualizarLista(resultados)
 
-        socioSeleccionado?.setBackgroundResource(
-            R.drawable.bg_borde_card
-        )
-
-        socioSeleccionado = socio
-
-        socio.setBackgroundResource(
-            R.drawable.bg_card_carnet_seleccionado
-        )
-
-        Toast.makeText(
-            this,
-            "Socio encontrado",
-            Toast.LENGTH_SHORT
-        ).show()
+        if (resultados.isEmpty()) {
+            Toast.makeText(
+                this,
+                "No se encontraron cuotas para ese DNI",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

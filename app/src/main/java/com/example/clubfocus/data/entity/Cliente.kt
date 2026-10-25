@@ -15,3 +15,16 @@ open class Cliente(
     val fechaInscripcion: LocalDate,
     val nroSocio: String
 )
+
+//DTO
+
+data class SocioCuotaItem(
+    val cuotaId: Int,
+    val clienteId: Int,
+    val dni: String,
+    val nombreCompleto: String,
+    val nroSocio: String,
+    val fechaVencimiento: String?,
+    val activo: Boolean,
+    val estadoCuota: String
+)

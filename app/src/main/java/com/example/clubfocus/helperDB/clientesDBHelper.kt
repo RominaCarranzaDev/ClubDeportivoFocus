@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.clubfocus.data.entity.Cliente
+import com.example.clubfocus.data.entity.SocioCuotaItem
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -170,5 +171,70 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         }
 
         return null
+    }
+
+    fun obtenerVencimientosSocios(): List<SocioCuotaItem> {
+        val db = readableDatabase
+        val lista = mutableListOf<SocioCuotaItem>()
+
+        val cursor = db.rawQuery(
+            """
+                     SELECT
+                    q.id AS cuota_id,
+                    c.id AS cliente_id,
+                    c.dni,
+                    c.nombre,
+                    c.apellido,
+                    c.nro_socio,
+                    c.activo,
+                    q.fecha_vencimiento,
+                    q.estado
+                FROM clientes c
+                INNER JOIN cuotas q
+                    ON q.cliente_id = c.id
+                WHERE c.es_socio = 1
+                  AND UPPER(q.estado) IN ('PENDIENTE', 'VENCIDA')
+                ORDER BY
+                    CASE
+                        WHEN q.fecha_vencimiento IS NULL
+                             OR q.fecha_vencimiento = '' THEN 1
+                        ELSE 0
+                    END,
+                    SUBSTR(q.fecha_vencimiento, 7, 4) DESC,
+                    SUBSTR(q.fecha_vencimiento, 4, 2) DESC,
+                    SUBSTR(q.fecha_vencimiento, 1, 2) DESC
+                """.trimIndent(), null
+        )
+
+        cursor.use { cursor ->
+            while (cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
+                    val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+
+                    val apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
+
+                    val nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""
+
+                    val fechaVencimiento = cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento"))
+
+                    val estadoCuota = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
+
+                    val socio = SocioCuotaItem(
+                        cuotaId = cursor.getInt(cursor.getColumnIndexOrThrow("cuota_id")),
+                        clienteId = cursor.getInt(cursor.getColumnIndexOrThrow("cliente_id")),
+                        dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: "",
+                        nombreCompleto = "$nombre $apellido".trim(),
+                        nroSocio = nroSocio,
+                        fechaVencimiento = fechaVencimiento,
+                        activo = cursor.getInt(cursor.getColumnIndexOrThrow("activo")) == 1,
+                        estadoCuota = estadoCuota
+                    )
+
+                    lista.add(socio)
+                }
+            }
+
+            return lista
+        }
     }
 }
