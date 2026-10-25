@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         tvOlvidoPass.setOnClickListener {
             Toast.makeText(
                 this,
-                "Contacta con el area de sistemas del club",
+                "Por favor, contacta con el área de sistemas del club",
                 Toast.LENGTH_LONG
             ).show()
         }
