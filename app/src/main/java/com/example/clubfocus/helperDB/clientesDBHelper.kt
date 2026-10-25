@@ -5,7 +5,9 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.clubfocus.data.entity.Cliente
-
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -18,9 +20,31 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                 fecha_nacimiento TEXT NOT NULL,
                 email TEXT NOT NULL,
                 apto_fisico INTEGER NOT NULL,
+                fecha_inscripcion TEXT NOT NULL,
+                activo INTEGER NOT NULL DEFAULT 0,
                 es_socio INTEGER NOT NULL,
                 nro_socio TEXT
             )""".trimIndent())
+    }
+
+    override fun onOpen(db: SQLiteDatabase) {
+        super.onOpen(db)
+
+        db.execSQL("""
+        CREATE TABLE IF NOT EXISTS clientes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            apellido TEXT NOT NULL,
+            dni TEXT UNIQUE NOT NULL,
+            fecha_nacimiento TEXT NOT NULL,
+            email TEXT NOT NULL,
+            apto_fisico INTEGER NOT NULL,
+            fecha_inscripcion TEXT NOT NULL,
+            activo INTEGER NOT NULL DEFAULT 0,
+            es_socio INTEGER NOT NULL,
+            nro_socio TEXT
+        )
+    """.trimIndent())
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -43,6 +67,9 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
 
         val nroSocioGenerado = if (esSocio) "CAR100${obtenerCantidadSocios() + 1}" else null
 
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaInscripcion = formatter.format(Date())
+
         val valores = ContentValues().apply {
             put("nombre", nombre)
             put("apellido", apellido)
@@ -50,6 +77,7 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             put("fecha_nacimiento", fechaNacimiento)
             put("email", email)
             put("apto_fisico", if (aptoFisico) 1 else 0)
+            put("fecha_inscripcion", fechaInscripcion)
             put("es_socio", if (esSocio) 1 else 0)
             put("nro_socio", nroSocioGenerado)
         }
@@ -91,6 +119,8 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             } catch (e: Exception) {
                 java.time.LocalDate.now()
             }
+            val fechaInscripcionStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_inscripcion"))
+            val fechaInscripcionLocalDate = java.time.LocalDate.parse(fechaInscripcionStr, formatter)
 
             clienteEncontrado = Cliente(
                 id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
@@ -98,17 +128,47 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                 apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")),
                 dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")),
                 fechaNacimiento = fechaNacLocalDate,
-                telefono = "",
                 email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
                 aptoFisico = cursor.getInt(cursor.getColumnIndexOrThrow("apto_fisico")) == 1,
-                activo = true,
+                activo = cursor.getInt(cursor.getColumnIndexOrThrow("activo")) == 1,
                 esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1,
-                fechaInscripcion = java.time.LocalDate.now()
-            )
+                fechaInscripcion = fechaInscripcionLocalDate,
+                nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""            )
         }
 
         cursor.close()
         return clienteEncontrado
 
+    }
+
+    fun buscarPorId(id: Int): Cliente? {
+        val db = readableDatabase
+
+        val cursor = db.rawQuery("SELECT * FROM clientes WHERE id = ?", arrayOf(id.toString()))
+
+        cursor.use {
+            if (it.moveToFirst()) {
+                val formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val fechaNacStr = it.getString(it.getColumnIndexOrThrow("fecha_nacimiento"))
+                val fechaInscripcionStr = it.getString(it.getColumnIndexOrThrow("fecha_inscripcion"))
+                val fechaNacLocalDate = java.time.LocalDate.parse(fechaNacStr, formatter)
+                val fechaInscripcionLocalDate = java.time.LocalDate.parse(fechaInscripcionStr, formatter)
+
+                return Cliente(
+                    id = it.getInt(it.getColumnIndexOrThrow("id")),
+                    nombre = it.getString(it.getColumnIndexOrThrow("nombre")),
+                    apellido = it.getString(it.getColumnIndexOrThrow("apellido")),
+                    dni = it.getString(it.getColumnIndexOrThrow("dni")),
+                    fechaNacimiento = fechaNacLocalDate,
+                    email = it.getString(it.getColumnIndexOrThrow("email")),
+                    aptoFisico = it.getInt(it.getColumnIndexOrThrow("apto_fisico")) == 1,
+                    activo = it.getInt(it.getColumnIndexOrThrow("activo")) == 1,
+                    esSocio = it.getInt(it.getColumnIndexOrThrow("es_socio")) == 1,
+                    fechaInscripcion = fechaInscripcionLocalDate,
+                    nroSocio = it.getString(it.getColumnIndexOrThrow("nro_socio")) ?: ""                )
+            }
+        }
+
+        return null
     }
 }

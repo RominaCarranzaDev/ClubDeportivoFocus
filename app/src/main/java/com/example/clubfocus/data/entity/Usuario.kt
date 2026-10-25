@@ -13,7 +13,7 @@ data class Usuario(
 )
 
 enum class Rol {
-    ADMIN,
+    ADMINISTRADOR,
     RECEPCIONISTA,
     PROFESOR
 }

@@ -8,11 +8,10 @@ open class Cliente(
     val apellido: String,
     val dni: String,
     val fechaNacimiento: LocalDate,
-    val telefono: String,
     val email: String,
     val aptoFisico: Boolean,
     val activo: Boolean,
     val esSocio: Boolean,
     val fechaInscripcion: LocalDate,
-    val cuotas: MutableList<Cuota> = mutableListOf()
+    val nroSocio: String
 )
