@@ -11,6 +11,8 @@ import com.example.clubfocus.data.entity.Promocion
 import com.example.clubfocus.data.entity.TipoCuota
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+
 class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -95,15 +97,63 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
 
     fun tieneCuotaVigente(dniCliente: String): Boolean {
         val db = readableDatabase
-        val hoy = LocalDate.now().toString()
 
         val cursor = db.rawQuery(
-            "SELECT id FROM cuotas WHERE dni_cliente = ? AND estado = 'PAGADA' AND fecha_vencimiento >= ?",
-            arrayOf(dniCliente, hoy)
+            """
+                SELECT
+                    c.es_socio,
+                    q.fecha_pago
+                FROM cuotas q
+                INNER JOIN clientes c
+                    ON c.id = q.cliente_id
+                WHERE c.dni = ?
+                  AND UPPER(q.estado) = 'PAGADA'
+                ORDER BY q.id DESC
+                LIMIT 1
+            """.trimIndent(),
+            arrayOf(dniCliente)
         )
-        val tieneVigente = cursor.count > 0
-        cursor.close()
-        return tieneVigente
+            .use { cursor ->
+
+                // Si nunca pagó una cuota, no tiene vigencia.
+                if (!cursor.moveToFirst()) {
+                    return false
+                }
+
+                val esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1
+
+                val fechaPagoTexto = cursor.getString(cursor.getColumnIndexOrThrow("fecha_pago"))
+
+                // Sin fecha de pago no podemos validar la vigencia.
+                if (fechaPagoTexto.isNullOrBlank()) {
+                    return false
+                }
+
+                val fechaPago = try {
+                    LocalDate.parse(
+                        fechaPagoTexto,
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    )
+                } catch (e: DateTimeParseException) {
+                    try {
+                        // También admite fechas en formato yyyy-MM-dd.
+                        LocalDate.parse(fechaPagoTexto)
+                    } catch (e: DateTimeParseException) {
+                        return false
+                    }
+                }
+
+                val hoy = LocalDate.now()
+
+                val fechaFinVigencia = if (esSocio) {
+                    fechaPago.plusMonths(1)
+                } else {
+                    fechaPago
+                }
+
+                // Si hoy llegó a la fecha de vencimiento, ya puede generar una nueva cuota.
+                return hoy.isBefore(fechaFinVigencia)
+            }
     }
 
     // Objeto simple para transportar los datos del pago al comprobante

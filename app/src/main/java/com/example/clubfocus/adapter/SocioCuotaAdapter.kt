@@ -48,7 +48,7 @@ class SociosCuotaAdapter(
         val cuota = cuotas[position]
 
         holder.nombre.text =
-            "${cuota.nroSocio} - ${cuota.nombreCompleto}"
+            "${cuota.nroSocio}  •  ${cuota.nombreCompleto}"
 
         holder.fecha.text = if (cuota.fechaVencimiento.isNullOrBlank()) {
             "Sin fecha de vencimiento"
@@ -56,12 +56,18 @@ class SociosCuotaAdapter(
             "Vence: ${cuota.fechaVencimiento}"
         }
 
-        holder.estadoCuota.text = cuota.estadoCuota
+        holder.estadoCuota.text = when (cuota.estadoCuota.uppercase()) {
+            "PENDIENTE" -> "Vence hoy"
+            "VENCIDA" -> "Vencida"
+            else -> cuota.estadoCuota
+        }
 
-        holder.estadoSocio.visibility =
-            if (cuota.activo) View.GONE else View.VISIBLE
-
-        holder.estadoSocio.text = "Bloqueado"
+        if (cuota.estadoCuota.equals("VENCIDA", ignoreCase = true)) {
+            holder.estadoSocio.visibility = View.VISIBLE
+            holder.estadoSocio.text = "Bloqueado"
+        } else {
+            holder.estadoSocio.visibility = View.GONE
+        }
 
         val seleccionada = cuotaSeleccionadaId == cuota.cuotaId
 

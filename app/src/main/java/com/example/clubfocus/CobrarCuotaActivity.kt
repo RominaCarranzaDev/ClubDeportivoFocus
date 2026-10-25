@@ -122,17 +122,33 @@ class CobrarCuotaActivity : AppCompatActivity() {
             cliente = clienteEncontrado
             dniCliente.setText(clienteEncontrado.dni)
 
-            val cuotaEncontrada = cuotasHelper.obtenerCuotaImpagaPorCliente(clienteEncontrado.id)
+            var cuotaEncontrada = cuotasHelper.obtenerCuotaImpagaPorCliente(clienteEncontrado.id)
 
             if (cuotaEncontrada == null) {
-                cliente = null
+                if (cuotasHelper.tieneCuotaVigente(clienteEncontrado.dni)) {
 
-                Toast.makeText(
-                    this,
-                    "El cliente no tiene cuotas pendientes de pago",
-                    Toast.LENGTH_LONG
-                ).show()
-                return
+                    Toast.makeText(
+                        this,
+                        "El cliente tiene la cuota vigente paga",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    return
+                }
+
+                val cuotaAPAgar = CuotaRepository.prepararCuotaInicial(
+                    clienteId = clienteEncontrado.id,
+                    esSocio = clienteEncontrado.esSocio
+                )
+
+                cuotasHelper.generarCuotaInicial(
+                    cuotaAPAgar.clienteId,
+                    cuotaAPAgar.tipo,
+                    cuotaAPAgar.monto,
+                    cuotaAPAgar.montoFinal,
+                    cuotaAPAgar.fechaVencimiento)
+
+                cuotaEncontrada = cuotaAPAgar
             }
 
             cuota = cuotaEncontrada
