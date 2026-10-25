@@ -15,12 +15,12 @@ class RegistroExitosoActivity : AppCompatActivity() {
         val btnPagarCuota = findViewById<TextView>(R.id.btnPagarCuota)
         val btnIrInicio = findViewById<TextView>(R.id.btnIrInicio)
 
-        val dni = intent.getStringExtra("clienteDNI")
+        val idCliente = intent.getIntExtra("clienteId", -1)
 
         btnPagarCuota.setOnClickListener {
             val intent = Intent(this, CobrarCuotaActivity::class.java)
 
-            intent.putExtra("clienteDNI", dni)
+            intent.putExtra("clienteId", idCliente)
 
             startActivity(intent)
         }

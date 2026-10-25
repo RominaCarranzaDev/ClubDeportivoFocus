@@ -10,7 +10,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
+import com.example.clubfocus.data.repository.CuotaRepository
 import com.example.clubfocus.helperDB.ClientesDBHelper
+import com.example.clubfocus.helperDB.CuotasDBHelper
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -150,9 +152,26 @@ class RegistrarSocioActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
 
+                    val clienteId = resultado.toInt()
+
+                    // Creamos la cuota inicial con los valores de negocio
+                    val cuotasDBHelper = CuotasDBHelper(this)
+
+                    val cuotaInicial = CuotaRepository.prepararCuotaInicial(
+                        clienteId = clienteId,
+                        esSocio = esSocio
+                    )
+
+                    cuotasDBHelper.generarCuotaInicial(
+                        cuotaInicial.clienteId,
+                        cuotaInicial.tipo,
+                        cuotaInicial.monto,
+                        cuotaInicial.montoFinal,
+                        cuotaInicial.fechaVencimiento)
+
                     // H. Viajamos a la pantalla de confirmación
                     val intent = Intent(this, RegistroExitosoActivity::class.java)
-                    intent.putExtra("clienteDNI", dni)
+                    intent.putExtra("clienteId", clienteId)
                     startActivity(intent)
 
                     // I. Destruimos esta pantalla para no volver atrás

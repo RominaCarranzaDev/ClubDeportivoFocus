@@ -36,20 +36,11 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
         btnComprobante.setOnClickListener {
 
-            val intent = Intent(
-                this,
-                ComprobantePagoExitoso::class.java
-            )
+            val intent = Intent(this, ComprobantePagoExitoso::class.java)
 
-            intent.putExtra(
-                "clienteDNI",
-                dni
-            )
+            intent.putExtra("clienteDNI", dni)
 
-            intent.putExtra(
-                "detallePago",
-                detallePago
-            )
+            intent.putExtra("detallePago", detallePago)
 
             startActivity(intent)
         }
@@ -60,15 +51,9 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
             if (esSocio) {
 
-                val intent = Intent(
-                    this,
-                    CarnetActivity::class.java
-                )
+                val intent = Intent(this, CarnetActivity::class.java)
 
-                intent.putExtra(
-                    "clienteDNI",
-                    dni
-                )
+                intent.putExtra("clienteDNI", dni)
 
                 startActivity(intent)
             }
@@ -78,10 +63,7 @@ class ConfirmarPagoActivity : AppCompatActivity() {
 
         btnMenu.setOnClickListener {
 
-            val intent = Intent(
-                this,
-                HomeActivity::class.java
-            )
+            val intent = Intent(this, HomeActivity::class.java)
 
             startActivity(intent)
 

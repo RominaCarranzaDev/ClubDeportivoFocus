@@ -9,81 +9,6 @@ import java.time.LocalDate
 
 object CuotaRepository {
 
-    private var siguienteId = 1
-
-    private val cuotas = mutableListOf<Cuota>()
-
-    fun agregarCuota(
-        clienteId: Int,
-        tipo: TipoCuota,
-        estado: EstadoCuota,
-        medioPago: MedioPago,
-        promocion: Promocion
-    ) {
-
-        val monto = obtenerMonto(tipo)
-
-        val montoFinal = calcularMontoFinal(
-            monto,
-            promocion
-        )
-        val fecha = LocalDate.now()
-
-        val fechaVencimiento = calcularFechaVencimiento(
-            fecha,
-            tipo
-        )
-
-
-        val cuota = Cuota(
-            id = siguienteId,
-            clienteId = clienteId,
-            tipo = tipo,
-            monto = monto,
-            montoFinal = montoFinal,
-            fecha = fecha,
-            fechaVencimiento = fechaVencimiento,
-            estado = estado,
-            medioPago = medioPago,
-            promocion = promocion
-        )
-
-        cuotas.add(cuota)
-        siguienteId++
-    }
-
-    fun crearCuotaInicial(
-        clienteId: Int,
-        tipo: TipoCuota
-    ): Cuota {
-
-        val monto = obtenerMonto(tipo)
-
-        val fecha = LocalDate.now()
-
-        val fechaVencimiento = calcularFechaVencimiento(
-            fecha,
-            tipo
-        )
-
-        val cuota = Cuota(
-            id = siguienteId,
-            clienteId = clienteId,
-            tipo = tipo,
-            monto = monto,
-            montoFinal = monto,
-            fecha = fecha,
-            fechaVencimiento = fechaVencimiento,
-            estado = EstadoCuota.PENDIENTE,
-            medioPago = null,
-            promocion = null
-        )
-
-        siguienteId++
-
-        return cuota
-    }
-
 
     // Monto automático
     private fun obtenerMonto(tipo: TipoCuota): Double {
@@ -118,34 +43,45 @@ object CuotaRepository {
             Promocion.SEIS_CUOTAS -> monto * 0.90
         }
     }
+
     fun aplicarPromocion(
         cuota: Cuota,
-        promocion: Promocion?
+        promocion: Promocion
     ) {
         cuota.promocion = promocion
 
-        cuota.montoFinal = when (promocion) {
-            null -> cuota.monto
-            Promocion.SIN_PROMOCION -> cuota.monto
-            Promocion.TRES_CUOTAS -> cuota.monto * 0.85
-            Promocion.SEIS_CUOTAS -> cuota.monto * 0.90
+        cuota.montoFinal = calcularMontoFinal(cuota.monto, promocion)
+    }
+
+    // Devuelve la cuota lista para pasarla al Helper, como un DTO
+    fun prepararCuotaInicial(
+        clienteId: Int,
+        esSocio: Boolean
+    ): Cuota {
+
+        val tipo = if (esSocio) {
+            TipoCuota.MENSUAL
+        } else {
+            TipoCuota.DIARIA
         }
-    }
 
-    fun buscarPorId(id: Int): Cuota? {
-        return cuotas.find { it.id == id }
-    }
+        val monto = obtenerMonto(tipo)
+        val fechaActual = LocalDate.now()
+        val vencimiento = calcularFechaVencimiento(fechaActual, tipo)
 
-    fun buscarPorCliente(clienteId: Int): List<Cuota> {
-        return cuotas.filter {
-            it.clienteId == clienteId
-        }
+        return Cuota(
+            id = 0, // Todavía no fue insertada en SQLite
+            clienteId = clienteId,
+            tipo = tipo,
+            monto = monto,
+            montoFinal = monto,
+            fecha = null, // Aún no fue pagada
+            fechaVencimiento = vencimiento,
+            estado = EstadoCuota.PENDIENTE,
+            medioPago = null,
+            promocion = null
+        )
     }
-
-    fun obtenerTodas(): List<Cuota> {
-        return cuotas
-    }
-
 }
 
 

@@ -8,7 +8,7 @@ data class Cuota(
     val tipo: TipoCuota,
     val monto: Double,
     var montoFinal: Double,
-    val fecha: LocalDate,
+    val fecha: LocalDate?,
     val fechaVencimiento: LocalDate,
     var estado: EstadoCuota,
     var medioPago: MedioPago?,
