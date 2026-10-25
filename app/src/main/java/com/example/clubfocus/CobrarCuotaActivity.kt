@@ -347,7 +347,8 @@ class CobrarCuotaActivity : AppCompatActivity() {
                 fechaPago = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 montoFinal = cuotaActual.montoFinal,
                 medioPago = formaPago,
-                promocion = promocion
+                promocion = promocion,
+                clienteId = clienteActual.id
             )
 
             if (resultado == 1) {

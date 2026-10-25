@@ -78,6 +78,7 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
     }
     fun registrarPago(
         cuotaId: Int,
+        clienteId: Int,
         fechaPago: String,
         montoFinal: Double,
         medioPago: MedioPago,
@@ -93,7 +94,36 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
             put("estado", EstadoCuota.PAGADA.name)
         }
 
-        return db.update("cuotas", valores, "id = ?", arrayOf(cuotaId.toString()))}
+        //Hice una transsaccion porque actualiza 2 tablas
+        db.beginTransaction()
+        try {
+            val filasActualizadas = db.update(
+                "cuotas",
+                valores,
+                "id = ?",
+                arrayOf(cuotaId.toString())
+            )
+
+            if (filasActualizadas > 0) {
+                val valoresCliente = ContentValues().apply {
+                    put("activo", 1)
+                }
+
+                db.update(
+                    "clientes",
+                    valoresCliente,
+                    "id = ?",
+                    arrayOf(clienteId.toString())
+                )
+            }
+
+            db.setTransactionSuccessful()
+            return filasActualizadas
+
+        } finally {
+            db.endTransaction()
+        }
+    }
 
     fun tieneCuotaVigente(dniCliente: String): Boolean {
         val db = readableDatabase
