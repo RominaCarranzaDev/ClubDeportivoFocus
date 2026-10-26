@@ -13,15 +13,29 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Encabezado con datos desde SQLite
+        // Encabezado con datos desde SQLite / SharedPreferences
         val tvUsuario = findViewById<TextView>(R.id.tvUsuario)
-        val nombreUsuario = intent.getStringExtra("usuarioLogueado") ?: ""
-        val rolUsuario = intent.getStringExtra("rolUsuario") ?: ""
+        val sharedPref = getSharedPreferences("ClubFocusPrefs", MODE_PRIVATE)
 
-        val usuarioFormateado = nombreUsuario.replaceFirstChar { it.uppercase() }
-        val rolFormateado = rolUsuario.replaceFirstChar { it.uppercase() }
+        var nombreUsuario = intent.getStringExtra("usuarioLogueado") ?: ""
+        var rolUsuario = intent.getStringExtra("rolUsuario") ?: ""
 
-        tvUsuario.text = "$usuarioFormateado . $rolFormateado"
+        if (nombreUsuario.isEmpty()) {
+            nombreUsuario = sharedPref.getString("usuarioLogueado", "") ?: ""
+        }
+        if (rolUsuario.isEmpty()) {
+            rolUsuario = sharedPref.getString("rolUsuario", "") ?: ""
+        }
+
+        if (nombreUsuario.isNotEmpty() && rolUsuario.isNotEmpty()) {
+            val usuarioFormateado = nombreUsuario.replaceFirstChar { it.uppercase() }
+            val rolFormateado = rolUsuario.replaceFirstChar { it.uppercase() }
+            tvUsuario.text = "$usuarioFormateado • $rolFormateado"
+        } else if (nombreUsuario.isNotEmpty()) {
+            tvUsuario.text = nombreUsuario.replaceFirstChar { it.uppercase() }
+        } else {
+            tvUsuario.text = getString(R.string.home_user_role)
+        }
 
         // Botones y cierre de sesión
         val tvCerrarSesion = findViewById<TextView>(R.id.tvCerrarSesion)
@@ -36,6 +50,7 @@ class HomeActivity : AppCompatActivity() {
                 .setTitle("Cerrar Sesión")
                 .setMessage("¿Está seguro que desea cerrar la sesión?")
                 .setPositiveButton("Aceptar") { _, _ ->
+                    sharedPref.edit().clear().apply()
                     val intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
                     finish()

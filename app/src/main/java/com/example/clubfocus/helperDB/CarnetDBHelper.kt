@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.clubfocus.data.entity.Carnet
 import com.example.clubfocus.data.entity.CarnetListado
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

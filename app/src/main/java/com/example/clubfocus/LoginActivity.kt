@@ -36,6 +36,12 @@ class LoginActivity : AppCompatActivity() {
             val rol = usuariosHelper.obtenerRol(usuarioEscrito, claveEscrita)
 
             if (rol != null) {
+                val sharedPref = getSharedPreferences("ClubFocusPrefs", MODE_PRIVATE)
+                sharedPref.edit()
+                    .putString("usuarioLogueado", usuarioEscrito)
+                    .putString("rolUsuario", rol)
+                    .apply()
+
                 val intent = Intent(this, HomeActivity::class.java).apply {
                     putExtra("usuarioLogueado", usuarioEscrito)
                     putExtra("rolUsuario", rol)
