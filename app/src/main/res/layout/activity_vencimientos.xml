@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -27,38 +26,13 @@
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
 
-    <!-- BUSCADOR -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_card_carnet"
-        android:layout_marginBottom="24dp">
-
-        <EditText
-            android:id="@+id/etBuscador"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_weight="1"
-            android:hint="Buscar socio"
-            android:inputType="number"
-            android:imeOptions="actionSearch"
-            android:background="@android:color/transparent"
-            android:textSize="16sp"
-            android:padding="8dp" />
-
-        <ImageView
-            android:id="@+id/btnBuscar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@android:drawable/ic_menu_search"
-            android:padding="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:contentDescription="Buscar" />
-
-    </LinearLayout>
+    <!-- BUSCADOR UNIFICADO -->
+    <EditText
+        android:id="@+id/etBuscador"
+        style="@style/InputSearch"
+        android:hint="Buscar socio"
+        android:inputType="number"
+        android:imeOptions="actionSearch" />
 
     <!-- LISTADO -->
     <androidx.recyclerview.widget.RecyclerView

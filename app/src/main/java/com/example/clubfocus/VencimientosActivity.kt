@@ -1,10 +1,10 @@
 package com.example.clubfocus
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +20,13 @@ class VencimientosActivity : AppCompatActivity() {
 
     private var cuotaSeleccionada: SocioCuotaItem? = null
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vencimientos)
 
         val btnVolver = findViewById<TextView>(R.id.txtVolver)
         val etBuscador = findViewById<EditText>(R.id.etBuscador)
-        val btnBuscar = findViewById<ImageView>(R.id.btnBuscar)
         val rvSocios = findViewById<RecyclerView>(R.id.rvSocios)
 
         btnVolver.setOnClickListener {
@@ -52,12 +52,29 @@ class VencimientosActivity : AppCompatActivity() {
 
         rvSocios.adapter = adapter
 
-        // Buscar desde la lupa
-        btnBuscar.setOnClickListener {
-            buscarCuota(etBuscador.text.toString())
+        // Clic sobre el icono de la lupa integrado en el EditText
+        etBuscador.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = etBuscador.compoundDrawables[2]
+
+                if (drawableEnd != null) {
+                    val drawableWidth = drawableEnd.bounds.width()
+
+                    if (
+                        event.x >= etBuscador.width -
+                        etBuscador.paddingEnd -
+                        drawableWidth - 40
+                    ) {
+                        v.performClick()
+                        buscarCuota(etBuscador.text.toString())
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
         }
 
-        // Buscar desde el teclado
+        // Buscar desde la acción de buscar del teclado virtual
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 buscarCuota(etBuscador.text.toString())
