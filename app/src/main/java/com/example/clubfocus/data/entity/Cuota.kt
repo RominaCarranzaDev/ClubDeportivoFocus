@@ -37,3 +37,17 @@ enum class Promocion {
     TRES_CUOTAS,
     SEIS_CUOTAS
 }
+
+// DTO para mostrar el historial completo con los datos del socio
+data class PagoHistorialItem(
+    val cuotaId: Int,
+    val clienteId: Int,
+    val nombreCompleto: String,
+    val dni: String,
+    val tipo: TipoCuota,
+    val montoFinal: Double,
+    val fechaPago: LocalDate?,
+    val fechaVencimiento: LocalDate,
+    val estado: EstadoCuota,
+    val medioPago: MedioPago?
+)
