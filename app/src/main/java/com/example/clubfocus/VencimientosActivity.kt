@@ -74,7 +74,7 @@ class VencimientosActivity : AppCompatActivity() {
             false
         }
 
-        // Buscar desde la acción de buscar del teclado virtual
+        // Buscar desde la acción del teclado virtual
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 buscarCuota(etBuscador.text.toString())

@@ -153,6 +153,8 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
     fun obtenerVencimientosSocios(): List<SocioCuotaItem> {
         val db = readableDatabase
         val lista = mutableListOf<SocioCuotaItem>()
+        val hoy = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         val cursor = db.rawQuery(
             """
@@ -185,10 +187,26 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
 
         cursor.use { c ->
             while (c.moveToNext()) {
+                val fechaVencimiento = c.getString(c.getColumnIndexOrThrow("fecha_vencimiento"))
+
+                val fechaVencLocalDate = try {
+                    LocalDate.parse(fechaVencimiento, formatter)
+                } catch (_: Exception) {
+                    try {
+                        LocalDate.parse(fechaVencimiento)
+                    } catch (_: Exception) {
+                        null
+                    }
+                }
+
+                // Si la cuota vence en días posteriores a hoy, no pertenece a este listado
+                if (fechaVencLocalDate != null && fechaVencLocalDate.isAfter(hoy)) {
+                    continue
+                }
+
                 val nombre = c.getString(c.getColumnIndexOrThrow("nombre")) ?: ""
                 val apellido = c.getString(c.getColumnIndexOrThrow("apellido")) ?: ""
                 val nroSocio = c.getString(c.getColumnIndexOrThrow("nro_socio")) ?: ""
-                val fechaVencimiento = c.getString(c.getColumnIndexOrThrow("fecha_vencimiento"))
                 val estadoCuota = c.getString(c.getColumnIndexOrThrow("estado"))
 
                 val socio = SocioCuotaItem(

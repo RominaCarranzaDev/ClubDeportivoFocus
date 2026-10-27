@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
-    android:paddingTop="60dp">
+    android:paddingTop="50dp">
 
     <TextView
         android:id="@+id/txtVolver"
@@ -15,7 +15,7 @@
         android:textColor="@color/primary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,9 +24,9 @@
         android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="16dp" />
 
-    <!-- BUSCADOR UNIFICADO -->
+    <!-- Buscador -->
     <EditText
         android:id="@+id/etBuscador"
         style="@style/InputSearch"
@@ -34,13 +34,14 @@
         android:inputType="number"
         android:imeOptions="actionSearch" />
 
-    <!-- LISTADO -->
+    <!-- Listado con espaciado -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSocios"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginTop="12dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="16dp" />
 
 </LinearLayout>
