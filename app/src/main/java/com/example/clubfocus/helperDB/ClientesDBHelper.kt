@@ -7,51 +7,29 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.clubfocus.data.entity.Cliente
 import com.example.clubfocus.data.entity.SocioCuotaItem
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
+
 class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.execSQL("""
-            CREATE TABLE clientes(
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT NOT NULL,
-                apellido TEXT NOT NULL,
-                dni TEXT UNIQUE NOT NULL,
-                fecha_nacimiento TEXT NOT NULL,
-                email TEXT NOT NULL,
-                apto_fisico INTEGER NOT NULL,
-                fecha_inscripcion TEXT NOT NULL,
-                activo INTEGER NOT NULL DEFAULT 0,
-                es_socio INTEGER NOT NULL,
-                nro_socio TEXT
-            )""".trimIndent())
+        DBTablas.crearTodasLasTablas(db)
     }
 
     override fun onOpen(db: SQLiteDatabase) {
         super.onOpen(db)
-
-        db.execSQL("""
-        CREATE TABLE IF NOT EXISTS clientes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre TEXT NOT NULL,
-            apellido TEXT NOT NULL,
-            dni TEXT UNIQUE NOT NULL,
-            fecha_nacimiento TEXT NOT NULL,
-            email TEXT NOT NULL,
-            apto_fisico INTEGER NOT NULL,
-            fecha_inscripcion TEXT NOT NULL,
-            activo INTEGER NOT NULL DEFAULT 0,
-            es_socio INTEGER NOT NULL,
-            nro_socio TEXT
-        )
-    """.trimIndent())
+        DBTablas.crearTodasLasTablas(db)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.execSQL("DROP TABLE IF EXISTS clientes")
-        if (db != null) {
-            onCreate(db)
+        db?.let {
+            it.execSQL("DROP TABLE IF EXISTS carnets")
+            it.execSQL("DROP TABLE IF EXISTS cuotas")
+            it.execSQL("DROP TABLE IF EXISTS clientes")
+            it.execSQL("DROP TABLE IF EXISTS usuarios")
+            onCreate(it)
         }
     }
 
@@ -83,7 +61,6 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             put("nro_socio", nroSocioGenerado)
         }
 
-        // No cerramos db acá para no cortar la conexión de SQLite
         return db.insert("clientes", null, valores)
     }
 
@@ -91,7 +68,7 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT dni FROM clientes WHERE dni = ?", arrayOf(dni))
         val existe = cursor.count > 0
-        cursor.close() // Solo cerramos el cursor
+        cursor.close()
         return existe
     }
 
@@ -113,15 +90,15 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         var clienteEncontrado: Cliente? = null
 
         if (cursor.moveToFirst()) {
-            val formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
             val fechaNacStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_nacimiento"))
             val fechaNacLocalDate = try {
-                java.time.LocalDate.parse(fechaNacStr, formatter)
-            } catch (e: Exception) {
-                java.time.LocalDate.now()
+                LocalDate.parse(fechaNacStr, formatter)
+            } catch (_: Exception) {
+                LocalDate.now()
             }
             val fechaInscripcionStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_inscripcion"))
-            val fechaInscripcionLocalDate = java.time.LocalDate.parse(fechaInscripcionStr, formatter)
+            val fechaInscripcionLocalDate = LocalDate.parse(fechaInscripcionStr, formatter)
 
             clienteEncontrado = Cliente(
                 id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
@@ -134,26 +111,25 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                 activo = cursor.getInt(cursor.getColumnIndexOrThrow("activo")) == 1,
                 esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1,
                 fechaInscripcion = fechaInscripcionLocalDate,
-                nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""            )
+                nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""
+            )
         }
 
         cursor.close()
         return clienteEncontrado
-
     }
 
     fun buscarPorId(id: Int): Cliente? {
         val db = readableDatabase
-
         val cursor = db.rawQuery("SELECT * FROM clientes WHERE id = ?", arrayOf(id.toString()))
 
         cursor.use {
             if (it.moveToFirst()) {
-                val formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
                 val fechaNacStr = it.getString(it.getColumnIndexOrThrow("fecha_nacimiento"))
                 val fechaInscripcionStr = it.getString(it.getColumnIndexOrThrow("fecha_inscripcion"))
-                val fechaNacLocalDate = java.time.LocalDate.parse(fechaNacStr, formatter)
-                val fechaInscripcionLocalDate = java.time.LocalDate.parse(fechaInscripcionStr, formatter)
+                val fechaNacLocalDate = LocalDate.parse(fechaNacStr, formatter)
+                val fechaInscripcionLocalDate = LocalDate.parse(fechaInscripcionStr, formatter)
 
                 return Cliente(
                     id = it.getInt(it.getColumnIndexOrThrow("id")),
@@ -166,7 +142,8 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                     activo = it.getInt(it.getColumnIndexOrThrow("activo")) == 1,
                     esSocio = it.getInt(it.getColumnIndexOrThrow("es_socio")) == 1,
                     fechaInscripcion = fechaInscripcionLocalDate,
-                    nroSocio = it.getString(it.getColumnIndexOrThrow("nro_socio")) ?: ""                )
+                    nroSocio = it.getString(it.getColumnIndexOrThrow("nro_socio")) ?: ""
+                )
             }
         }
 
@@ -176,10 +153,12 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
     fun obtenerVencimientosSocios(): List<SocioCuotaItem> {
         val db = readableDatabase
         val lista = mutableListOf<SocioCuotaItem>()
+        val hoy = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         val cursor = db.rawQuery(
             """
-                     SELECT
+                SELECT
                     q.id AS cuota_id,
                     c.id AS cliente_id,
                     c.dni,
@@ -203,38 +182,47 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                     SUBSTR(q.fecha_vencimiento, 7, 4) DESC,
                     SUBSTR(q.fecha_vencimiento, 4, 2) DESC,
                     SUBSTR(q.fecha_vencimiento, 1, 2) DESC
-                """.trimIndent(), null
+            """.trimIndent(), null
         )
 
-        cursor.use { cursor ->
-            while (cursor.moveToNext()) {
-                while (cursor.moveToNext()) {
-                    val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")) ?: ""
+        cursor.use { c ->
+            while (c.moveToNext()) {
+                val fechaVencimiento = c.getString(c.getColumnIndexOrThrow("fecha_vencimiento"))
 
-                    val apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")) ?: ""
-
-                    val nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""
-
-                    val fechaVencimiento = cursor.getString(cursor.getColumnIndexOrThrow("fecha_vencimiento"))
-
-                    val estadoCuota = cursor.getString(cursor.getColumnIndexOrThrow("estado"))
-
-                    val socio = SocioCuotaItem(
-                        cuotaId = cursor.getInt(cursor.getColumnIndexOrThrow("cuota_id")),
-                        clienteId = cursor.getInt(cursor.getColumnIndexOrThrow("cliente_id")),
-                        dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")) ?: "",
-                        nombreCompleto = "$nombre $apellido".trim(),
-                        nroSocio = nroSocio,
-                        fechaVencimiento = fechaVencimiento,
-                        activo = cursor.getInt(cursor.getColumnIndexOrThrow("activo")) == 1,
-                        estadoCuota = estadoCuota
-                    )
-
-                    lista.add(socio)
+                val fechaVencLocalDate = try {
+                    LocalDate.parse(fechaVencimiento, formatter)
+                } catch (_: Exception) {
+                    try {
+                        LocalDate.parse(fechaVencimiento)
+                    } catch (_: Exception) {
+                        null
+                    }
                 }
-            }
 
-            return lista
+                // Si la cuota vence en días posteriores a hoy, no pertenece a este listado
+                if (fechaVencLocalDate != null && fechaVencLocalDate.isAfter(hoy)) {
+                    continue
+                }
+
+                val nombre = c.getString(c.getColumnIndexOrThrow("nombre")) ?: ""
+                val apellido = c.getString(c.getColumnIndexOrThrow("apellido")) ?: ""
+                val nroSocio = c.getString(c.getColumnIndexOrThrow("nro_socio")) ?: ""
+                val estadoCuota = c.getString(c.getColumnIndexOrThrow("estado"))
+
+                val socio = SocioCuotaItem(
+                    cuotaId = c.getInt(c.getColumnIndexOrThrow("cuota_id")),
+                    clienteId = c.getInt(c.getColumnIndexOrThrow("cliente_id")),
+                    dni = c.getString(c.getColumnIndexOrThrow("dni")) ?: "",
+                    nombreCompleto = "$nombre $apellido".trim(),
+                    nroSocio = nroSocio,
+                    fechaVencimiento = fechaVencimiento,
+                    activo = c.getInt(c.getColumnIndexOrThrow("activo")) == 1,
+                    estadoCuota = estadoCuota
+                )
+
+                lista.add(socio)
+            }
         }
+        return lista
     }
 }

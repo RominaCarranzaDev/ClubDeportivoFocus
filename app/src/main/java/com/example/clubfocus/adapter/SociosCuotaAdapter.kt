@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clubfocus.data.entity.SocioCuotaItem
 import java.time.LocalDate
@@ -19,36 +20,27 @@ class SociosCuotaAdapter(
     private var cuotaSeleccionadaId: Int? = null
 
     class CuotaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val card: LinearLayout = itemView.findViewById(R.id.cardSocio)
-
         val nombre: TextView = itemView.findViewById(R.id.txtNombreyNumSocio)
-
         val fecha: TextView = itemView.findViewById(R.id.txtFechaVenc)
-
         val estadoCuota: TextView = itemView.findViewById(R.id.txtEstadoCuota)
-
-        val estadoSocio: TextView = itemView.findViewById(R.id.txtEstadoSocio)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): CuotaViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CuotaViewHolder {
         val vista = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_socio_cuota, parent, false)
-
         return CuotaViewHolder(vista)
     }
 
-    override fun onBindViewHolder(
-        holder: CuotaViewHolder,
-        position: Int
-    ) {
+    override fun onBindViewHolder(holder: CuotaViewHolder, position: Int) {
         val cuota = cuotas[position]
+        val context = holder.itemView.context
 
-        holder.nombre.text =
+        holder.nombre.text = if (!cuota.nroSocio.isNullOrBlank()) {
             "${cuota.nroSocio}  •  ${cuota.nombreCompleto}"
+        } else {
+            cuota.nombreCompleto
+        }
 
         holder.fecha.text = if (cuota.fechaVencimiento.isNullOrBlank()) {
             "Sin fecha de vencimiento"
@@ -56,21 +48,32 @@ class SociosCuotaAdapter(
             "Vence: ${cuota.fechaVencimiento}"
         }
 
-        holder.estadoCuota.text = when (cuota.estadoCuota.uppercase()) {
-            "PENDIENTE" -> "Vence hoy"
-            "VENCIDA" -> "Vencida"
-            else -> cuota.estadoCuota
+        val fechaVenc = try {
+            LocalDate.parse(cuota.fechaVencimiento, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        } catch (_: DateTimeParseException) {
+            try {
+                LocalDate.parse(cuota.fechaVencimiento)
+            } catch (_: Exception) {
+                null
+            }
         }
 
-        if (cuota.estadoCuota.equals("VENCIDA", ignoreCase = true)) {
-            holder.estadoSocio.visibility = View.VISIBLE
-            holder.estadoSocio.text = "Bloqueado"
+        val hoy = LocalDate.now()
+
+        // Regla: Únicamente dos estados posibles
+        if (fechaVenc != null && hoy.isAfter(fechaVenc)) {
+            // Pasó la fecha límite (a partir de las 00:00 del día siguiente)
+            holder.estadoCuota.text = "Vencida"
+            holder.estadoCuota.setBackgroundResource(R.drawable.label_danger)
+            holder.estadoCuota.setTextColor(ContextCompat.getColor(context, R.color.badge_vencida_text))
         } else {
-            holder.estadoSocio.visibility = View.GONE
+            // Es la fecha límite actual (hoy tiene acceso todavía)
+            holder.estadoCuota.text = "Vence hoy"
+            holder.estadoCuota.setBackgroundResource(R.drawable.label_warning)
+            holder.estadoCuota.setTextColor(ContextCompat.getColor(context, R.color.badge_pendiente_text))
         }
 
         val seleccionada = cuotaSeleccionadaId == cuota.cuotaId
-
         holder.card.setBackgroundResource(
             if (seleccionada) {
                 R.drawable.bg_card_carnet_seleccionado
@@ -110,7 +113,6 @@ class SociosCuotaAdapter(
         val coincidencias = cuotas.filter {
             it.dni.contains(dni, ignoreCase = true)
         }
-
         actualizarLista(coincidencias)
     }
 

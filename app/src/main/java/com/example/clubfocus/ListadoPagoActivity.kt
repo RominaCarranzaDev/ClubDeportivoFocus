@@ -1,128 +1,99 @@
 package com.example.clubfocus
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.View
+import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.clubfocus.adapter.HistorialPagoAdapter
+import com.example.clubfocus.data.entity.PagoHistorialItem
+import com.example.clubfocus.helperDB.CuotasDBHelper
 
 class ListadoPagoActivity : AppCompatActivity() {
 
+    private lateinit var rvHistorial: RecyclerView
+    private lateinit var adapter: HistorialPagoAdapter
+    private lateinit var cuotasHelper: CuotasDBHelper
+    private var todosLosPagos: List<PagoHistorialItem> = emptyList()
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_listado_pago)
 
-        val btnVolver =
-            findViewById<TextView>(R.id.txtVolver)
+        cuotasHelper = CuotasDBHelper(this)
 
-        val etBuscador =
-            findViewById<EditText>(R.id.etBuscador)
+        val btnVolver = findViewById<TextView>(R.id.txtVolver)
+        val etBuscador = findViewById<EditText>(R.id.etBuscador)
+        rvHistorial = findViewById(R.id.rvHistorialPagos)
 
-        val btnBuscar =
-            findViewById<ImageView>(R.id.btnBuscar)
+        rvHistorial.layoutManager = LinearLayoutManager(this)
+        adapter = HistorialPagoAdapter(emptyList())
+        rvHistorial.adapter = adapter
 
-        val listadoPago =
-            findViewById<LinearLayout>(R.id.listadoPago)
-
-
-        listadoPago.visibility = View.GONE
+        // 1. CARGA DIRECTA: Lista todos los pagos apenas ingresas a la pantalla
+        todosLosPagos = cuotasHelper.obtenerHistorialPagos()
+        adapter.actualizarLista(todosLosPagos)
 
         btnVolver.setOnClickListener {
             finish()
         }
 
-        // Carga los pagos
-        fun buscarSocio(etBuscador: EditText) {
-
+        // 2. FILTRAR POR DNI
+        fun filtrarPorDni() {
             val dni = etBuscador.text.toString().trim()
 
+            // Si está vacío, restaura la lista con todos los socios
             if (dni.isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Ingresá un DNI",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                adapter.actualizarLista(todosLosPagos)
                 return
             }
 
-            // Avisar que está buscando
-            Toast.makeText(
-                this,
-                "Buscando socio...",
-                Toast.LENGTH_SHORT
-            ).show()
+            // Si hay texto, filtra entre los miles de registros por coincidencia
+            val resultado = todosLosPagos.filter {
+                it.dni.contains(dni, ignoreCase = true)
+            }
 
-            when (dni) {
-                "12345678" -> {
-                    Toast.makeText(
-                        this,
-                        "Mostrando pagos de Juan Perez",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listadoPago.visibility = View.VISIBLE
-                }
+            adapter.actualizarLista(resultado)
 
-                "11111111" -> {
-                    Toast.makeText(
-                        this,
-                        "Mostrando pagos de Martin Rodriguez",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listadoPago.visibility = View.VISIBLE
-                }
-
-                "22222222" -> {
-                    Toast.makeText(
-                        this,
-                        "Mostrando pagos de Micaela Lopez",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listadoPago.visibility = View.VISIBLE
-                }
-
-                "33333333" +
-                        "" -> {
-                    Toast.makeText(
-                        this,
-                        "Mostrando pagos de Camila Andrada",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listadoPago.visibility = View.VISIBLE
-                }
-
-                else -> {
-                    Toast.makeText(
-                        this,
-                        "No se encontró ningún socio con ese DNI",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listadoPago.visibility = View.GONE
-                }
+            if (resultado.isEmpty()) {
+                Toast.makeText(this, "No se encontraron pagos para ese DNI", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Buscar al tocar la lupa
-        btnBuscar.setOnClickListener {
-            buscarSocio(etBuscador)
+        // Clic en la lupa
+        etBuscador.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = etBuscador.compoundDrawables[2]
+
+                if (drawableEnd != null) {
+                    val drawableWidth = drawableEnd.bounds.width()
+
+                    if (event.x >= etBuscador.width - etBuscador.paddingEnd - drawableWidth - 40) {
+                        v.performClick()
+                        filtrarPorDni()
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
         }
 
-        // Buscar desde el teclado
+        // Presionar la tecla de búsqueda en el teclado
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                buscarSocio(etBuscador)
+                filtrarPorDni()
                 true
             } else {
                 false
             }
         }
-
     }
 }

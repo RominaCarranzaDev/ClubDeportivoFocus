@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.clubfocus.data.entity.Carnet
 import com.example.clubfocus.data.entity.CarnetListado
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -12,29 +11,22 @@ import java.time.format.DateTimeFormatter
 class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
-        crearTablaCarnets(db)
+        DBTablas.crearTodasLasTablas(db)
     }
-
-    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {}
 
     override fun onOpen(db: SQLiteDatabase) {
         super.onOpen(db)
-        crearTablaCarnets(db)
+        DBTablas.crearTodasLasTablas(db)
     }
 
-    private fun crearTablaCarnets(db: SQLiteDatabase) {
-        db.execSQL(
-            """
-            CREATE TABLE IF NOT EXISTS carnets (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nro_socio TEXT NOT NULL,
-                fecha_emision TEXT NOT NULL,
-                fecha_vencimiento TEXT NOT NULL,
-                FOREIGN KEY (nro_socio)
-                    REFERENCES clientes(nro_socio)
-            )
-            """.trimIndent()
-        )
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db?.let {
+            it.execSQL("DROP TABLE IF EXISTS carnets")
+            it.execSQL("DROP TABLE IF EXISTS cuotas")
+            it.execSQL("DROP TABLE IF EXISTS clientes")
+            it.execSQL("DROP TABLE IF EXISTS usuarios")
+            onCreate(it)
+        }
     }
 
     fun crearCarnet(nroSocio: String): Long {
@@ -75,19 +67,19 @@ class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         val consulta = """
-        SELECT
-            carnets.id,
-            carnets.nro_socio,
-            carnets.fecha_emision,
-            carnets.fecha_vencimiento,
-            clientes.nombre,
-            clientes.apellido,
-            clientes.dni
-        FROM carnets
-        INNER JOIN clientes
-            ON carnets.nro_socio = clientes.nro_socio
-        ORDER BY clientes.apellido ASC
-    """.trimIndent()
+            SELECT
+                carnets.id,
+                carnets.nro_socio,
+                carnets.fecha_emision,
+                carnets.fecha_vencimiento,
+                clientes.nombre,
+                clientes.apellido,
+                clientes.dni
+            FROM carnets
+            INNER JOIN clientes
+                ON carnets.nro_socio = clientes.nro_socio
+            ORDER BY clientes.apellido ASC
+        """.trimIndent()
 
         val cursor = db.rawQuery(consulta, null)
 
@@ -133,20 +125,20 @@ class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
         val consulta = """
-        SELECT
-            carnets.id,
-            carnets.nro_socio,
-            carnets.fecha_emision,
-            carnets.fecha_vencimiento,
-            clientes.nombre,
-            clientes.apellido,
-            clientes.dni
-        FROM carnets
-        INNER JOIN clientes
-            ON carnets.nro_socio = clientes.nro_socio
-        WHERE carnets.id = ?
-        LIMIT 1
-    """.trimIndent()
+            SELECT
+                carnets.id,
+                carnets.nro_socio,
+                carnets.fecha_emision,
+                carnets.fecha_vencimiento,
+                clientes.nombre,
+                clientes.apellido,
+                clientes.dni
+            FROM carnets
+            INNER JOIN clientes
+                ON carnets.nro_socio = clientes.nro_socio
+            WHERE carnets.id = ?
+            LIMIT 1
+        """.trimIndent()
 
         val cursor = db.rawQuery(
             consulta,
@@ -203,18 +195,20 @@ class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
                 ORDER BY carnets.id DESC
                 LIMIT 1
             """.trimIndent(),
-            arrayOf(dni))
+            arrayOf(dni)
+        )
 
         return cursor.use {
             if (it.moveToFirst()) {
                 CarnetListado(
                     id = it.getInt(it.getColumnIndexOrThrow("id")),
                     nroSocio = it.getString(it.getColumnIndexOrThrow("nro_socio")),
-                    fechaEmision = LocalDate.parse(it.getString(it.getColumnIndexOrThrow("fecha_emision")),
+                    fechaEmision = LocalDate.parse(
+                        it.getString(it.getColumnIndexOrThrow("fecha_emision")),
                         formatter
                     ),
-
-                    fechaVencimiento = LocalDate.parse(it.getString(it.getColumnIndexOrThrow("fecha_vencimiento")),
+                    fechaVencimiento = LocalDate.parse(
+                        it.getString(it.getColumnIndexOrThrow("fecha_vencimiento")),
                         formatter
                     ),
                     nombre = it.getString(it.getColumnIndexOrThrow("nombre")),

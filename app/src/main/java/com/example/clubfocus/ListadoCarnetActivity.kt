@@ -1,12 +1,12 @@
 package com.example.clubfocus
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,7 +16,6 @@ import com.example.clubfocus.adapter.CarnetAdapter
 import com.example.clubfocus.data.entity.CarnetListado
 import com.example.clubfocus.helperDB.CarnetDBHelper
 
-
 class ListadoCarnetActivity : AppCompatActivity() {
 
     private lateinit var rvCarnets: RecyclerView
@@ -24,7 +23,7 @@ class ListadoCarnetActivity : AppCompatActivity() {
     private lateinit var etBuscador: EditText
     private var todosLosCarnets: List<CarnetListado> = emptyList()
 
-
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listado_carnet)
@@ -33,18 +32,15 @@ class ListadoCarnetActivity : AppCompatActivity() {
 
         rvCarnets = findViewById(R.id.rvCarnets)
         etBuscador = findViewById(R.id.etBuscador)
-
         val txtVolver = findViewById<TextView>(R.id.txtVolver)
-        val btnBuscar = findViewById<ImageView>(R.id.btnBuscar)
 
         txtVolver.setOnClickListener {
             finish()
         }
 
-        // Configurar el RecyclerView.
+        // Configurar el RecyclerView
         carnetAdapter = CarnetAdapter(emptyList()) { carnet ->
             val intent = Intent(this, CarnetActivity::class.java)
-
             intent.putExtra("carnet_id", carnet.id)
             startActivity(intent)
         }
@@ -52,16 +48,33 @@ class ListadoCarnetActivity : AppCompatActivity() {
         rvCarnets.layoutManager = LinearLayoutManager(this)
         rvCarnets.adapter = carnetAdapter
 
-        // Cargar todos los carnets.
+        // Cargar todos los carnets
         todosLosCarnets = carnetDBHelper.obtenerCarnetsConDatosSocio()
-
         carnetAdapter.actualizarLista(todosLosCarnets)
 
-        // Buscar por DNI.
-        btnBuscar.setOnClickListener {
-            buscarPorDni()
+        // Clic sobre el icono de la lupa integrado en el EditText
+        etBuscador.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val drawableEnd = etBuscador.compoundDrawables[2]
+
+                if (drawableEnd != null) {
+                    val drawableWidth = drawableEnd.bounds.width()
+
+                    if (
+                        event.x >= etBuscador.width -
+                        etBuscador.paddingEnd -
+                        drawableWidth - 40
+                    ) {
+                        v.performClick()
+                        buscarPorDni()
+                        return@setOnTouchListener true
+                    }
+                }
+            }
+            false
         }
 
+        // Búsqueda desde la acción de buscar del teclado
         etBuscador.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 buscarPorDni()
