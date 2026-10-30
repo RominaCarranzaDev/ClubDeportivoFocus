@@ -87,7 +87,8 @@ class ListadoPagoActivity : AppCompatActivity() {
                     listadoPago.visibility = View.VISIBLE
                 }
 
-                "33333333" -> {
+                "33333333" +
+                        "" -> {
                     Toast.makeText(
                         this,
                         "Mostrando pagos de Camila Andrada",
