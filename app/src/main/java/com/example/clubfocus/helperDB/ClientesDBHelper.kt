@@ -18,19 +18,8 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         DBTablas.crearTodasLasTablas(db)
     }
 
-    override fun onOpen(db: SQLiteDatabase) {
-        super.onOpen(db)
-        DBTablas.crearTodasLasTablas(db)
-    }
-
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.let {
-            it.execSQL("DROP TABLE IF EXISTS carnets")
-            it.execSQL("DROP TABLE IF EXISTS cuotas")
-            it.execSQL("DROP TABLE IF EXISTS clientes")
-            it.execSQL("DROP TABLE IF EXISTS usuarios")
-            onCreate(it)
-        }
+        //TO DO
     }
 
     fun agregarCliente(
@@ -172,12 +161,21 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
                 INNER JOIN cuotas q
                     ON q.cliente_id = c.id
                 WHERE c.es_socio = 1
-                  AND UPPER(q.estado) IN ('PENDIENTE', 'VENCIDA')
+                  AND (
+                      UPPER(q.estado) = 'VENCIDA'
+                      OR (
+                          UPPER(q.estado) = 'PAGADA'
+                          AND (
+                              SUBSTR(q.fecha_vencimiento, 7, 4) || '-' ||
+                              SUBSTR(q.fecha_vencimiento, 4, 2) || '-' ||
+                              SUBSTR(q.fecha_vencimiento, 1, 2)
+                          ) = DATE('now', 'localtime')
+                      )
+                  )
                 ORDER BY
                     CASE
-                        WHEN q.fecha_vencimiento IS NULL
-                             OR q.fecha_vencimiento = '' THEN 1
-                        ELSE 0
+                        WHEN UPPER(q.estado) = 'PAGADA' THEN 0
+                        ELSE 1
                     END,
                     SUBSTR(q.fecha_vencimiento, 7, 4) DESC,
                     SUBSTR(q.fecha_vencimiento, 4, 2) DESC,

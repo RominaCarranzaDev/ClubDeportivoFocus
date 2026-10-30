@@ -70,7 +70,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tipo cuota: "
+                    android:text="Tipo cliente: "
                     android:textColor="@color/disabled"
                     android:textSize="14sp" />
 

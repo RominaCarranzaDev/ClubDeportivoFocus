@@ -21,19 +21,8 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         DBTablas.crearTodasLasTablas(db)
     }
 
-    override fun onOpen(db: SQLiteDatabase) {
-        super.onOpen(db)
-        DBTablas.crearTodasLasTablas(db)
-    }
-
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.let {
-            it.execSQL("DROP TABLE IF EXISTS carnets")
-            it.execSQL("DROP TABLE IF EXISTS cuotas")
-            it.execSQL("DROP TABLE IF EXISTS clientes")
-            it.execSQL("DROP TABLE IF EXISTS usuarios")
-            onCreate(it)
-        }
+        //TO DO
     }
 
     fun generarCuotaInicial(
@@ -158,7 +147,7 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
                 fechaPago
             }
 
-            hoy.isBefore(fechaFinVigencia)
+            !hoy.isAfter(fechaFinVigencia)
         }
     }
 
@@ -175,7 +164,7 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
                 FROM cuotas
                 INNER JOIN clientes
                     ON cuotas.cliente_id = clientes.id
-                WHERE clientes.dni = ?
+                WHERE clientes.dni = ? AND UPPER(cuotas.estado) = 'PAGADA'
                 ORDER BY cuotas.id DESC
                 LIMIT 1
             """.trimIndent(),
@@ -198,7 +187,7 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         val listaCuotas = mutableListOf<Cuota>()
 
         val cursor = db.rawQuery(
-            "SELECT * FROM cuotas WHERE cliente_id = ? ORDER BY fecha_vencimiento ASC",
+            "SELECT * FROM cuotas WHERE cliente_id = ? ORDER BY id DESC",
             arrayOf(clienteId.toString())
         )
 
@@ -336,8 +325,15 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
                 q.medio_pago,
                 q.estado
             FROM cuotas q
-            INNER JOIN clientes c ON q.cliente_id = c.id
-            ORDER BY q.id DESC
+                INNER JOIN clientes c ON q.cliente_id = c.id
+            ORDER BY
+                CASE
+                    WHEN q.fecha_pago IS NULL OR q.fecha_pago = '' THEN 1
+                    ELSE 0
+                END,
+                SUBSTR(q.fecha_pago, 7, 4) DESC,
+                SUBSTR(q.fecha_pago, 4, 2) DESC,
+                SUBSTR(q.fecha_pago, 1, 2) DESC
         """.trimIndent()
 
         val cursor = db.rawQuery(consulta, null)

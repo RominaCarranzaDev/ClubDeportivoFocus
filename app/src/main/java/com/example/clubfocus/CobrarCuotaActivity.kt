@@ -38,7 +38,7 @@ class CobrarCuotaActivity : AppCompatActivity() {
         val cuotasHelper = CuotasDBHelper(this)
         val carnetHelper = CarnetDBHelper(this)
 
-        // ID recibido desde la Activity anterior
+        // Id recibido desde la Activity anterior
         val idParam = intent.getIntExtra("clienteId", -1)
 
         val dniCliente = findViewById<EditText>(R.id.etBuscador)
@@ -109,6 +109,10 @@ class CobrarCuotaActivity : AppCompatActivity() {
 
         // CUOTA PENDIENTE DEl CLIENTE
         fun cargarCuotaDeCliente(clienteEncontrado: Cliente?) {
+
+            cliente = null
+            cuota = null
+            btnConfirmarPago.isEnabled = false
 
             if (clienteEncontrado == null) {
                 Toast.makeText(
@@ -202,7 +206,7 @@ class CobrarCuotaActivity : AppCompatActivity() {
             }
         }
 
-        // BUSCAR CLIENTE POR DNI
+        // Buscar cliente por dni
         fun buscarDni() {
             val dni = dniCliente.text.toString().trim()
 
@@ -212,6 +216,11 @@ class CobrarCuotaActivity : AppCompatActivity() {
                     "Ingresá un DNI",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                cliente = null
+                cuota = null
+                btnConfirmarPago.isEnabled = false
+
                 return
             }
 
@@ -226,6 +235,12 @@ class CobrarCuotaActivity : AppCompatActivity() {
                 ).show()
                 return
             }
+
+            Toast.makeText(
+                this,
+                "${if (clienteEncontrado.esSocio) "Socio" else "Cliente no socio"} encontrado: \n${clienteEncontrado.nombre} ${clienteEncontrado.apellido}",
+                Toast.LENGTH_LONG
+            ).show()
 
             cargarCuotaDeCliente(clienteEncontrado)
         }
@@ -355,7 +370,15 @@ class CobrarCuotaActivity : AppCompatActivity() {
                 btnConfirmarPago.isEnabled = false
 
                 if(clienteActual.esSocio){
-                    carnetHelper.crearCarnet(clienteActual.nroSocio)
+                    val carnetExistente = carnetHelper.buscarCarnetPorDni(clienteActual.dni)
+
+                    if (carnetExistente == null) {
+                        // El socio todavía no tiene carnet.
+                        carnetHelper.crearCarnet(clienteActual.nroSocio)
+                    } else {
+                        // El socio ya tiene carnet: renovamos su vigencia.
+                        carnetHelper.renovarCarnet(carnetExistente.id)
+                    }
                 }
 
                 val intent = Intent(this, ConfirmarPagoActivity::class.java

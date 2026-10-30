@@ -7,17 +7,26 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.clubfocus.helperDB.ClubFocusDBHelper
 import com.example.clubfocus.helperDB.UsuariosDBHelper
 
 class LoginActivity : AppCompatActivity() {
+    // Iniciamos la persistencia en la base de datos
+    private lateinit var dbHelper: ClubFocusDBHelper
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val tvOlvidoPass = findViewById<TextView>(R.id.tvOlvidasteContrasena)
+        // Nos aseguramos de crear toda la base de datos
+        dbHelper = ClubFocusDBHelper(this)
+        dbHelper.inicializarBaseDatos()
 
+        // Helper de la tabla Usuarios
         val usuariosHelper = UsuariosDBHelper(this)
+
+        val tvOlvidoPass = findViewById<TextView>(R.id.tvOlvidasteContrasena)
 
         val btnIngresar = findViewById<Button>(R.id.btnIngresar)
         val etUsuario = findViewById<EditText>(R.id.etUsuario)

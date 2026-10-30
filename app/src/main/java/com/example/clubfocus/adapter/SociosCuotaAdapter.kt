@@ -1,4 +1,4 @@
-package com.example.clubfocus
+package com.example.clubfocus.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clubfocus.R
 import com.example.clubfocus.data.entity.SocioCuotaItem
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -24,6 +25,7 @@ class SociosCuotaAdapter(
         val nombre: TextView = itemView.findViewById(R.id.txtNombreyNumSocio)
         val fecha: TextView = itemView.findViewById(R.id.txtFechaVenc)
         val estadoCuota: TextView = itemView.findViewById(R.id.txtEstadoCuota)
+        val estadoSocio: TextView = itemView.findViewById(R.id.txtEstadoSocio)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CuotaViewHolder {
@@ -66,11 +68,13 @@ class SociosCuotaAdapter(
             holder.estadoCuota.text = "Vencida"
             holder.estadoCuota.setBackgroundResource(R.drawable.label_danger)
             holder.estadoCuota.setTextColor(ContextCompat.getColor(context, R.color.badge_vencida_text))
+            holder.estadoSocio.visibility = View.VISIBLE
         } else {
             // Es la fecha límite actual (hoy tiene acceso todavía)
             holder.estadoCuota.text = "Vence hoy"
             holder.estadoCuota.setBackgroundResource(R.drawable.label_warning)
             holder.estadoCuota.setTextColor(ContextCompat.getColor(context, R.color.badge_pendiente_text))
+            holder.estadoSocio.visibility = View.GONE
         }
 
         val seleccionada = cuotaSeleccionadaId == cuota.cuotaId
@@ -108,13 +112,4 @@ class SociosCuotaAdapter(
         cuotas = nuevaLista
         notifyDataSetChanged()
     }
-
-    fun buscarPorDni(dni: String) {
-        val coincidencias = cuotas.filter {
-            it.dni.contains(dni, ignoreCase = true)
-        }
-        actualizarLista(coincidencias)
-    }
-
-    fun obtenerCuotas(): List<SocioCuotaItem> = cuotas
 }

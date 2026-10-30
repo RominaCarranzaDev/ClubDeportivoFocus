@@ -29,7 +29,7 @@
     <EditText
         android:id="@+id/etBuscador"
         style="@style/InputSearch"
-        android:hint="Buscar socio por DNI"
+        android:hint="Buscar cliente por DNI"
         android:inputType="number"
         android:imeOptions="actionSearch"
         android:layout_marginBottom="24dp" />

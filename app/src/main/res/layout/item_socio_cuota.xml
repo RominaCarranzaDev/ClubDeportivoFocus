@@ -17,7 +17,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="start">
 
         <TextView
             android:id="@+id/txtNombreyNumSocio"
@@ -37,17 +38,38 @@
 
     </LinearLayout>
 
-    <!-- Único badge centrado verticalmente a la derecha -->
-    <TextView
-        android:id="@+id/txtEstadoCuota"
+    <!-- Contenedor badge centrado verticalmente a la derecha -->
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/label_warning"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtEstadoCuota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/label_warning"
+            android:gravity="center"
+            android:text="Vence hoy"
+            android:textColor="@color/badge_pendiente_text"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+        android:id="@+id/txtEstadoSocio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/label_danger"
         android:gravity="center"
-        android:text="Vence hoy"
-        android:textColor="@color/badge_pendiente_text"
+        android:text="Bloqueado"
+        android:textColor="@color/badge_vencida_text"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
+
+    </LinearLayout>
 
 </LinearLayout>

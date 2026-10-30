@@ -10,24 +10,8 @@ class UsuariosDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         DBTablas.crearTodasLasTablas(db)
     }
 
-    override fun onOpen(db: SQLiteDatabase) {
-        super.onOpen(db)
-        DBTablas.crearTodasLasTablas(db)
-        try {
-            db.execSQL("ALTER TABLE usuarios ADD COLUMN rol TEXT NOT NULL DEFAULT 'Administrador'")
-        } catch (_: Exception) {
-            // Ignorar si la columna ya existe
-        }
-    }
-
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.let {
-            it.execSQL("DROP TABLE IF EXISTS usuarios")
-            it.execSQL("DROP TABLE IF EXISTS carnets")
-            it.execSQL("DROP TABLE IF EXISTS cuotas")
-            it.execSQL("DROP TABLE IF EXISTS clientes")
-            onCreate(it)
-        }
+        //TO DO
     }
 
     fun obtenerRol(usuario: String, contrasena: String): String? {

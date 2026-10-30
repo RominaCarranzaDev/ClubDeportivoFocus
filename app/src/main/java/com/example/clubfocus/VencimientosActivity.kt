@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.clubfocus.adapter.SociosCuotaAdapter
 import com.example.clubfocus.data.entity.SocioCuotaItem
 import com.example.clubfocus.helperDB.ClientesDBHelper
 

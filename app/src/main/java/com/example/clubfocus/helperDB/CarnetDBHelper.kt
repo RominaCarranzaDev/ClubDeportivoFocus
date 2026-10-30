@@ -14,19 +14,8 @@ class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         DBTablas.crearTodasLasTablas(db)
     }
 
-    override fun onOpen(db: SQLiteDatabase) {
-        super.onOpen(db)
-        DBTablas.crearTodasLasTablas(db)
-    }
-
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db?.let {
-            it.execSQL("DROP TABLE IF EXISTS carnets")
-            it.execSQL("DROP TABLE IF EXISTS cuotas")
-            it.execSQL("DROP TABLE IF EXISTS clientes")
-            it.execSQL("DROP TABLE IF EXISTS usuarios")
-            onCreate(it)
-        }
+        //TO DO
     }
 
     fun crearCarnet(nroSocio: String): Long {
@@ -45,16 +34,15 @@ class CarnetDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
         return db.insert("carnets", null, valores)
     }
 
-    fun renovarCarnet(
-        carnetId: Int,
-        nuevaFechaEmision: LocalDate
-    ): Int {
+    fun renovarCarnet(carnetId: Int, ): Int {
         val db = writableDatabase
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
 
+        val nuevaFechaEmision = LocalDate.now()
         val nuevaFechaVencimiento = nuevaFechaEmision.plusMonths(1)
 
         val valores = ContentValues().apply {
+            put("fecha_emision", nuevaFechaEmision.format(formatter))
             put("fecha_vencimiento", nuevaFechaVencimiento.format(formatter))
         }
 
