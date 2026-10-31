@@ -2,6 +2,8 @@ package com.example.clubfocus.helperDB
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 object DBTablas {
 
@@ -92,25 +94,38 @@ object DBTablas {
 
     fun cargarDatosPrueba(db: SQLiteDatabase) {
 
+        val hoy = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        val fechaHoy = hoy.format(formatter)
+        val fechaAyer = hoy.minusDays(1).format(formatter)
+        val fechaManana = hoy.plusDays(1).format(formatter)
+        val fechaProximoMes = hoy.plusMonths(1).format(formatter)
+        val fechaHace2meses = hoy.minusMonths(2).format(formatter)
+        val fechaHace1mes = hoy.minusMonths(1).format(formatter)
+        val fechaHace1semana = hoy.minusDays(7).format(formatter)
+
+
+
         // SOCIO 1: Activo, dos cuotas pagas
         val juanId = obtenerOCrearCliente(
             db, "Juan", "Pérez", "11111111",
             "15/05/1990", "juan@focus.com",
-            "29/08/2026", 1, 1, "CAR1001"
+            fechaHace2meses, 1, 1, "CAR1001"
         )
 
         insertarCuota(
             db, juanId, "MENSUAL", 45000.0,
-            "29/08/2026", "29/09/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION")
+            fechaHace2meses, fechaHace1mes,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION")
 
         insertarCuota(
             db, juanId, "MENSUAL", 45000.0,
-            "30/09/2026", "30/10/2026", "PAGADA", medioPago = "EFECTIVO",
+            fechaHace1mes, fechaHoy, "PAGADA", medioPago = "EFECTIVO",
             promocion = "SIN_PROMOCION"
         )
 
-        insertarCarnet(db, "CAR1001", "30/09/2026", "30/10/2026")
+        insertarCarnet(db, "CAR1001", fechaHace1mes, fechaHoy)
 
 
         // SOCIO 2: Inactivo, primera cuota paga y segunda vencida
@@ -138,57 +153,57 @@ object DBTablas {
         val lauraId = obtenerOCrearCliente(
             db, "Laura", "Fernández", "33333333",
             "12/06/1995", "laura@focus.com",
-            "29/08/2026", 1, 1, "CAR1003"
+            fechaHace2meses, 1, 1, "CAR1003"
         )
 
         insertarCuota(
             db, lauraId, "MENSUAL", 45000.0,
-            "29/08/2026", "29/09/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaHace2meses, fechaHace1mes,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
 
         insertarCuota(
             db, lauraId, "MENSUAL", 45000.0,
-            "30/09/2026", "30/10/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaHace1mes, fechaHoy,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
 
-        insertarCarnet(db, "CAR1003", "30/09/2026", "30/10/2026")
+        insertarCarnet(db, "CAR1003", fechaHace1mes, fechaHoy)
 
 
         // SOCIO 4: Inscripción y primer pago de hoy
         val martinId = obtenerOCrearCliente(
             db, "Martín", "López", "44444444",
             "10/02/1998", "martin@focus.com",
-            "30/10/2026", 1, 1, "CAR1004"
+            fechaHoy, 1, 1, "CAR1004"
         )
 
         insertarCuota(
             db, martinId, "MENSUAL", 45000.0,
-            "30/10/2026", "30/11/2026", "PAGADA", medioPago = "EFECTIVO",
+            fechaHoy, fechaProximoMes, "PAGADA", medioPago = "EFECTIVO",
             promocion = "SIN_PROMOCION"
         )
 
-        insertarCarnet(db, "CAR1004", "30/10/2026", "30/11/2026")
+        insertarCarnet(db, "CAR1004", fechaHoy, fechaProximoMes)
 
 
         // NO SOCIO 1: Dos cuotas diarias consecutivas
         val pedroId = obtenerOCrearCliente(
             db, "Pedro", "Martínez", "55555555",
             "05/03/1990", "pedro@focus.com",
-            "29/10/2026", 0, 1, null
+            fechaAyer, 0, 1, null
         )
 
         insertarCuota(
             db, pedroId, "DIARIA", 20000.0,
-            "29/10/2026", "29/10/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaAyer, fechaAyer,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
 
         insertarCuota(
             db, pedroId, "DIARIA", 20000.0,
-            "30/10/2026", "30/10/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaHoy, fechaHoy,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
 
 
@@ -196,19 +211,19 @@ object DBTablas {
         val anaId = obtenerOCrearCliente(
             db, "Analia", "Torres", "66666666",
             "18/11/1993", "ana@focus.com",
-            "23/10/2026", 0, 1, null
+            fechaHace1semana, 0, 1, null
         )
 
         insertarCuota(
             db, anaId, "DIARIA", 20000.0,
-            "23/10/2026", "23/10/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaHace1semana, fechaHace1semana,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
 
         insertarCuota(
             db, anaId, "DIARIA", 20000.0,
-            "30/10/2026", "30/10/2026", "PAGADA", medioPago = "EFECTIVO",
-            promocion = "SIN_PROMOCION"
+            fechaHoy, fechaHoy,
+            "PAGADA", medioPago = "EFECTIVO", promocion = "SIN_PROMOCION"
         )
     }
 
