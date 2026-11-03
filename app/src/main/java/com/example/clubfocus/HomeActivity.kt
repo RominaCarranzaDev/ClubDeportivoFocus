@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
@@ -15,6 +16,7 @@ class HomeActivity : AppCompatActivity() {
 
         // Encabezado con datos desde SQLite / SharedPreferences
         val tvUsuario = findViewById<TextView>(R.id.tvUsuario)
+        val tvAdministrarUsuarios = findViewById<TextView>(R.id.tvAdministrarUsuarios)
         val sharedPref = getSharedPreferences("ClubFocusPrefs", MODE_PRIVATE)
 
         var nombreUsuario = intent.getStringExtra("usuarioLogueado") ?: ""
@@ -35,6 +37,13 @@ class HomeActivity : AppCompatActivity() {
             tvUsuario.text = nombreUsuario.replaceFirstChar { it.uppercase() }
         } else {
             tvUsuario.text = getString(R.string.home_user_role)
+        }
+
+        if (rolUsuario.equals("SuperAdmin", ignoreCase = true)) {
+            tvAdministrarUsuarios.visibility = View.VISIBLE
+            tvAdministrarUsuarios.setOnClickListener {
+                startActivity(Intent(this, AdministrarUsuariosActivity::class.java))
+            }
         }
 
         // Botones y cierre de sesión

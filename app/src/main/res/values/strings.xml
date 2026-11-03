@@ -23,6 +23,24 @@
     <string name="btn_carnets">CARNETS</string>
     <string name="btn_historial_pagos">HISTORIAL DE PAGOS</string>
     <string name="btn_cerrar_sesion">Cerrar sesión</string>
+    <string name="admin_panel_titulo">Administración de Usuarios</string>
+    <string name="admin_panel_subtitulo">Creá cuentas de acceso y gestioná los administradores del club.</string>
+    <string name="admin_panel_usuario">USUARIO</string>
+    <string name="admin_panel_usuario_hint">Nuevo usuario</string>
+    <string name="admin_panel_contrasena">CONTRASEÑA</string>
+    <string name="admin_panel_contrasena_hint">Contraseña</string>
+    <string name="admin_panel_crear">CREAR ADMINISTRADOR</string>
+    <string name="admin_panel_lista">Administradores registrados</string>
+    <string name="admin_panel_vacio">Todavía no hay administradores comunes.</string>
+    <string name="admin_panel_eliminar">ELIMINAR</string>
+    <string name="admin_panel_confirmar_titulo">Eliminar administrador</string>
+    <string name="admin_panel_confirmar_mensaje">¿Querés eliminar a %1$s?</string>
+    <string name="admin_panel_creado">Administrador creado correctamente.</string>
+    <string name="admin_panel_eliminado">Administrador eliminado.</string>
+    <string name="admin_panel_error_crear">No se pudo crear. El usuario puede existir.</string>
+    <string name="admin_panel_solo_superadmin">Solo el superadmin puede administrar usuarios.</string>
+    <string name="admin_panel_campos_obligatorios">Completá usuario y contraseña.</string>
+    <string name="admin_panel_volver">← Volver</string>
     <string name="btn_volver">← Volver</string>
 
     <!-- Textos para la pantalla de registro de socio -->

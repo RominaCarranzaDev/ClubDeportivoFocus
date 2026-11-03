@@ -92,6 +92,22 @@ object DBTablas {
         }
     }
 
+    fun cargarSuperAdministradorInicial(db: SQLiteDatabase) {
+        val existeSuperAdmin = db.rawQuery(
+            "SELECT id FROM usuarios WHERE usuario = ?",
+            arrayOf("superadmin")
+        ).use { it.moveToFirst() }
+
+        if (!existeSuperAdmin) {
+            val valores = ContentValues().apply {
+                put("usuario", "superadmin")
+                put("password", "123456")
+                put("rol", "SuperAdmin")
+            }
+            db.insert("usuarios", null, valores)
+        }
+    }
+
     fun cargarDatosPrueba(db: SQLiteDatabase) {
 
         val hoy = LocalDate.now()

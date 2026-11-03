@@ -10,6 +10,7 @@ class ClubFocusDBHelper(context: Context) :
         override fun onCreate(db: SQLiteDatabase) {
             DBTablas.crearTodasLasTablas(db)
             DBTablas.cargarAdministradorInicial(db)
+            DBTablas.cargarSuperAdministradorInicial(db)
             DBTablas.cargarDatosPrueba(db)
         }
 
@@ -22,6 +23,8 @@ class ClubFocusDBHelper(context: Context) :
         }
 
         fun inicializarBaseDatos() {
-            writableDatabase
+            val db = writableDatabase
+            // También asegura la cuenta en instalaciones que ya tenían una base creada.
+            DBTablas.cargarSuperAdministradorInicial(db)
         }
 }
