@@ -53,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
         val btnCarnets = findViewById<Button>(R.id.btnCarnets)
         val btnVencimientos = findViewById<Button>(R.id.btnVencimientos)
         val btnHistorialPago = findViewById<Button>(R.id.btnHistorialPagos)
+        val btnClientes = findViewById<Button>(R.id.btnClientes)
 
         tvCerrarSesion.setOnClickListener {
             AlertDialog.Builder(this)
@@ -91,6 +92,11 @@ class HomeActivity : AppCompatActivity() {
         btnHistorialPago.setOnClickListener {
             val intentHistorial = Intent(this, ListadoPagoActivity::class.java)
             startActivity(intentHistorial)
+        }
+
+        btnClientes.setOnClickListener {
+            val intentClientes = Intent(this, ClientesActivity::class.java)
+            startActivity(intentClientes)
         }
     }
 }

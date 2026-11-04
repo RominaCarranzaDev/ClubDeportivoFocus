@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_gradient"
+        android:background="@drawable/bg_gradient_top"
         android:paddingHorizontal="24dp"
         android:orientation="vertical"
         android:paddingTop="70dp"
@@ -53,79 +53,97 @@
             android:visibility="gone" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingHorizontal="32dp"
-        android:paddingTop="64dp"
-        tools:ignore="TextContrastCheck,VisualLintTextFieldSize"
-        android:paddingBottom="60dp">
+        android:fillViewport="true"
+        android:scrollbars="vertical">
 
-
-        <!-- Boton 1 Registrar Socio -->
-        <Button
-            android:id="@+id/btnRegistrarSocio"
-            style="@style/ButtonPrimaryL"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_registrar_socio"
-            app:icon="@drawable/ic_registrar_socio" />
-
-        <!-- Boton 2 Cobro de cuotas -->
-        <Button
-            android:id="@+id/btnCobroCuotas"
-            style="@style/ButtonPrimaryL"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_cobro_cuotas"
-            app:icon="@drawable/ic_cobro_cuotas" />
-
-        <!-- Boton 3 Vencimientos -->
-        <Button
-            android:id="@+id/btnVencimientos"
-            style="@style/ButtonPrimaryL"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_vencimientos"
-            app:icon="@drawable/ic_vencimientos" />
-
-        <!-- Boton 4 Carnets -->
-        <Button
-            android:id="@+id/btnCarnets"
-            style="@style/ButtonPrimaryL"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_carnets"
-            app:icon="@drawable/ic_carnets" />
-
-        <!-- Boton 5 Historial Pagos -->
-        <Button
-            android:id="@+id/btnHistorialPagos"
-            style="@style/ButtonPrimaryL"
-            android:layout_marginTop="24dp"
-            android:text="@string/btn_historial_pagos"
-            app:icon="@drawable/ic_historial" />
-
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            android:paddingTop="64dp"
+            tools:ignore="TextContrastCheck,VisualLintTextFieldSize"
+            android:paddingBottom="60dp">
 
-        <!-- Cerrar Sesion -->
-        <TextView
-            android:id="@+id/tvCerrarSesion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
-            android:text="@string/btn_cerrar_sesion"
-            android:textColor="@color/primary"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:drawableStartCompat="@drawable/ic_logout"
-            android:drawablePadding="12dp"
-            app:drawableTint="@color/primary"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_horizontal"/>
 
-    </LinearLayout>
+            <!-- Boton 1 Registrar Socio -->
+            <Button
+                android:id="@+id/btnRegistrarSocio"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_registrar_socio"
+                app:icon="@drawable/ic_registrar_socio" />
+
+            <!-- Boton 2 Cobro de cuotas -->
+            <Button
+                android:id="@+id/btnCobroCuotas"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_cobro_cuotas"
+                app:icon="@drawable/ic_cobro_cuotas" />
+
+            <!-- Boton 3 Vencimientos -->
+            <Button
+                android:id="@+id/btnVencimientos"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_vencimientos"
+                app:icon="@drawable/ic_vencimientos" />
+
+            <!-- Boton 4 Carnets -->
+            <Button
+                android:id="@+id/btnCarnets"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_carnets"
+                app:icon="@drawable/ic_carnets" />
+
+            <!-- Boton 5 Historial Pagos -->
+            <Button
+                android:id="@+id/btnHistorialPagos"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_historial_pagos"
+                app:icon="@drawable/ic_historial" />
+
+            <!-- Boton 6 Gestión de clientes -->
+            <Button
+                android:id="@+id/btnClientes"
+                style="@style/ButtonPrimaryL"
+                android:layout_marginTop="24dp"
+                android:text="@string/btn_gestion_clientes"
+                app:icon="@drawable/ic_gestion_cliente" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <!-- Cerrar Sesión -->
+            <TextView
+                android:id="@+id/tvCerrarSesion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/btn_cerrar_sesion"
+                android:textColor="@color/primary"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:drawableStartCompat="@drawable/ic_logout"
+                android:drawablePadding="12dp"
+                app:drawableTint="@color/primary"
+                android:gravity="center_vertical"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

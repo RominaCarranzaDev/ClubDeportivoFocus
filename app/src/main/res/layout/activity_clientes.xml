@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="50dp">
+
+    <TextView
+        android:id="@+id/txtVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_volver"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <!-- ENCABEZADO -->
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestionar Clientes"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buscá un cliente para consultar o modificar su condición."
+        android:textSize="14sp"
+        android:textColor="@color/disabled"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- BUSCADOR -->
+    <EditText
+        android:id="@+id/etBuscarDni"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Ingresá el DNI"
+        android:inputType="number"
+        android:maxLength="8"
+        android:padding="12dp"
+        android:drawableEnd="@android:drawable/ic_menu_search"
+        android:drawablePadding="10dp"
+        android:imeOptions="actionSearch"/>
+
+    <!-- LISTA DE COINCIDENCIAS -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCoincidencias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:maxHeight="180dp"/>
+
+    <!-- FORMULARIO -->
+    <ScrollView
+        android:id="@+id/scrollDatosCliente"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:layout_marginTop="18dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Datos personales del cliente"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <RadioButton
+                android:id="@+id/rbAptoFisico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Presentó Apto Físico"/>
+
+            <!-- Tipo de Cliente -->
+            <TextView
+                android:id="@+id/tvEstadoSocio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Condición:"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvNroSocio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"/>
+
+
+
+            <!-- NOMBRE -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textColor="@color/disabled"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/etNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- APELLIDO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apellido"
+                android:textColor="@color/disabled"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/etApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- DNI -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DNI"
+                android:textColor="@color/disabled"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/etDni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="number"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- FECHA NACIMIENTO -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de nacimiento"
+                android:textColor="@color/disabled"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/etFechaNacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- EMAIL -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="@color/disabled"
+                android:textSize="13sp"/>
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="12dp"/>
+
+
+            <!-- BOTÓN DAR DE BAJA -->
+            <Button
+                android:id="@+id/btnDarBaja"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dar de baja como socio"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/primary"
+                android:visibility="gone"/>
+
+            <!-- BOTÓN ASOCIAR -->
+            <Button
+                android:id="@+id/btnAsociar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Asociar cliente"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="@color/primary"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnEditarDatos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Editar datos personales"
+                android:textColor="@color/secondary"
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnGuardarCambios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar cambios"
+                android:backgroundTint="@color/secondary"
+                android:textColor="#FFFFFF"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnCancelarEdicion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/secondary"
+                android:text="Cancelar edición"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -33,7 +33,7 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
     ): Long {
         val db = writableDatabase
 
-        val nroSocioGenerado = if (esSocio) "CAR100${obtenerCantidadSocios() + 1}" else null
+        val nroSocioGenerado = if (esSocio) obtenerSiguienteNroSocio() else null
 
         val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
         val fechaInscripcion = formatter.format(Date())
@@ -108,6 +108,55 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         return clienteEncontrado
     }
 
+    fun buscarPorDniParcial(dni: String): MutableList<Cliente> {
+
+        val lista = mutableListOf<Cliente>()
+        val db = readableDatabase
+
+        val cursor = db.rawQuery(
+            "SELECT * FROM clientes WHERE dni LIKE ? ORDER BY apellido, nombre",
+            arrayOf("$dni%")
+        )
+
+        if (cursor.moveToFirst()) {
+            do {
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+                val fechaNacStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_nacimiento"))
+
+                val fechaNacLocalDate = try {
+                    LocalDate.parse(fechaNacStr, formatter)
+                } catch (e: Exception) {
+                    LocalDate.now()
+                }
+
+                val fechaInscripcionStr = cursor.getString(cursor.getColumnIndexOrThrow("fecha_inscripcion"))
+
+                val fechaInscripcionLocalDate = LocalDate.parse(fechaInscripcionStr, formatter)
+
+                val cliente = Cliente(
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                    nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre")),
+                    apellido = cursor.getString(cursor.getColumnIndexOrThrow("apellido")),
+                    dni = cursor.getString(cursor.getColumnIndexOrThrow("dni")),
+                    fechaNacimiento = fechaNacLocalDate,
+                    email = cursor.getString(cursor.getColumnIndexOrThrow("email")),
+                    aptoFisico = cursor.getInt(cursor.getColumnIndexOrThrow("apto_fisico")) == 1,
+                    activo = cursor.getInt(cursor.getColumnIndexOrThrow("activo")) == 1,
+                    esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1,
+                    fechaInscripcion = fechaInscripcionLocalDate,
+                    nroSocio = cursor.getString(cursor.getColumnIndexOrThrow("nro_socio")) ?: ""
+                )
+
+                lista.add(cliente)
+
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+
+        return lista
+    }
     fun buscarPorId(id: Int): Cliente? {
         val db = readableDatabase
         val cursor = db.rawQuery("SELECT * FROM clientes WHERE id = ?", arrayOf(id.toString()))
@@ -222,5 +271,115 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             }
         }
         return lista
+    }
+
+    fun actualizarCliente(
+        id: Int,
+        nombre: String,
+        apellido: String,
+        dni: String,
+        fechaNacimiento: String,
+        email: String,
+        aptoFisico: Boolean
+    ): Int {
+
+        val db = writableDatabase
+
+        val valores = ContentValues().apply {
+            put("nombre", nombre)
+            put("apellido", apellido)
+            put("dni", dni)
+            put("fecha_nacimiento", fechaNacimiento)
+            put("email", email)
+            put("apto_fisico", if (aptoFisico) 1 else 0)
+        }
+
+        return db.update(
+            "clientes",
+            valores,
+            "id = ?",
+            arrayOf(id.toString())
+        )
+    }
+
+    fun darDeBajaSocio(id: Int): Int {
+
+        val db = writableDatabase
+
+        val valores = ContentValues().apply {
+            put("es_socio", 0)
+            putNull("nro_socio")
+        }
+
+        return db.update(
+            "clientes",
+            valores,
+            "id = ?",
+            arrayOf(id.toString())
+        )
+    }
+
+    fun asociarCliente(id: Int): Int {
+
+        val db = writableDatabase
+
+        // Consultar si el cliente ya tiene número de socio
+        val cursor = db.rawQuery(
+            "SELECT nro_socio FROM clientes WHERE id = ?",
+            arrayOf(id.toString())
+        )
+
+        var nroSocio: String? = null
+
+        cursor.use {
+            if (it.moveToFirst()) {
+                nroSocio = it.getString(0)
+            }
+        }
+
+        // Generar número solamente si todavía no tiene uno
+        if (nroSocio.isNullOrEmpty()) {
+            nroSocio = obtenerSiguienteNroSocio()
+        }
+
+        val valores = ContentValues().apply {
+            put("es_socio", 1)
+            put("nro_socio", nroSocio)
+            put("activo", 0)
+        }
+
+        return db.update(
+            "clientes",
+            valores,
+            "id = ?",
+            arrayOf(id.toString())
+        )
+    }
+
+    private fun obtenerSiguienteNroSocio(): String {
+        val db = readableDatabase
+
+        val cursor = db.rawQuery(
+            """
+        SELECT nro_socio
+        FROM clientes
+        WHERE nro_socio LIKE 'CAR100%'
+        ORDER BY CAST(SUBSTR(nro_socio, 7) AS INTEGER) DESC
+        LIMIT 1
+        """.trimIndent(),
+            null
+        )
+
+        var siguienteNumero = 1
+
+        cursor.use {
+            if (it.moveToFirst()) {
+                val ultimoNroSocio = it.getString(0)
+                val ultimoNumero = ultimoNroSocio.substring(6).toInt()
+                siguienteNumero = ultimoNumero + 1
+            }
+        }
+
+        return "CAR100$siguienteNumero"
     }
 }
