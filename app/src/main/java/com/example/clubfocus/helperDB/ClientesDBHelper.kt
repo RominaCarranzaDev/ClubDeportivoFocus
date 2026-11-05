@@ -302,6 +302,53 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
         )
     }
 
+    private fun actualizarUltimaCuotaPendiente(
+        db: SQLiteDatabase,
+        clienteId: Int,
+        esSocio: Boolean
+    ): Int {
+
+        val fechaActual = LocalDate.now()
+
+        val tipo = if (esSocio) "MENSUAL" else "DIARIA"
+
+        val monto = if (esSocio) 45000.0 else 20000.0
+
+        val fechaVencimiento = if (esSocio) {
+            fechaActual.plusMonths(1)
+        } else {
+            fechaActual
+        }
+
+        val valores = ContentValues().apply {
+            put("tipo", tipo)
+            put("monto", monto)
+            put("monto_final", monto)
+            put(
+                "fecha_vencimiento",
+                fechaVencimiento.format(
+                    DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                )
+            )
+        }
+
+        return db.update(
+            "cuotas",
+            valores,
+            """
+            id = (
+                SELECT id
+                FROM cuotas
+                WHERE cliente_id = ?
+                  AND UPPER(estado) = 'PENDIENTE'
+                ORDER BY id DESC
+                LIMIT 1
+            )
+        """.trimIndent(),
+            arrayOf(clienteId.toString())
+        )
+    }
+
     fun darDeBajaSocio(id: Int): Int {
 
         val db = writableDatabase
@@ -311,12 +358,19 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             putNull("nro_socio")
         }
 
-        return db.update(
+        val filas = db.update(
             "clientes",
             valores,
             "id = ?",
             arrayOf(id.toString())
         )
+
+        // Eliminar la última cuota pendiente
+        if (filas > 0) {
+            actualizarUltimaCuotaPendiente(db, id, false)
+        }
+
+        return filas
     }
 
     fun asociarCliente(id: Int): Int {
@@ -348,12 +402,19 @@ class ClientesDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.
             put("activo", 0)
         }
 
-        return db.update(
+        val filas = db.update(
             "clientes",
             valores,
             "id = ?",
             arrayOf(id.toString())
         )
+
+        // Eliminar la última cuota pendiente
+        if (filas > 0) {
+            actualizarUltimaCuotaPendiente(db, id, true)
+        }
+
+        return filas
     }
 
     private fun obtenerSiguienteNroSocio(): String {

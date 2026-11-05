@@ -50,7 +50,7 @@ class ListadoPagoActivity : AppCompatActivity() {
         fun filtrarPorDni() {
             val dni = etBuscador.text.toString().trim()
 
-            // Si está vacío, restaura la lista con todos los socios
+            // Si está vacío, restaura la lista con todos los pagos
             if (dni.isEmpty()) {
                 adapter.actualizarLista(todosLosPagos)
                 return

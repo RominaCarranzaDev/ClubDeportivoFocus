@@ -99,55 +99,51 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
     }
 
     fun tieneCuotaVigente(dniCliente: String): Boolean {
+
         val db = readableDatabase
+        val hoy = LocalDate.now()
 
         return db.rawQuery(
             """
-                SELECT
-                    c.es_socio,
-                    q.fecha_pago
-                FROM cuotas q
-                INNER JOIN clientes c
-                    ON c.id = q.cliente_id
-                WHERE c.dni = ?
-                  AND UPPER(q.estado) = 'PAGADA'
-                ORDER BY q.id DESC
-                LIMIT 1
-            """.trimIndent(),
+            SELECT q.fecha_vencimiento
+            FROM cuotas q
+            INNER JOIN clientes c
+                ON c.id = q.cliente_id
+            WHERE c.dni = ?
+              AND UPPER(q.estado) = 'PAGADA'
+        """.trimIndent(),
             arrayOf(dniCliente)
         ).use { cursor ->
-            if (!cursor.moveToFirst()) {
-                return@use false
-            }
 
-            val esSocio = cursor.getInt(cursor.getColumnIndexOrThrow("es_socio")) == 1
-            val fechaPagoTexto = cursor.getString(cursor.getColumnIndexOrThrow("fecha_pago"))
+            while (cursor.moveToNext()) {
 
-            if (fechaPagoTexto.isNullOrBlank()) {
-                return@use false
-            }
-
-            val fechaPago = try {
-                LocalDate.parse(
-                    fechaPagoTexto,
-                    DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val fechaVencimientoTexto = cursor.getString(
+                    cursor.getColumnIndexOrThrow("fecha_vencimiento")
                 )
-            } catch (_: DateTimeParseException) {
-                try {
-                    LocalDate.parse(fechaPagoTexto)
+
+                if (fechaVencimientoTexto.isNullOrBlank()) {
+                    continue
+                }
+
+                val fechaVencimiento = try {
+                    LocalDate.parse(
+                        fechaVencimientoTexto,
+                        DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    )
                 } catch (_: DateTimeParseException) {
-                    return@use false
+                    try {
+                        LocalDate.parse(fechaVencimientoTexto)
+                    } catch (_: DateTimeParseException) {
+                        continue
+                    }
+                }
+
+                if (!hoy.isAfter(fechaVencimiento)) {
+                    return@use true
                 }
             }
 
-            val hoy = LocalDate.now()
-            val fechaFinVigencia = if (esSocio) {
-                fechaPago.plusMonths(1)
-            } else {
-                fechaPago
-            }
-
-            !hoy.isAfter(fechaFinVigencia)
+            false
         }
     }
 
@@ -328,13 +324,13 @@ class CuotasDBHelper(context: Context) : SQLiteOpenHelper(context, "ClubFocus.db
                 INNER JOIN clientes c ON q.cliente_id = c.id
             ORDER BY
                 CASE
-                    WHEN q.fecha_pago IS NULL OR q.fecha_pago = '' THEN 1
-                    ELSE 0
+                    WHEN UPPER(q.estado) = 'PAGADA' THEN 0
+                    ELSE 1
                 END,
                 SUBSTR(q.fecha_pago, 7, 4) DESC,
                 SUBSTR(q.fecha_pago, 4, 2) DESC,
                 SUBSTR(q.fecha_pago, 1, 2) DESC
-        """.trimIndent()
+            """.trimIndent()
 
         val cursor = db.rawQuery(consulta, null)
 

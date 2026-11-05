@@ -289,20 +289,6 @@ class ClientesActivity : AppCompatActivity() {
                 cargarDatosCliente(clienteActualizado)
                 cambiarModoEdicion(false)
 
-                val cuota = prepararCuotaInicial(
-                    clienteActualizado.id,
-                    clienteActualizado.esSocio
-                )
-
-                val cuotasDBHelper = CuotasDBHelper(this)
-
-                cuotasDBHelper.generarCuotaInicial(
-                    cuota.clienteId,
-                    cuota.tipo,
-                    cuota.monto,
-                    cuota.montoFinal,
-                    cuota.fechaVencimiento
-                )
             }
 
             Toast.makeText(
